@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MonsterType { BasicMonster, BossMonster }
+public enum WaveType { BasicMonster, BossMonster }
 
 [CreateAssetMenu(fileName = "Stage", menuName = "Scriptable Objects/Stage")]
 public class StageSetting : ScriptableObject
@@ -16,7 +16,7 @@ public class StageSetting : ScriptableObject
 [Serializable]
 public struct Wave
 {
-    public MonsterType monsterType; // 현재 웨이브 타입
+    public WaveType monsterType; // 현재 웨이브 타입
     public GameObject BasicMonster; // 일반 몬스터 프리펩
     public GameObject BossMonster; // 보스 몬스터 프리펩
     public int MonsterSpawonInterval; // 일반 몬스터 스폰 간격
