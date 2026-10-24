@@ -5,7 +5,7 @@ public class BattleManager : MonoBehaviour
     /// <summary>
     /// 시작시 현재 스테이지의 스테이지 데이터를 받는다. 
     /// 
-    /// 
+    /// 시간에 따른 웨이브 시작하기 
     /// </summary>
     public static BattleManager instance;
 
