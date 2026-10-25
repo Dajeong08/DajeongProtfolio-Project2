@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d1f59e00654e764b9bc32fac2765b14, type: 3}
+  m_Name: Stage 3
+  m_EditorClassIdentifier: Assembly-CSharp::StageSetting
+  StageName: "\uC2A4\uD14C\uC774\uC9C03"
+  StageNumber: 3
+  WaveInterval: 30
+  StageList:
+  - monsterType: 0
+    BasicMonster: {fileID: 0}
+    BossMonster: {fileID: 0}
+    MonsterSpawonInterval: 0
+    MonsterLimit: 0
+    WaveTimeLimit: 0
+  - monsterType: 0
+    BasicMonster: {fileID: 0}
+    BossMonster: {fileID: 0}
+    MonsterSpawonInterval: 0
+    MonsterLimit: 0
+    WaveTimeLimit: 0
