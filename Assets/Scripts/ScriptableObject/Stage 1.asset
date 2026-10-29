@@ -13,12 +13,24 @@ MonoBehaviour:
   m_Name: Stage 1
   m_EditorClassIdentifier: Assembly-CSharp::StageSetting
   StageName: "\uC2A4\uD14C\uC774\uC9C01"
-  StageList:
-  - WaveNumber: 0
+  WaveList:
+  - WaveNumber: 1
     monsterType: 0
     spriteLibraryAsset: {fileID: 7108339969198208228, guid: b00418f8ddf836146b4d00fc5d7151a8, type: 3}
-    WaveTimeLimit: 70
-  - WaveNumber: 1
-    monsterType: 1
+    WaveTimeLimit: 30
+  - WaveNumber: 2
+    monsterType: 0
     spriteLibraryAsset: {fileID: 7108339969198208228, guid: 9a2b39a997299ad4b99ebe888bdce8b3, type: 3}
-    WaveTimeLimit: 60
+    WaveTimeLimit: 30
+  - WaveNumber: 3
+    monsterType: 0
+    spriteLibraryAsset: {fileID: 7108339969198208228, guid: beed069f438c5e4409dbfb4da6789e31, type: 3}
+    WaveTimeLimit: 30
+  - WaveNumber: 4
+    monsterType: 0
+    spriteLibraryAsset: {fileID: 7108339969198208228, guid: 7f6d7959553ef974490eaf413711dd17, type: 3}
+    WaveTimeLimit: 30
+  - WaveNumber: 5
+    monsterType: 1
+    spriteLibraryAsset: {fileID: 0}
+    WaveTimeLimit: 30

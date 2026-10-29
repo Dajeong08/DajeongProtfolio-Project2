@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class MonsterManager : MonoBehaviour
 {
-    public string Name;
     public float MAX_HP;
     public float HP;
     public float Speed;

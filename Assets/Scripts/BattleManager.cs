@@ -81,7 +81,7 @@ public class BattleManager : MonoBehaviour
     {
         StageName = stageSetting.StageName;
         WaveList.Clear();
-        foreach (Wave wave in stageSetting.StageList)
+        foreach (Wave wave in stageSetting.WaveList)
         {
             WaveList.Add(wave); // 웨이브 쌓기 
         }

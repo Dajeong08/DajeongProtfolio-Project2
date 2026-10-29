@@ -9,7 +9,7 @@ public enum WaveType { BasicMonster, BossMonster }
 public class StageSetting : ScriptableObject
 {
     public string StageName; // 스테이지 이름
-    public List<Wave> StageList; // 웨이브 리스트
+    public List<Wave> WaveList; // 웨이브 리스트
 }
 
 [Serializable]
