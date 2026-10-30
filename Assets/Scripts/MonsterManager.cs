@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.U2D.Animation;
 using UnityEngine.UI;
 
 public class MonsterManager : MonoBehaviour
@@ -26,7 +27,7 @@ public class MonsterManager : MonoBehaviour
         {
             HP = MAX_HP; //Hp 풀로 채우기 
             // HP_UI_Update(); // HP UI 업데이트 
-            //transform.position = BattleManager.instance.MonaterSpawonPoint.position;
+            transform.position = BattleManager.instance.MonaterSpawonPoint.position;
         }
     }
 

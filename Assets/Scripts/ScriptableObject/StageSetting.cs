@@ -9,6 +9,7 @@ public enum WaveType { BasicMonster, BossMonster }
 public class StageSetting : ScriptableObject
 {
     public string StageName; // 스테이지 이름
+    public int StageNumber;
     public List<Wave> WaveList; // 웨이브 리스트
 }
 
@@ -17,6 +18,6 @@ public struct Wave
 {
     public int WaveNumber;
     public WaveType monsterType; // 현재 웨이브 타입
-    public SpriteLibraryAsset spriteLibraryAsset;
+    public GameObject Monster; // 생성할 오브젝트 프리펩
     public int WaveTimeLimit; // 웨이브 제한 시간 => 제한시간 안에 보스 처치 불가시 패배 
 }

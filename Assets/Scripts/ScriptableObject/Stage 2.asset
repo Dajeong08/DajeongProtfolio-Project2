@@ -14,17 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StageSetting
   StageName: "\uC2A4\uD14C\uC774\uC9C02"
   StageNumber: 2
-  WaveInterval: 30
-  StageList:
-  - monsterType: 0
-    BasicMonster: {fileID: 0}
-    BossMonster: {fileID: 0}
-    MonsterSpawonInterval: 0
-    MonsterLimit: 0
+  WaveList:
+  - WaveNumber: 1
+    monsterType: 0
+    Monster: {fileID: 6044856372851851803, guid: b4b86c208b6f68a4bb1751a58e5795c1, type: 3}
     WaveTimeLimit: 0
-  - monsterType: 0
-    BasicMonster: {fileID: 0}
-    BossMonster: {fileID: 0}
-    MonsterSpawonInterval: 0
-    MonsterLimit: 0
+  - WaveNumber: 2
+    monsterType: 0
+    Monster: {fileID: 6044856372851851803, guid: aa3da27de1e0de94b9937cfd62680b5a, type: 3}
+    WaveTimeLimit: 0
+  - WaveNumber: 3
+    monsterType: 1
+    Monster: {fileID: 6044856372851851803, guid: 01a30a9873bb1604f836c5f234f3eef6, type: 3}
     WaveTimeLimit: 0

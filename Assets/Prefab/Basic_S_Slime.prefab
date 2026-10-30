@@ -192,7 +192,7 @@ GameObject:
   - component: {fileID: 9121482092469393451}
   - component: {fileID: 1998509081283675926}
   m_Layer: 0
-  m_Name: Basic_Monster
+  m_Name: Basic_S_Slime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -337,10 +337,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d39ce56a7f42be544aced0c9846bb1b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterManager
-  Name: 
   MAX_HP: 200
   HP: 200
-  Speed: 1
+  Speed: 1.5
   HP_slider: {fileID: 8636105838371914806}
 --- !u!1 &2652215175385593699
 GameObject:
@@ -377,7 +376,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.5317}
+  m_AnchoredPosition: {x: 0, y: 0.5}
   m_SizeDelta: {x: 1, y: 0.0933}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8636105838371914806
