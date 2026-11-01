@@ -18,6 +18,6 @@ public struct Wave
 {
     public int WaveNumber;
     public WaveType monsterType; // 현재 웨이브 타입
-    public GameObject Monster; // 생성할 오브젝트 프리펩
+    public SpriteLibraryAsset MonsterSpriteLibrary; // 몬스터 라이브러리
     public int WaveTimeLimit; // 웨이브 제한 시간 => 제한시간 안에 보스 처치 불가시 패배 
 }

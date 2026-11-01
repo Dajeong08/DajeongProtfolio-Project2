@@ -52,6 +52,8 @@ public class MonsterManager : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, MovePoint.position, Speed * Time.deltaTime);
         if (transform.position == MovePoint.position)
         {
+            ani.SetInteger("Ani_Index", NextMovePoint);
+
             MovePoint = BattleManager.instance.MonaterMovePoint[NextMovePoint];
             NextMovePoint++;
             if (NextMovePoint == 4) NextMovePoint = 0;
@@ -63,18 +65,19 @@ public class MonsterManager : MonoBehaviour
         // HP_UI_Update();
     }
 
-    //public void HP_UI_Update()
-    //{
-    //    if (HP > 0)
-    //    {
-    //        HP_slider.value = HP;
-    //    }
-    //    else if (HP <= 0)
-    //    {
-    //        HP_slider.value = HP;
-    //        isAlive = false; // Á×À½
-    //    }
-    //}
+    public void HP_UI_Update()
+    {
+        if (HP > 0)
+        {
+            HP_slider.value = HP;
+        }
+        else if (HP <= 0)
+        {
+            HP_slider.value = HP;
+            isAlive = false; // Á×À½
+            Death();
+        }
+    }
     public void Death()
     {
         ani.SetBool("Death", true);

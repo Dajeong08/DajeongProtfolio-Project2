@@ -17,13 +17,21 @@ MonoBehaviour:
   WaveList:
   - WaveNumber: 1
     monsterType: 0
-    Monster: {fileID: 6044856372851851803, guid: b4b86c208b6f68a4bb1751a58e5795c1, type: 3}
+    MonsterSpriteLibrary: {fileID: 7108339969198208228, guid: 792d6c6fb4fc253458a18ef233af18b6, type: 3}
     WaveTimeLimit: 0
   - WaveNumber: 2
     monsterType: 0
-    Monster: {fileID: 6044856372851851803, guid: aa3da27de1e0de94b9937cfd62680b5a, type: 3}
+    MonsterSpriteLibrary: {fileID: 7108339969198208228, guid: 9295b2c1b854f3543925f34c6be87d4c, type: 3}
     WaveTimeLimit: 0
   - WaveNumber: 3
     monsterType: 1
-    Monster: {fileID: 6044856372851851803, guid: 01a30a9873bb1604f836c5f234f3eef6, type: 3}
+    MonsterSpriteLibrary: {fileID: 7108339969198208228, guid: 94fe0326442602243847e4c9aa13fc61, type: 3}
+    WaveTimeLimit: 0
+  - WaveNumber: 3
+    monsterType: 1
+    MonsterSpriteLibrary: {fileID: 7108339969198208228, guid: 39eb071a1528bc4429da21e7b0bf6a1b, type: 3}
+    WaveTimeLimit: 0
+  - WaveNumber: 3
+    monsterType: 1
+    MonsterSpriteLibrary: {fileID: 7108339969198208228, guid: 27134f7f24c08fe47a9fb64512a582bd, type: 3}
     WaveTimeLimit: 0
