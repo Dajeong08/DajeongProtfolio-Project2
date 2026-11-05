@@ -6,48 +6,52 @@ using UnityEngine;
 using UnityEngine.Timeline;
 using UnityEngine.U2D.Animation;
 
+// ì›¨ì´ë¸Œ ì‹œê°„, ëª¬ìŠ¤í„° ìƒì„±, ëŒ€ê¸° ì¤‘ì¸ ëª¬ìŠ¤í„° í’€ì„ ê´€ë¦¬í•œë‹¤.
 public class BattleManager : MonoBehaviour
 {
+    // static ì°¸ì¡° í•˜ë‚˜ë¥¼ ê³µìœ í•˜ë¯€ë¡œ ëª¬ìŠ¤í„°ê°€ BattleManager.instanceë¡œ ì ‘ê·¼í•  ìˆ˜ ìˆë‹¤.
     public static BattleManager instance;
 
-    // ¸ó½ºÅÍ ÀÌµ¿ Æ÷ÀÎÆ®
-    public Transform[] MonaterMovePoint; 
+    public Transform[] MonaterMovePoint;
     public Transform MonaterSpawonPoint;
-
     public StageManager stageManager;
-
     public TMP_Text StageName_OBJ;
     public TMP_Text WaveTime_OBJ;
     public GameObject BossInfo_OBJ;
-    public GameObject current_BasicMonster; // »ı¼ºÇÒ ±âº» ¸ó½ºÅÍ ¿ÀºêÁ§Æ®
-    public GameObject current_BossMonster; // »ı¼ºÇÒ º¸½º ¸ó½ºÅÍ ¿ÀºêÁ§Æ®
+    public GameObject current_BasicMonster; // ì¼ë°˜ ëª¬ìŠ¤í„° ì›ë³¸ í”„ë¦¬íŒ¹
+    public GameObject current_BossMonster;  // ë³´ìŠ¤ ëª¬ìŠ¤í„° ì›ë³¸ í”„ë¦¬íŒ¹
 
-    private List<GameObject> Basic_MonsterPool = new List<GameObject>(); // ÀÏ¹İ ¸ó½ºÅÍ Ç®
-    private List<GameObject> Boss_MonsterPool = new List<GameObject>(); // º¸½º ¸ó½ºÅÍ Ç®
-
+    // í’€ì—ëŠ” í˜„ì¬ ì‚¬ìš©í•˜ì§€ ì•Šê³  ëŒ€ê¸° ì¤‘ì¸ ê°œì²´ë§Œ ë“¤ì–´ ìˆë‹¤.
+    private List<GameObject> Basic_MonsterPool = new List<GameObject>();
+    private List<GameObject> Boss_MonsterPool = new List<GameObject>();
     private SpriteLibraryAsset WaveSpriteLibrary;
     private SpriteLibrary MonsterSpriteLibrary;
-
-    private string StageName; // ½ºÅ×ÀÌÁö ÀÌ¸§
-    private WaveType currentWaveType; // ÇöÀç ¿şÀÌºê Å¸ÀÔ     
-    private List<Wave> WaveList = new List<Wave>(); // ÇöÀç ¿şÀÌºê ¸®½ºÆ®
-    private int currentWaveIndex; // ÇöÀç ¿şÀÌºê ÀÎµ¦½º => ¸î¹øÂ° ¿şÀÌºêÀÎÁö ¾Ë±â(1ºÎÅÍ ½ÃÀÛ)
-    private bool IsPlay_Wave = false; 
-    private GameObject SelectMonster; 
-    private GameObject CreateMonster; 
+    private string StageName;
+    private WaveType currentWaveType;
+    private List<Wave> WaveList = new List<Wave>();
+    private int currentWaveIndex; // ì²« ë²ˆì§¸ ì›¨ì´ë¸Œì˜ ëª©ë¡ ë²ˆí˜¸ëŠ” 0ì´ë‹¤.
+    private bool IsPlay_Wave = false;
+    private GameObject SelectMonster;
+    private GameObject CreateMonster;
     private float Timer = 0;
     private float MonsterInterval;
+    private bool bossSpawned;
 
+    // Unityê°€ ì´ˆê¸°í™”í•  ë•Œ í˜„ì¬ ì „íˆ¬ ë§¤ë‹ˆì € ìì‹ ì„ ê³µìœ  ì°¸ì¡°ì— ë“±ë¡í•œë‹¤.
     private void Awake()
     {
         instance = this;
     }
+
+    // ë§¤ í”„ë ˆì„ ì‹œê°„ì„ ê³„ì‚°í•˜ê³  ì›¨ì´ë¸Œ ì¢…ë¥˜ì— ë§ê²Œ ìƒì„±í•œë‹¤.
     private void Update()
     {
         if (IsPlay_Wave)
         {
             Timer -= Time.deltaTime;
             MonsterInterval += Time.deltaTime;
+
+            // switchëŠ” í˜„ì¬ ê°’ì— ë§ëŠ” case í•œ ê³³ì„ ì‹¤í–‰í•œë‹¤.
             switch (currentWaveType)
             {
                 case WaveType.BasicMonster:
@@ -58,113 +62,159 @@ public class BattleManager : MonoBehaviour
                             GetMonster();
                             MonsterInterval = 0;
                         }
+                        // $ëŠ” ë³€ìˆ˜ ì‚½ì…, F0ëŠ” ì†Œìˆ˜ì  ì—†ì´ ìˆ«ìë¥¼ í‘œì‹œí•˜ëŠ” í˜•ì‹ì´ë‹¤.
                         WaveTime_OBJ.text = $"{Timer:F0}";
                     }
                     else
                     {
-                        if(currentWaveIndex < 5)
+                        if (currentWaveIndex + 1 < WaveList.Count)
                         {
                             currentWaveIndex++;
                             StartWave();
                             Timer = 30;
                         }
+                        else
+                        {
+                            IsPlay_Wave = false;
+                        }
                     }
-                        break;
-                case WaveType.BossMonster:  
-                    GetMonster();
-                    WaveTime_OBJ.text = $"{Timer:F0}";
+                    break;
 
-                    if(Timer <= 0)
+                case WaveType.BossMonster:
+                    // ë³´ìŠ¤ í’€ì´ í•˜ë‚˜ë¿ì´ë¯€ë¡œ ê°™ì€ ì›¨ì´ë¸Œì—ì„œ í•œ ë²ˆë§Œ êº¼ë‚¸ë‹¤.
+                    if (!bossSpawned)
                     {
-                        // ½ºÅ×ÀÌÁö Á¾·á 
-                        Debug.Log("½ºÅ×ÀÌÁö Á¾·á");
+                        GetMonster();
+                        bossSpawned = true;
+                    }
+                    WaveTime_OBJ.text = $"{Timer:F0}";
+                    if (Timer <= 0)
+                    {
+                        IsPlay_Wave = false;
+                        Debug.Log("ìŠ¤í…Œì´ì§€ ì¢…ë£Œ");
                     }
                     break;
             }
         }
     }
+
+    // Unityê°€ ì‹œì‘í•  ë•Œ í•œ ë²ˆ í˜¸ì¶œí•œë‹¤. ëª¬ìŠ¤í„°ë¥¼ ë¯¸ë¦¬ ìƒì„±í•´ ë‘”ë‹¤.
     private void Start()
     {
-        CreatMonsterPool(); // ¸ó½ºÅÍ Ç® »ı¼º
+        CreatMonsterPool();
     }
-    // ½ºÅ×ÀÌÁö µ¥ÀÌÅÍ ¹Ş¾Æ¿À±â
+
+    // StageManagerê°€ ì„ íƒí•œ ì„¤ì •ì„ ì „ë‹¬í•œë‹¤. ì²« ì›¨ì´ë¸Œë¶€í„° ë‹¤ì‹œ ì¤€ë¹„í•œë‹¤.
     public void GetBattleData(StageSetting stageSetting)
     {
         StageName = stageSetting.StageName;
         if (StageName != null)
         {
-            StageName_OBJ.text = StageName; // ½ºÅ×ÀÌÁö ÀÌ¸§ º¯°æ
+            StageName_OBJ.text = StageName;
         }
+        currentWaveIndex = 0;
+        MonsterInterval = 0f;
         WaveList.Clear();
+        // foreachëŠ” ëª©ë¡ì˜ í•­ëª©ì„ í•˜ë‚˜ì”© êº¼ë‚¸ë‹¤. waveëŠ” ì´ë²ˆì— êº¼ë‚¸ ì›¨ì´ë¸Œë‹¤.
         foreach (Wave wave in stageSetting.WaveList)
         {
-            WaveList.Add(wave); // ¿şÀÌºê ½×±â 
+            WaveList.Add(wave);
         }
         StartWave();
     }
-    // ¿şÀÌºê ½ÃÀÛÇÏ±â 
+
+    // í˜„ì¬ ëª©ë¡ ë²ˆí˜¸ì— ë§ëŠ” ì¢…ë¥˜ì™€ ì™¸í˜•ì„ ì½ê³  ì œí•œ ì‹œê°„ì„ ì„¤ì •í•œë‹¤.
     public void StartWave()
     {
+        if (currentWaveIndex >= WaveList.Count)
+        {
+            IsPlay_Wave = false;
+            return;
+        }
+        bossSpawned = false;
         IsPlay_Wave = true;
         Debug.Log(currentWaveIndex);
         currentWaveType = WaveList[currentWaveIndex].monsterType;
         WaveSpriteLibrary = WaveList[currentWaveIndex].MonsterSpriteLibrary;
-
         Timer = 30;
     }
-    // Ç® »ı¼º ÇÔ¼ö
+
+    // í’€ë§ì€ ê°œì²´ë¥¼ ë§¤ë²ˆ ì‚­ì œí•˜ì§€ ì•Šê³ , êº¼ ë‘ì—ˆë‹¤ê°€ ë‹¤ì‹œ ì¼œì„œ ì‚¬ìš©í•˜ëŠ” ë°©ì‹ì´ë‹¤.
     public void CreatMonsterPool()
     {
-
-        GameObject New_MonsterPool = new GameObject($"MonsterPool_Basic"); // ½ºÅ×ÀÌÁö 
-
+        GameObject New_MonsterPool = new GameObject($"MonsterPool_Basic");
         for (int i = 0; i < 120; i++)
         {
-            CreateMonster = Instantiate(current_BasicMonster, New_MonsterPool.transform); // ÇöÀç ¿şÀÌºê¿¡ ¸Â´Â ¿ÀºêÁ§Æ® »ı¼º ¹× °¢ ¿şÀÌºê ºÎ¸ğ ¾Æ·¡·Î
-            CreateMonster.SetActive(false); // ºñÈ°¼ºÈ­ 
-            Basic_MonsterPool.Add(CreateMonster); // Ç®¿¡ ³Ö±â 
+            CreateMonster = Instantiate(current_BasicMonster, New_MonsterPool.transform);
+            CreateMonster.SetActive(false);
+            Basic_MonsterPool.Add(CreateMonster);
         }
-
-        New_MonsterPool = new GameObject($"MonsterPool_Boss"); // ½ºÅ×ÀÌÁö 
-        CreateMonster = Instantiate(current_BasicMonster, New_MonsterPool.transform); // º»½º¸ó½ºÅÍ ¿ÀºêÁ§Æ® »ı¼º
-        CreateMonster.SetActive(false); //ºñÈ°¼ºÈ­
-        Boss_MonsterPool.Add(CreateMonster); // Ç®¿¡ ³Ö±â
+        New_MonsterPool = new GameObject($"MonsterPool_Boss");
+        CreateMonster = Instantiate(current_BossMonster, New_MonsterPool.transform);
+        CreateMonster.SetActive(false);
+        Boss_MonsterPool.Add(CreateMonster);
     }
+
+    // ëŒ€ê¸° ëª©ë¡ì—ì„œ ê°œì²´ë¥¼ êº¼ë‚´ê³  ì›¨ì´ë¸Œ ì™¸í˜•ì„ ì ìš©í•´ í™œì„±í™”í•œë‹¤.
     public void GetMonster()
     {
         switch (currentWaveType)
         {
             case WaveType.BasicMonster:
+                if (Basic_MonsterPool.Count == 0)
+                    return;
                 SelectMonster = Basic_MonsterPool[0];
+                // RemoveëŠ” ëª©ë¡ì—ì„œë§Œ ëº€ë‹¤. ì˜¤ë¸Œì íŠ¸ ìì²´ë¥¼ ì‚­ì œí•˜ì§€ ì•ŠëŠ”ë‹¤.
                 Basic_MonsterPool.Remove(SelectMonster);
-
                 MonsterSpriteLibrary = SelectMonster.GetComponent<SpriteLibrary>();
                 MonsterSpriteLibrary.spriteLibraryAsset = WaveSpriteLibrary;
-                SelectMonster.gameObject.SetActive(true); //¸ó½ºÅÍ È°¼ºÈ­ 
-                SelectMonster.transform.position = MonaterSpawonPoint.position; // ¸ó½ºÅÍ ÀÌµ¿
+                // ì¼œëŠ” ìˆœê°„ MonsterManager.OnEnableì´ ì‹¤í–‰ë˜ì–´ ì²´ë ¥ê³¼ ê²½ë¡œë¥¼ ì´ˆê¸°í™”í•œë‹¤.
+                SelectMonster.gameObject.SetActive(true);
+                SelectMonster.transform.position = MonaterSpawonPoint.position;
                 break;
+
             case WaveType.BossMonster:
+                if (Boss_MonsterPool.Count == 0)
+                    return;
                 SelectMonster = Boss_MonsterPool[0];
                 Boss_MonsterPool.Remove(SelectMonster);
-
                 MonsterSpriteLibrary = SelectMonster.GetComponent<SpriteLibrary>();
                 MonsterSpriteLibrary.spriteLibraryAsset = WaveSpriteLibrary;
-                SelectMonster.gameObject.SetActive(true); //¸ó½ºÅÍ È°¼ºÈ­ 
-                SelectMonster.transform.position = MonaterSpawonPoint.position; // ¸ó½ºÅÍ ÀÌµ¿
+                SelectMonster.gameObject.SetActive(true);
+                SelectMonster.transform.position = MonaterSpawonPoint.position;
                 break;
         }
     }
+
+    // MonsterManagerê°€ ì‚¬ë§ ì• ë‹ˆë©”ì´ì…˜ ì¢…ë£Œ í›„ í˜¸ì¶œí•´ ëŒ€ê¸° ëª©ë¡ìœ¼ë¡œ ëŒë ¤ë³´ë‚¸ë‹¤.
     public void RemoveMonster(GameObject Monster)
     {
-        switch (currentWaveType)
-        {
-            case WaveType.BasicMonster:
-                Basic_MonsterPool.Insert(0,Monster); // ¸ó½ºÅÍ Ç®¿¡ ´Ù½Ã ³Ö±â 
-                break;
-            case WaveType.BossMonster:
-                Boss_MonsterPool.Insert(0, Monster);                
-                break;
-        }
+        if (Monster == null)
+            return;
+        MonsterManager monster = Monster.GetComponent<MonsterManager>();
+        if (monster == null)
+            return;
+
         Monster.SetActive(false);
+        // í˜„ì¬ ì›¨ì´ë¸Œê°€ ë°”ë€Œì—ˆì–´ë„ ëª¬ìŠ¤í„° ìì‹ ì˜ ì¢…ë¥˜ë¡œ ë°˜í™˜í•´ì•¼ í•œë‹¤.
+        if (monster.poolType == WaveType.BasicMonster)
+        {
+            if (!Basic_MonsterPool.Contains(Monster))
+            {
+                Basic_MonsterPool.Add(Monster);
+            }
+        }
+        else if (monster.poolType == WaveType.BossMonster)
+        {
+            if (!Boss_MonsterPool.Contains(Monster))
+            {
+                Boss_MonsterPool.Add(Monster);
+            }
+            if (currentWaveType == WaveType.BossMonster)
+            {
+                // ì›¨ì´ë¸Œ ìƒì„±ê³¼ íƒ€ì´ë¨¸ë§Œ ì¤‘ë‹¨í•œë‹¤. í•„ë“œì˜ ëª¨ë“  ë™ì‘ì„ ë©ˆì¶”ëŠ” ê²ƒì€ ì•„ë‹ˆë‹¤.
+                IsPlay_Wave = false;
+            }
+        }
     }
 }

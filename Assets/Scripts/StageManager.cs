@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Serializable을 붙이면 Inspector에서 구조체 안의 값을 편집할 수 있다.
 [Serializable]
 public struct StageCollection
 {
@@ -10,6 +11,7 @@ public struct StageCollection
     public bool unlocked;
 }
 
+// 로비의 스테이지 선택과 전투 시작을 담당한다.
 public class StageManager : MonoBehaviour
 {
     public List<StageCollection> StageList;
@@ -19,9 +21,9 @@ public class StageManager : MonoBehaviour
     public BattleManager battleManager;
     public GameObject LobbyScreen;
 
-    private int SelectedStageIndex = 0; // ���� ���õ� �������� �ε��� 
+    private int SelectedStageIndex = 0; // 목록 번호는 0부터 시작한다.
 
-
+    // Unity가 시작할 때 한 번 호출한다. 로비와 처음 버튼 상태를 준비한다.
     void Start()
     {
         LobbyScreen.SetActive(true);
@@ -32,20 +34,22 @@ public class StageManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+    // 매 프레임 호출되지만 현재 처리 내용은 없다.
     void Update()
     {
-        
     }
-    // ���� ��ư�� ������ ��
+
+    // 다음 버튼에서 호출한다. 선택 번호를 올리고 UI 묶음을 왼쪽으로 옮긴다.
     public void Next()
     {
         if (SelectedStageIndex < StageList.Count - 1)
         {
             SelectedStageIndex++;
-
             PrevButton.SetActive(true);
-            StageCollection_OBJ.transform.position = new Vector3(StageCollection_OBJ.transform.position.x -360f, StageCollection_OBJ.transform.position.y, StageCollection_OBJ.transform.position.z) ;
+            StageCollection_OBJ.transform.position = new Vector3(
+                StageCollection_OBJ.transform.position.x - 360f,
+                StageCollection_OBJ.transform.position.y,
+                StageCollection_OBJ.transform.position.z);
 
             if (SelectedStageIndex == StageList.Count - 1)
             {
@@ -53,15 +57,18 @@ public class StageManager : MonoBehaviour
             }
         }
     }
-    // ���� ��ư�� ������ ��
+
+    // 이전 버튼에서 호출한다. 선택 번호를 내리고 UI 묶음을 오른쪽으로 옮긴다.
     public void prev()
     {
-        if(SelectedStageIndex > 0)
+        if (SelectedStageIndex > 0)
         {
             SelectedStageIndex--;
-
             NextButton.SetActive(true);
-            StageCollection_OBJ.transform.position = new Vector3(StageCollection_OBJ.transform.position.x +360f, StageCollection_OBJ.transform.position.y, StageCollection_OBJ.transform.position.z);
+            StageCollection_OBJ.transform.position = new Vector3(
+                StageCollection_OBJ.transform.position.x + 360f,
+                StageCollection_OBJ.transform.position.y,
+                StageCollection_OBJ.transform.position.z);
 
             if (SelectedStageIndex == 0)
             {
@@ -69,7 +76,8 @@ public class StageManager : MonoBehaviour
             }
         }
     }
-    // ��Ʋ ���� ��ư�� ������ ��
+
+    // 전투 버튼에서 선택한 데이터 에셋을 BattleManager에 넘기고 로비를 숨긴다.
     public void OnBattleClick()
     {
         battleManager.GetBattleData(StageList[SelectedStageIndex].stage_SO);

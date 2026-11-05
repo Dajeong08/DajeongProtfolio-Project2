@@ -1,12 +1,93 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
+// ëœë¤ ì¢…ë¥˜ë¥¼ ê³ ë¥´ê³  SlotManagerì— ì†Œí™˜ì„ ìš”ì²­í•œë‹¤.
 public class Draw : MonoBehaviour
 {
-    // »Ì±â ¹öÆ° Å¬¸¯ 
-    // µî±Ş È®·ü => ²ÎÀ» ³ÖÀ»±î ¸»±î 
-    // µî±Ş Á¤ÇØÁö¸é µî±Ş¿¡ ÀÖ´Â Ä³¸¯ÅÍµé Áß¿¡¼­ ·£´ı
+    public List<CharacterData> CharacterList = new List<CharacterData>();
+    public SlotManager slotManager;
+    public Button SummonButton;
 
-    // Ä³¸¯ÅÍ¸¦ »ÌÀ¸¸é ½½·Ô ¸Å´ÏÁ®·Î ÀÌµ¿ 
-    // ½½·Ô ¸Å´ÏÁ®¿¡¼­ ½½·ÔÀÇ Ã¤¿öÁü/Ä³¸¯ÅÍÀÇ Á¾·ù¸¦ È®ÀÎÇØ¼­ ½½·Ô¿¡ ÇÒ´ç
-    // ½½·Ô ÄÁÆ®·Ñ·¯¿¡¼­´Â ¹Ú½ºÀÇ ³Î ¿©ºÎ¿¡ µû¶ó Ã¤¿öÁü Á¤ÇÏ±â 
+    private List<CharacterData> availableCharacters = new List<CharacterData>();
+
+    private void OnEnable()
+    {
+        RefreshButton();
+    }
+
+    // ì†Œí™˜ ë²„íŠ¼ì˜ On Clickì—ì„œ í˜¸ì¶œí•œë‹¤.
+    public void OnSummonClick()
+    {
+        if (slotManager == null)
+        {
+            RefreshButton();
+            return;
+        }
+
+        // ê°™ì€ ì¢…ë¥˜ë¥¼ ë” ìŒ“ì„ ìˆ˜ ìˆì–´ë„ ì™„ì „íˆ ë¹ˆ ìŠ¬ë¡¯ì´ í•˜ë‚˜ëŠ” í•„ìš”í•˜ë‹¤.
+        if (slotManager.FindEmptySlot() == null)
+        {
+            RefreshButton();
+            return;
+        }
+
+        CollectAvailableCharacters();
+        if (availableCharacters.Count == 0)
+        {
+            RefreshButton();
+            return;
+        }
+
+        // ì •ìˆ˜ Random.RangeëŠ” ë§ˆì§€ë§‰ ìˆ«ìë¥¼ í¬í•¨í•˜ì§€ ì•ŠëŠ”ë‹¤. 2ê°œë©´ 0 ë˜ëŠ” 1.
+        int randomIndex = Random.Range(0, availableCharacters.Count);
+        CharacterData selectedData = availableCharacters[randomIndex];
+        slotManager.TrySummon(selectedData);
+        RefreshButton();
+    }
+
+    // í”„ë¦¬íŒ¹ê³¼ ìŠ¤í¬ë¦½íŠ¸ê°€ ì—°ê²°ëœ ë°ì´í„°ë§Œ ì†Œí™˜ í›„ë³´ì— ë„£ëŠ”ë‹¤.
+    private void CollectAvailableCharacters()
+    {
+        // ClearëŠ” ëª©ë¡ë§Œ ë¹„ìš°ë©°, ì—ì…‹ì´ë‚˜ ì‹¤ì œ ìºë¦­í„°ë¥¼ ì‚­ì œí•˜ì§€ ì•ŠëŠ”ë‹¤.
+        availableCharacters.Clear();
+        for (int i = 0; i < CharacterList.Count; i++)
+        {
+            CharacterData data = CharacterList[i];
+
+            // continueëŠ” ì´ë²ˆ í•­ëª©ì„ ê±´ë„ˆë›°ê³  ë‹¤ìŒ í•­ëª©ì„ ê²€ì‚¬í•œë‹¤.
+            if (data == null)
+                continue;
+            if (data.Prefab == null)
+                continue;
+
+            SummonedCharacter character = data.Prefab.GetComponent<SummonedCharacter>();
+            if (character == null)
+                continue;
+            if (availableCharacters.Contains(data))
+                continue;
+
+            availableCharacters.Add(data);
+        }
+    }
+
+    // ë¹ˆ ìŠ¬ë¡¯ê³¼ ì†Œí™˜ í›„ë³´ê°€ ëª¨ë‘ ìˆì„ ë•Œë§Œ ë²„íŠ¼ì„ ì¼ ë‹¤.
+    public void RefreshButton()
+    {
+        if (SummonButton == null)
+            return;
+
+        // ë¨¼ì € ëˆ ë’¤ ëª¨ë“  ì¡°ê±´ì„ í†µê³¼í•˜ë©´ ì¼ ë‹¤.
+        SummonButton.interactable = false;
+        if (slotManager == null)
+            return;
+        if (slotManager.FindEmptySlot() == null)
+            return;
+
+        CollectAvailableCharacters();
+        if (availableCharacters.Count == 0)
+            return;
+
+        SummonButton.interactable = true;
+    }
 }
