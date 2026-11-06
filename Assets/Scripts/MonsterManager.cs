@@ -11,12 +11,19 @@ public class MonsterManager : MonoBehaviour
     public WaveType poolType = WaveType.BasicMonster;
     public Collider2D hitCollider;
     public bool isAlive;
+    public int CurrentMovePoint; // 지금 향하는 이동 지점 번호다.
 
     private Transform MovePoint;
     private int NextMovePoint;
     private bool returnedToPool;
     private Animator ani;
     private Rigidbody2D body;
+
+    // 풀에서 꺼내 활성화하기 전에 새 웨이브의 최대 체력을 전달한다.
+    public void SetWaveHP(float maxHP)
+    {
+        MAX_HP = Mathf.Max(1, maxHP);
+    }
 
     // 자주 사용할 컴포넌트는 초기화할 때 가져와 보관한다.
     private void Awake()
@@ -46,6 +53,7 @@ public class MonsterManager : MonoBehaviour
         }
 
         MovePoint = null;
+        CurrentMovePoint = 0;
         NextMovePoint = 1;
         BattleManager battle = BattleManager.instance;
         if (battle != null)
@@ -106,7 +114,8 @@ public class MonsterManager : MonoBehaviour
             if (ani != null)
                 ani.SetInteger("Ani_Index", NextMovePoint);
 
-            MovePoint = battle.MonaterMovePoint[NextMovePoint];
+            CurrentMovePoint = NextMovePoint;
+            MovePoint = battle.MonaterMovePoint[CurrentMovePoint];
             NextMovePoint++;
             if (NextMovePoint >= battle.MonaterMovePoint.Length)
                 NextMovePoint = 0;
@@ -148,6 +157,9 @@ public class MonsterManager : MonoBehaviour
 
         HP = 0;
         isAlive = false;
+        // isAlive를 먼저 false로 바꾸므로 처치 보상은 한 번만 요청한다.
+        if (BattleManager.instance != null)
+            BattleManager.instance.MonsterDefeated(poolType);
         if (hitCollider != null)
             hitCollider.enabled = false;
 

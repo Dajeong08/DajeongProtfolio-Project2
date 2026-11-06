@@ -9,6 +9,8 @@ public class CharacterAttack : MonoBehaviour
     public SummonedCharacter character; 
     public CircleCollider2D attackRange; 
     public Animator animator; 
+    public SpriteRenderer characterSprite;
+    public bool SpriteFacesRight = true; // 반전하지 않은 원본 그림이 오른쪽을 보는지 설정한다.
     public MonsterManager currentTarget; // 현재 공격할 적. null이면 공격하지 않는다.
 
     private List<Collider2D> detectedColliders = new List<Collider2D>();
@@ -23,6 +25,8 @@ public class CharacterAttack : MonoBehaviour
             attackRange = GetComponent<CircleCollider2D>();
         if (animator == null)
             animator = GetComponent<Animator>();
+        if (characterSprite == null)
+            characterSprite = GetComponentInChildren<SpriteRenderer>();
     }
 
     // 활성화될 때 이전 타깃을 비우고 첫 공격을 바로 할 수 있게 한다.
@@ -155,29 +159,19 @@ public class CharacterAttack : MonoBehaviour
         }
     }
 
-    // 좌우/상하 차이 중 큰 방향을 골라 기존 4방향 애니메이션 번호를 넣는다.
+    // 고정 경로에서 0번은 위, 3번은 왼쪽 이동이므로 왼쪽을 본다.
     private void FaceTarget()
     {
-        if (animator == null || animator.runtimeAnimatorController == null)
+        if (characterSprite == null || currentTarget == null)
             return;
 
-        Vector2 direction = currentTarget.transform.position - transform.position;
-        int directionIndex;
-        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
-        {
-            if (direction.x >= 0)
-                directionIndex = 2; // 오른쪽
-            else
-                directionIndex = 0; // 왼쪽
-        }
+        int pointIndex = currentTarget.CurrentMovePoint;
+        bool faceLeft = pointIndex == 0 || pointIndex == 3;
+        // flipX는 그림만 반전하므로 콜라이더 크기와 슬롯 배치에는 영향이 없다.
+        if (SpriteFacesRight)
+            characterSprite.flipX = faceLeft;
         else
-        {
-            if (direction.y >= 0)
-                directionIndex = 1; // 위쪽
-            else
-                directionIndex = 3; // 아래쪽
-        }
-        animator.SetInteger("look_Index", directionIndex);
+            characterSprite.flipX = !faceLeft;
     }
 
     // Scene에서 선택했을 때 확인용 범위를 그린다. 실제 판정은 콜라이더가 한다.

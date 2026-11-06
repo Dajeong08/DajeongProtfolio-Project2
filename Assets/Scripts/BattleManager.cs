@@ -1,9 +1,6 @@
 using System.Collections.Generic;
-using System.Threading;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Timeline;
 using UnityEngine.U2D.Animation;
 
 // 웨이브 시간, 몬스터 생성, 대기 중인 몬스터 풀을 관리한다.
@@ -28,19 +25,26 @@ public class BattleManager : MonoBehaviour
     private SpriteLibrary MonsterSpriteLibrary;
     private string StageName;
     private WaveType currentWaveType;
-    private List<Wave> WaveList = new List<Wave>();
-    private int currentWaveIndex; // 첫 번째 웨이브의 목록 번호는 0이다.
+    public int CurrentWave = 1;
+    public bool IsClear = false;
+    private const int TotalWaves = 25;
+    private const int BossInterval = 5;
+    private StageSetting currentStage;
+    private float currentMonsterHP;
     private bool IsPlay_Wave = false;
     private GameObject SelectMonster;
     private GameObject CreateMonster;
     private float Timer = 0;
     private float MonsterInterval;
     private bool bossSpawned;
+    private bool bossDefeated;
+    private SlotManager slotManager;
 
     // Unity가 초기화할 때 현재 전투 매니저 자신을 공유 참조에 등록한다.
     private void Awake()
     {
         instance = this;
+        slotManager = FindFirstObjectByType<SlotManager>(FindObjectsInactive.Include);
     }
 
     // 매 프레임 시간을 계산하고 웨이브 종류에 맞게 생성한다.
@@ -48,6 +52,8 @@ public class BattleManager : MonoBehaviour
     {
         if (IsPlay_Wave)
         {
+            if (bossDefeated)
+                return;
             Timer -= Time.deltaTime;
             MonsterInterval += Time.deltaTime;
 
@@ -67,16 +73,7 @@ public class BattleManager : MonoBehaviour
                     }
                     else
                     {
-                        if (currentWaveIndex + 1 < WaveList.Count)
-                        {
-                            currentWaveIndex++;
-                            StartWave();
-                            Timer = 30;
-                        }
-                        else
-                        {
-                            IsPlay_Wave = false;
-                        }
+                        CompleteWave();
                     }
                     break;
 
@@ -91,7 +88,8 @@ public class BattleManager : MonoBehaviour
                     if (Timer <= 0)
                     {
                         IsPlay_Wave = false;
-                        Debug.Log("스테이지 종료");
+                        WaveTime_OBJ.text = "0";
+                        Debug.Log("보스 제한 시간 초과");
                     }
                     break;
             }
@@ -112,13 +110,34 @@ public class BattleManager : MonoBehaviour
         {
             StageName_OBJ.text = StageName;
         }
-        currentWaveIndex = 0;
+        currentStage = stageSetting;
+        IsPlay_Wave = false;
+        CurrentWave = 1;
+        IsClear = false;
         MonsterInterval = 0f;
-        WaveList.Clear();
-        // foreach는 목록의 항목을 하나씩 꺼낸다. wave는 이번에 꺼낸 웨이브다.
-        foreach (Wave wave in stageSetting.WaveList)
+        int requiredEntries = TotalWaves / BossInterval * 2;
+        if (stageSetting.WaveList == null || stageSetting.WaveList.Count != requiredEntries)
         {
-            WaveList.Add(wave);
+            Debug.LogError($"Wave List에 일반/보스 순서로 외형 {requiredEntries}개를 등록해주세요.");
+            return;
+        }
+        for (int i = 0; i < stageSetting.WaveList.Count; i++)
+        {
+            // 짝수 항목은 일반, 홀수 항목은 보스로 설정한다.
+            WaveType expectedType = WaveType.BasicMonster;
+            if (i % 2 == 1)
+                expectedType = WaveType.BossMonster;
+
+            if (stageSetting.WaveList[i].monsterType != expectedType)
+            {
+                Debug.LogError($"Wave List의 Element {i} 타입을 {expectedType}으로 설정해주세요.");
+                return;
+            }
+            if (stageSetting.WaveList[i].MonsterSpriteLibrary == null)
+            {
+                Debug.LogError($"Wave List의 Element {i}에 몬스터 외형을 연결해주세요.");
+                return;
+            }
         }
         StartWave();
     }
@@ -126,17 +145,72 @@ public class BattleManager : MonoBehaviour
     // 현재 목록 번호에 맞는 종류와 외형을 읽고 제한 시간을 설정한다.
     public void StartWave()
     {
-        if (currentWaveIndex >= WaveList.Count)
+        if (currentStage == null || CurrentWave > TotalWaves || IsPlay_Wave || IsClear)
         {
-            IsPlay_Wave = false;
             return;
         }
         bossSpawned = false;
+        bossDefeated = false;
+        MonsterInterval = 0;
         IsPlay_Wave = true;
-        Debug.Log(currentWaveIndex);
-        currentWaveType = WaveList[currentWaveIndex].monsterType;
-        WaveSpriteLibrary = WaveList[currentWaveIndex].MonsterSpriteLibrary;
+        // 정수 나눗셈은 소수점을 버린다. 1~5는 0, 6~10은 1이다.
+        int groupIndex = (CurrentWave - 1) / BossInterval;
+        // 5웨이브 묶음마다 일반/보스 두 칸을 사용한다.
+        int listIndex = groupIndex * 2;
+        // %는 나머지다. 5로 나눈 나머지가 0이면 보스 웨이브다.
+        if (CurrentWave % BossInterval == 0)
+        {
+            currentWaveType = WaveType.BossMonster;
+            listIndex += 1;
+            currentMonsterHP = currentStage.BossMonsterHP + groupIndex * currentStage.BossHPIncrease;
+        }
+        else
+        {
+            currentWaveType = WaveType.BasicMonster;
+            currentMonsterHP = currentStage.BasicMonsterHP + (CurrentWave - 1) * currentStage.BasicHPIncrease;
+        }
+        WaveSpriteLibrary = currentStage.WaveList[listIndex].MonsterSpriteLibrary;
+        StageName_OBJ.text = $"{StageName}  {CurrentWave}/{TotalWaves}";
         Timer = 30;
+        WaveTime_OBJ.text = "30";
+    }
+
+    // 몬스터가 죽는 순간 호출한다. 풀 반환에서는 처치 보상을 지급하지 않는다.
+    public void MonsterDefeated(WaveType monsterType)
+    {
+        if (!IsPlay_Wave)
+            return;
+        if (slotManager != null)
+        {
+            if (monsterType == WaveType.BasicMonster)
+                slotManager.AddCoin(1);
+            else if (monsterType == WaveType.BossMonster)
+                slotManager.AddCoin(50);
+        }
+
+        if (IsPlay_Wave && currentWaveType == WaveType.BossMonster
+            && monsterType == WaveType.BossMonster && Timer > 0)
+            bossDefeated = true;
+    }
+
+    // 정상 완료한 웨이브에 한 번 보상하고 다음 웨이브를 시작한다.
+    private void CompleteWave()
+    {
+        if (!IsPlay_Wave)
+            return;
+
+        IsPlay_Wave = false;
+        if (slotManager != null)
+            slotManager.AddCoin(100);
+
+        if (CurrentWave == TotalWaves)
+        {
+            IsClear = true;
+            Debug.Log("모든 웨이브 완료");
+            return;
+        }
+        CurrentWave++;
+        StartWave();
     }
 
     // 풀링은 개체를 매번 삭제하지 않고, 꺼 두었다가 다시 켜서 사용하는 방식이다.
@@ -162,12 +236,18 @@ public class BattleManager : MonoBehaviour
         {
             case WaveType.BasicMonster:
                 if (Basic_MonsterPool.Count == 0)
-                    return;
+                {
+                    // 이전 웨이브 몬스터가 쌓여도 생성을 중단하지 않도록 풀을 늘린다.
+                    GameObject extra = Instantiate(current_BasicMonster);
+                    extra.SetActive(false);
+                    Basic_MonsterPool.Add(extra);
+                }
                 SelectMonster = Basic_MonsterPool[0];
                 // Remove는 목록에서만 뺀다. 오브젝트 자체를 삭제하지 않는다.
                 Basic_MonsterPool.Remove(SelectMonster);
                 MonsterSpriteLibrary = SelectMonster.GetComponent<SpriteLibrary>();
                 MonsterSpriteLibrary.spriteLibraryAsset = WaveSpriteLibrary;
+                SelectMonster.GetComponent<MonsterManager>().SetWaveHP(currentMonsterHP);
                 // 켜는 순간 MonsterManager.OnEnable이 실행되어 체력과 경로를 초기화한다.
                 SelectMonster.gameObject.SetActive(true);
                 SelectMonster.transform.position = MonaterSpawonPoint.position;
@@ -180,6 +260,7 @@ public class BattleManager : MonoBehaviour
                 Boss_MonsterPool.Remove(SelectMonster);
                 MonsterSpriteLibrary = SelectMonster.GetComponent<SpriteLibrary>();
                 MonsterSpriteLibrary.spriteLibraryAsset = WaveSpriteLibrary;
+                SelectMonster.GetComponent<MonsterManager>().SetWaveHP(currentMonsterHP);
                 SelectMonster.gameObject.SetActive(true);
                 SelectMonster.transform.position = MonaterSpawonPoint.position;
                 break;
@@ -210,10 +291,10 @@ public class BattleManager : MonoBehaviour
             {
                 Boss_MonsterPool.Add(Monster);
             }
-            if (currentWaveType == WaveType.BossMonster)
+            if (currentWaveType == WaveType.BossMonster && bossDefeated)
             {
-                // 웨이브 생성과 타이머만 중단한다. 필드의 모든 동작을 멈추는 것은 아니다.
-                IsPlay_Wave = false;
+                // 보스를 풀에 돌려놓은 뒤 진행해야 다음 보스도 꺼낼 수 있다.
+                CompleteWave();
             }
         }
     }

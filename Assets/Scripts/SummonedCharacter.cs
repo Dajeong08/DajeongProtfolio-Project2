@@ -6,6 +6,8 @@ public class SummonedCharacter : MonoBehaviour
 {
     public CharacterData Data;
     public SlotController CurrentSlot;
+    // 캐릭터 프리팹에서 설정하는 판매 보상이다. 소환 비용에는 영향을 주지 않는다.
+    public int SellCoin = 0;
 
     // SlotManager가 소환 직후 호출한다. 복제하지 않고 데이터 에셋 참조를 저장한다.
     public void Initialize(CharacterData data)

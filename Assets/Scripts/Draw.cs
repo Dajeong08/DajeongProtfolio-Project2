@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,8 @@ public class Draw : MonoBehaviour
     public List<CharacterData> CharacterList = new List<CharacterData>();
     public SlotManager slotManager;
     public Button SummonButton;
+    public TMP_Text CoinText;
+    public TMP_Text SummonCostText;
 
     private List<CharacterData> availableCharacters = new List<CharacterData>();
 
@@ -71,15 +74,20 @@ public class Draw : MonoBehaviour
         }
     }
 
-    // 빈 슬롯과 소환 후보가 모두 있을 때만 버튼을 켠다.
+    // 코인, 빈 슬롯, 소환 후보가 모두 있을 때만 버튼을 켠다.
     public void RefreshButton()
     {
+        RefreshCoinText();
+
         if (SummonButton == null)
             return;
 
         // 먼저 끈 뒤 모든 조건을 통과하면 켠다.
         SummonButton.interactable = false;
         if (slotManager == null)
+            return;
+        // 코인이 소환 비용보다 적으면 버튼을 켜지 않는다.
+        if (slotManager.Coin < slotManager.SummonCost)
             return;
         if (slotManager.FindEmptySlot() == null)
             return;
@@ -89,5 +97,19 @@ public class Draw : MonoBehaviour
             return;
 
         SummonButton.interactable = true;
+    }
+
+    // 처음 활성화될 때와 소환 후, 현재 코인과 다음 소환 비용을 표시한다.
+    public void RefreshCoinText()
+    {
+        if (slotManager == null)
+            return;
+
+        // ToString()은 숫자를 UI에 넣을 수 있는 문자열로 바꾼다.
+        if (CoinText != null)
+            CoinText.text = slotManager.Coin.ToString();
+
+        if (SummonCostText != null)
+            SummonCostText.text = slotManager.SummonCost.ToString();
     }
 }

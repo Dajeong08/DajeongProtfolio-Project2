@@ -12,17 +12,20 @@ public class StageSetting : ScriptableObject
 {
     public string StageName;
     public int StageNumber;
-    public List<Wave> WaveList;
+    public float BasicMonsterHP = 200;
+    public float BasicHPIncrease = 20;
+    public float BossMonsterHP = 2000;
+    public float BossHPIncrease = 1000;
+
+    // 0: 1~4 일반, 1: 5 보스, 2: 6~9 일반, 3: 10 보스...
+    // 25웨이브까지 일반/보스 한 쌍씩 총 10개를 등록한다.
+    public List<Wave> WaveList = new List<Wave>();
 }
 
-// 웨이브 하나의 정보를 묶는다. Serializable로 Inspector에서 내용을 편집한다.
+// 일반/보스 타입과 외형을 함께 확인할 수 있다.
 [Serializable]
 public struct Wave
 {
-    public int WaveNumber;
     public WaveType monsterType;
     public SpriteLibraryAsset MonsterSpriteLibrary;
-    public int WaveTimeLimit;
-
-    // 현재 진행 순서는 목록 순서이며, 실제 제한 시간은 BattleManager의 30초 고정값을 쓴다.
 }
