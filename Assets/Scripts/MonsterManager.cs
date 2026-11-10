@@ -145,6 +145,9 @@ public class MonsterManager : MonoBehaviour
             HP_slider.maxValue = Mathf.Max(1f, MAX_HP);
             HP_slider.value = HP;
         }
+        if (poolType == WaveType.BossMonster && BattleManager.instance != null)
+            BattleManager.instance.RefreshBossHP(this);
+
         if (HP <= 0 && isAlive)
             Death();
     }

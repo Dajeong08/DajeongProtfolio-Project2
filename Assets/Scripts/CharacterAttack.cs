@@ -47,6 +47,10 @@ public class CharacterAttack : MonoBehaviour
     // 매 프레임 타깃과 남은 대기시간을 확인해 공격한다.
     private void Update()
     {
+        // 화면이 멈춰도 Update는 호출되므로 종료 후 공격을 막는다.
+        if (BattleManager.instance != null && BattleManager.instance.IsGameEnded)
+            return;
+
         // deltaTime은 지난 프레임부터 흐른 시간이다.
         attackCooldown -= Time.deltaTime;
         if (attackCooldown < 0)

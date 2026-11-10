@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,7 +12,15 @@ public class Draw : MonoBehaviour
     public Button SummonButton;
     public TMP_Text CoinText;
     public TMP_Text SummonCostText;
+    public TMP_Text SummonLogText;
+    [Header("등급별 소환 가중치")]
+    [Range(0f, 100f)] public float NormalWeight = 70f;
+    [Range(0f, 100f)] public float RareWeight = 25f;
+    [Range(0f, 100f)] public float EpicWeight = 5f;
+    [Range(0f, 100f)] public float LegendaryWeight = 0f;
 
+    private const int MaxLogLines = 5;
+    private List<string> summonLogs = new List<string>();
     private List<CharacterData> availableCharacters = new List<CharacterData>();
 
     private void OnEnable()
@@ -35,18 +44,111 @@ public class Draw : MonoBehaviour
             return;
         }
 
-        CollectAvailableCharacters();
-        if (availableCharacters.Count == 0)
+        CharacterData selectedData = PickSummonCharacter(out float gradeChance);
+        if (selectedData == null)
         {
             RefreshButton();
             return;
         }
 
-        // 정수 Random.Range는 마지막 숫자를 포함하지 않는다. 2개면 0 또는 1.
-        int randomIndex = Random.Range(0, availableCharacters.Count);
-        CharacterData selectedData = availableCharacters[randomIndex];
-        slotManager.TrySummon(selectedData);
+        if (slotManager.TrySummon(selectedData))
+            AddSummonLog(selectedData, gradeChance);
+
         RefreshButton();
+    }
+
+    // out으로 캐릭터와 함께 이번에 뽑힌 등급의 확률도 돌려준다.
+    private CharacterData PickSummonCharacter(out float gradeChance)
+    {
+        gradeChance = 0f;
+        CollectAvailableCharacters();
+        float normal = GetWeight(CharacterGrade.Normal, NormalWeight);
+        float rare = GetWeight(CharacterGrade.Rare, RareWeight);
+        float epic = GetWeight(CharacterGrade.Epic, EpicWeight);
+        float legendary = GetWeight(CharacterGrade.Legendary, LegendaryWeight);
+        float total = normal + rare + epic + legendary;
+        if (total <= 0f)
+            return null;
+
+        float roll = Random.Range(0f, total);
+        CharacterGrade grade;
+        float weight;
+        if (normal > 0f && roll <= normal)
+        {
+            grade = CharacterGrade.Normal;
+            weight = normal;
+        }
+        else if (rare > 0f && roll <= normal + rare)
+        {
+            grade = CharacterGrade.Rare;
+            weight = rare;
+        }
+        else if (epic > 0f && roll <= normal + rare + epic)
+        {
+            grade = CharacterGrade.Epic;
+            weight = epic;
+        }
+        else
+        {
+            grade = CharacterGrade.Legendary;
+            weight = legendary;
+        }
+
+        // 뽑을 수 있는 등급의 가중치 합을 기준으로 실제 확률을 구한다.
+        gradeChance = weight / total * 100f;
+        return PickFromAvailable(grade);
+    }
+
+    private void AddSummonLog(CharacterData data, float gradeChance)
+    {
+        if (SummonLogText == null)
+            return;
+
+        string percent = gradeChance.ToString("0.##", CultureInfo.InvariantCulture);
+        summonLogs.Add($"{percent}% 확률로 {data.CharacterName} 소환!");
+        if (summonLogs.Count > MaxLogLines)
+            summonLogs.RemoveAt(0);
+
+        string message = string.Join("\n", summonLogs);
+        if (summonLogs.Count == MaxLogLines)
+        {
+            // 맨 위의 오래된 기록 한 줄만 반투명하게 표시한다.
+            int firstLineEnd = message.IndexOf('\n');
+            message = message.Insert(firstLineEnd, "<alpha=#FF>");
+            message = "<alpha=#66>" + message;
+        }
+        SummonLogText.text = message;
+    }
+
+    // 캐릭터가 없는 등급은 가중치 합계에서 제외한다.
+    private float GetWeight(CharacterGrade grade, float weight)
+    {
+        for (int i = 0; i < availableCharacters.Count; i++)
+        {
+            if (availableCharacters[i].Grade == grade)
+                return Mathf.Clamp(weight, 0f, 100f);
+        }
+        return 0f;
+    }
+
+    // 합성도 같은 등급별 선택 함수를 사용한다.
+    public CharacterData PickCharacterByGrade(CharacterGrade grade)
+    {
+        CollectAvailableCharacters();
+        return PickFromAvailable(grade);
+    }
+
+    private CharacterData PickFromAvailable(CharacterGrade grade)
+    {
+        List<CharacterData> candidates = new List<CharacterData>();
+        for (int i = 0; i < availableCharacters.Count; i++)
+        {
+            if (availableCharacters[i].Grade == grade)
+                candidates.Add(availableCharacters[i]);
+        }
+        if (candidates.Count == 0)
+            return null;
+        return candidates[Random.Range(0, candidates.Count)];
     }
 
     // 프리팹과 스크립트가 연결된 데이터만 소환 후보에 넣는다.
@@ -84,6 +186,8 @@ public class Draw : MonoBehaviour
 
         // 먼저 끈 뒤 모든 조건을 통과하면 켠다.
         SummonButton.interactable = false;
+        if (BattleManager.instance != null && BattleManager.instance.IsGameEnded)
+            return;
         if (slotManager == null)
             return;
         // 코인이 소환 비용보다 적으면 버튼을 켜지 않는다.
@@ -93,7 +197,10 @@ public class Draw : MonoBehaviour
             return;
 
         CollectAvailableCharacters();
-        if (availableCharacters.Count == 0)
+        if (GetWeight(CharacterGrade.Normal, NormalWeight) == 0
+            && GetWeight(CharacterGrade.Rare, RareWeight) == 0
+            && GetWeight(CharacterGrade.Epic, EpicWeight) == 0
+            && GetWeight(CharacterGrade.Legendary, LegendaryWeight) == 0)
             return;
 
         SummonButton.interactable = true;

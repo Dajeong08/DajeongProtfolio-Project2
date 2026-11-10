@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c197a0b3503d4c909861ed42f71a5cb8, type: 3}
   m_Name: knight 1
   m_EditorClassIdentifier: Assembly-CSharp::CharacterData
-  CharacterId: knight
+  CharacterId: knight_1
   CharacterName: "\uAE30\uC0AC"
+  Grade: 0
   Prefab: {fileID: 3211836744727103011, guid: dab3613b2ad962e4aaf5dac31bf4d982, type: 3}
   AttackDamage: 80
   AttackSpeed: 1

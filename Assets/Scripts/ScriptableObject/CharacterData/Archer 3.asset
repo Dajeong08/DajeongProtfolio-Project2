@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c197a0b3503d4c909861ed42f71a5cb8, type: 3}
-  m_Name: Wizard 2
+  m_Name: Archer 3
   m_EditorClassIdentifier: Assembly-CSharp::CharacterData
-  CharacterId: knight
-  CharacterName: "\uAE30\uC0AC"
-  Prefab: {fileID: 3211836744727103011, guid: 16fcd78d9ee641f43bc8952c2c3b146f, type: 3}
+  CharacterId: archer_3
+  CharacterName: "\uAD81\uC218"
+  Grade: 2
+  Prefab: {fileID: 3211836744727103011, guid: 8f2503930ff52a94eb17c14ae719326b, type: 3}
   AttackDamage: 80
   AttackSpeed: 1

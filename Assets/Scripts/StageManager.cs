@@ -14,6 +14,8 @@ public struct StageCollection
 // 로비의 스테이지 선택과 전투 시작을 담당한다.
 public class StageManager : MonoBehaviour
 {
+    // 재시작 버튼이 다음 씬에 한 번만 전달할 스테이지다.
+    public static StageSetting RetryStage;
     public List<StageCollection> StageList;
     public GameObject StageCollection_OBJ;
     public GameObject NextButton;
@@ -31,6 +33,14 @@ public class StageManager : MonoBehaviour
         if (StageList.Count <= 1)
         {
             NextButton.SetActive(false);
+        }
+
+        if (RetryStage != null)
+        {
+            StageSetting stage = RetryStage;
+            RetryStage = null;
+            if (battleManager.GetBattleData(stage))
+                LobbyScreen.SetActive(false);
         }
     }
 
@@ -80,7 +90,7 @@ public class StageManager : MonoBehaviour
     // 전투 버튼에서 선택한 데이터 에셋을 BattleManager에 넘기고 로비를 숨긴다.
     public void OnBattleClick()
     {
-        battleManager.GetBattleData(StageList[SelectedStageIndex].stage_SO);
-        LobbyScreen.gameObject.SetActive(false);
+        if (battleManager.GetBattleData(StageList[SelectedStageIndex].stage_SO))
+            LobbyScreen.SetActive(false);
     }
 }
