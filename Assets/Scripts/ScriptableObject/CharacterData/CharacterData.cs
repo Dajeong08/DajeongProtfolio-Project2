@@ -6,7 +6,8 @@ public enum CharacterGrade
     [InspectorName("일반")] Normal = 0,
     [InspectorName("희귀")] Rare = 1,
     [InspectorName("에픽")] Epic = 2,
-    [InspectorName("전설")] Legendary = 3
+    [InspectorName("전설")] Legendary = 3,
+    [InspectorName("신화")] Mythic = 4
 }
 
 // 프로젝트 창의 Create 메뉴에서 생성하는 캐릭터 종류별 공통 데이터다.

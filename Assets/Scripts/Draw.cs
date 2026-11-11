@@ -163,6 +163,9 @@ public class Draw : MonoBehaviour
             // continue는 이번 항목을 건너뛰고 다음 항목을 검사한다.
             if (data == null)
                 continue;
+            // 신화는 전용 조합으로만 소환한다. 일반 소환과 3명 합성에서는 제외한다.
+            if (data.Grade >= CharacterGrade.Mythic)
+                continue;
             if (data.Prefab == null)
                 continue;
 

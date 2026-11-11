@@ -16,5 +16,5 @@ MonoBehaviour:
   CharacterName: Ranger
   Grade: 1
   Prefab: {fileID: 3211836744727103011, guid: 16fcd78d9ee641f43bc8952c2c3b146f, type: 3}
-  AttackDamage: 80
-  AttackSpeed: 1
+  AttackDamage: 60
+  AttackSpeed: 1.8

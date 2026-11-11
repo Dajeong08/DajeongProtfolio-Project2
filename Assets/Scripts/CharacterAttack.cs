@@ -163,14 +163,17 @@ public class CharacterAttack : MonoBehaviour
         }
     }
 
-    // 고정 경로에서 0번은 위, 3번은 왼쪽 이동이므로 왼쪽을 본다.
+    // 공격 대상의 좌우 위치를 기준으로 바라본다. 같은 x 위치면 방향을 유지한다.
     private void FaceTarget()
     {
         if (characterSprite == null || currentTarget == null)
             return;
 
-        int pointIndex = currentTarget.CurrentMovePoint;
-        bool faceLeft = pointIndex == 0 || pointIndex == 3;
+        float differenceX = currentTarget.transform.position.x - transform.position.x;
+        if (Mathf.Abs(differenceX) < 0.001f)
+            return;
+
+        bool faceLeft = differenceX < 0;
         // flipX는 그림만 반전하므로 콜라이더 크기와 슬롯 배치에는 영향이 없다.
         if (SpriteFacesRight)
             characterSprite.flipX = faceLeft;

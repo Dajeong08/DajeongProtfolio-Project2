@@ -84,9 +84,16 @@ public class SlotController : MonoBehaviour
         return false;
     }
 
-    // 한 슬롯의 최대 인원은 3명이다.
+    public int GetCharacterCount()
+    {
+        return characters.Count;
+    }
+
+    // 일반 캐릭터는 3명, 신화는 한 슬롯에 1명만 배치한다.
     public bool IsFull()
     {
+        if (CurrentData != null && CurrentData.Grade == CharacterGrade.Mythic)
+            return characters.Count >= 1;
         if (characters.Count >= 3)
             return true;
         return false;

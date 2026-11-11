@@ -16,6 +16,7 @@ public class SlotManager : MonoBehaviour
     public Canvas SlotCanvas;
     public GameObject MergeButton;
     public Vector3 SlotCanvasOffset;
+    public MythicSummonUI mythicUI;
 
     private Draw draw;
     private SlotController selectedSlot;
@@ -223,7 +224,7 @@ public class SlotManager : MonoBehaviour
             HideSelectedRange();
         else
             ShowSlotCanvas();
-        draw.RefreshButton();
+        NotifyCharactersChanged();
     }
 
     // 판매 버튼의 On Click에 연결한다. 클릭 한 번에 캐릭터 한 명을 판매한다.
@@ -249,6 +250,7 @@ public class SlotManager : MonoBehaviour
         if (selectedSlot.IsEmpty())
             HideSelectedRange();
         AddCoin(reward);
+        NotifyCharactersChanged();
     }
 
     // 판매 후 같은 종류끼리 앞 슬롯부터 3명씩 채운다.
@@ -314,6 +316,25 @@ public class SlotManager : MonoBehaviour
         HideSelectedRange();
         if (draw != null)
             draw.RefreshButton();
+        if (mythicUI != null)
+            mythicUI.RefreshUI();
+    }
+
+    // 소환, 판매, 합성 후 바뀐 캐릭터 수를 UI에 반영한다.
+    public void NotifyCharactersChanged()
+    {
+        if (draw != null)
+            draw.RefreshButton();
+        if (mythicUI != null)
+            mythicUI.RefreshUI();
+    }
+
+    public void FinishMythicSummon(MythicRecipe recipe)
+    {
+        HideSelectedRange();
+        for (int i = 0; i < recipe.Materials.Count; i++)
+            FillMatchingSlots(recipe.Materials[i].Character);
+        NotifyCharactersChanged();
     }
 
     // 배치 위치가 연결된 빈 슬롯을 찾는다. 없으면 null을 반환한다.
@@ -321,12 +342,12 @@ public class SlotManager : MonoBehaviour
     {
         for (int i = 0; i < SlotList.Count; i++)
         {
-            if (SlotList[i] == null)
+            if (SlotList[i] == null || !SlotList[i].activeInHierarchy)
                 continue;
 
             // GetComponent는 오브젝트에 이미 붙어 있는 스크립트를 가져온다.
             SlotController slot = SlotList[i].GetComponent<SlotController>();
-            if (slot == null)
+            if (slot == null || !slot.isActiveAndEnabled)
                 continue;
             if (!slot.HasPositions())
                 continue;
@@ -400,6 +421,7 @@ public class SlotManager : MonoBehaviour
         // 현재 비용을 먼저 차감한 뒤, 다음 소환 비용을 10 올린다.
         Coin -= SummonCost;
         SummonCost += 10;
+        NotifyCharactersChanged();
         return true;
     }
 }

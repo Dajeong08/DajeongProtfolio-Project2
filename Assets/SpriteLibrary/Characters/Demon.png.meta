@@ -1,148 +1,148 @@
 fileFormatVersion: 2
-guid: 6874127c5d4baf44e96ed942960f971e
+guid: ff413f55af844ed4b92cf0efeb5c9ff4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8467176808635345715
-    second: Brar_0
+      213: 6897479667268090689
+    second: Demon_0
   - first:
-      213: 3809084546545269064
-    second: Brar_1
+      213: 8954813872578069252
+    second: Demon_1
   - first:
-      213: -6896405878344634752
-    second: Brar_2
+      213: -1940908528617272751
+    second: Demon_2
   - first:
-      213: -7234624208263966788
-    second: Brar_3
+      213: -4852002737857526351
+    second: Demon_3
   - first:
-      213: -3633260544247469823
-    second: Brar_4
+      213: 3027676544100657071
+    second: Demon_4
   - first:
-      213: 1169911267600261044
-    second: Brar_5
+      213: 6181064247269503151
+    second: Demon_5
   - first:
-      213: -5346658607975371493
-    second: Brar_6
+      213: -5948471928917789663
+    second: Demon_6
   - first:
-      213: -5394845181912440417
-    second: Brar_7
+      213: -7960351589147934266
+    second: Demon_7
   - first:
-      213: 806170873935012405
-    second: Brar_8
+      213: -3287072301733668112
+    second: Demon_8
   - first:
-      213: -6031641384020751411
-    second: Brar_9
+      213: -1845691181641651264
+    second: Demon_9
   - first:
-      213: -7709964757845044838
-    second: Brar_10
+      213: 3791707957330389740
+    second: Demon_10
   - first:
-      213: 3721125918150995877
-    second: Brar_11
+      213: -7274909863968520850
+    second: Demon_11
   - first:
-      213: 4302254770350614881
-    second: Brar_12
+      213: 9171309964130863691
+    second: Demon_12
   - first:
-      213: -7833315051018340550
-    second: Brar_13
+      213: 4722003673658673194
+    second: Demon_13
   - first:
-      213: 4603628669986248981
-    second: Brar_14
+      213: 6389475897870293006
+    second: Demon_14
   - first:
-      213: -8132016414288884731
-    second: Brar_15
+      213: 7345570803645785853
+    second: Demon_15
   - first:
-      213: 49770932385766130
-    second: Brar_16
+      213: -3816738027147650159
+    second: Demon_16
   - first:
-      213: -6412580705807202178
-    second: Brar_17
+      213: 4159178971496386536
+    second: Demon_17
   - first:
-      213: -6697026588183785832
-    second: Brar_18
+      213: 1259176415752321585
+    second: Demon_18
   - first:
-      213: -9067177264364944381
-    second: Brar_19
+      213: -5490881593462538263
+    second: Demon_19
   - first:
-      213: -7506078199262417512
-    second: Brar_20
+      213: 6788214838060343251
+    second: Demon_20
   - first:
-      213: 8878234215361486452
-    second: Brar_21
+      213: -7347408256789105559
+    second: Demon_21
   - first:
-      213: 1904288538154744263
-    second: Brar_22
+      213: 6103109496032920923
+    second: Demon_22
   - first:
-      213: 3814357437079785284
-    second: Brar_23
+      213: -4405182343981598328
+    second: Demon_23
   - first:
-      213: 5420298618248347995
-    second: Brar_24
+      213: -9045504080824079354
+    second: Demon_24
   - first:
-      213: -1212389800147187151
-    second: Brar_25
+      213: 5642518340673574431
+    second: Demon_25
   - first:
-      213: -6813590080052844744
-    second: Brar_26
+      213: -158545280745819172
+    second: Demon_26
   - first:
-      213: 4556356431379742230
-    second: Brar_27
+      213: -6383466576162509398
+    second: Demon_27
   - first:
-      213: -3324399046533175836
-    second: Brar_28
+      213: -2609549718274241967
+    second: Demon_28
   - first:
-      213: 5843597016251538712
-    second: Brar_29
+      213: -6105718918908464362
+    second: Demon_29
   - first:
-      213: 1269536059937707632
-    second: Brar_30
+      213: 910300893206465889
+    second: Demon_30
   - first:
-      213: -46545470534618831
-    second: Brar_31
+      213: 1808450962749550054
+    second: Demon_31
   - first:
-      213: 6595860089651755067
-    second: Brar_32
+      213: -1294936330296581024
+    second: Demon_32
   - first:
-      213: -8052456341829370568
-    second: Brar_33
+      213: 2001525827139418416
+    second: Demon_33
   - first:
-      213: -303184159397926895
-    second: Brar_34
+      213: 615288364630332422
+    second: Demon_34
   - first:
-      213: -5146188292696909522
-    second: Brar_35
+      213: -6454514911448461777
+    second: Demon_35
   - first:
-      213: -9066756234101142911
-    second: Brar_36
+      213: -6461183532707855004
+    second: Demon_36
   - first:
-      213: 3926564809990354408
-    second: Brar_37
+      213: 2318833650700234816
+    second: Demon_37
   - first:
-      213: -6878080853133165101
-    second: Brar_38
+      213: 6029895421441279517
+    second: Demon_38
   - first:
-      213: 2214349826834786751
-    second: Brar_39
+      213: 290130455480760112
+    second: Demon_39
   - first:
-      213: 3100684869683263402
-    second: Brar_40
+      213: -8208916501041879093
+    second: Demon_40
   - first:
-      213: 921275378676058836
-    second: Brar_41
+      213: -4952242096649716762
+    second: Demon_41
   - first:
-      213: -8685230573851631038
-    second: Brar_42
+      213: -1685139248864526629
+    second: Demon_42
   - first:
-      213: -5850884720603619196
-    second: Brar_43
+      213: 3718277446596005941
+    second: Demon_43
   - first:
-      213: -6009873586123098742
-    second: Brar_44
+      213: -2938851500930800748
+    second: Demon_44
   - first:
-      213: 6017836831539286596
-    second: Brar_45
+      213: 2843576727894473030
+    second: Demon_45
   - first:
-      213: -1153762035998617350
-    second: Brar_46
+      213: -5933061777167506823
+    second: Demon_46
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -189,7 +189,7 @@ TextureImporter:
   spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -223,32 +223,6 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
     buildTarget: Standalone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: iOS
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -1323,7 +1297,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 761437568207e924c9a1d8fd625cccd5
+    spriteID: 2e112bf1bcfe91543901f8953080d62e
     internalID: 0
     vertices: []
     indices: 
@@ -1335,53 +1309,6 @@ TextureImporter:
     nameFileIdTable:
       Block_0: -1935260683
       Block_1: 245454965
-      Brar_0: 8467176808635345715
-      Brar_1: 3809084546545269064
-      Brar_10: -7709964757845044838
-      Brar_11: 3721125918150995877
-      Brar_12: 4302254770350614881
-      Brar_13: -7833315051018340550
-      Brar_14: 4603628669986248981
-      Brar_15: -8132016414288884731
-      Brar_16: 49770932385766130
-      Brar_17: -6412580705807202178
-      Brar_18: -6697026588183785832
-      Brar_19: -9067177264364944381
-      Brar_2: -6896405878344634752
-      Brar_20: -7506078199262417512
-      Brar_21: 8878234215361486452
-      Brar_22: 1904288538154744263
-      Brar_23: 3814357437079785284
-      Brar_24: 5420298618248347995
-      Brar_25: -1212389800147187151
-      Brar_26: -6813590080052844744
-      Brar_27: 4556356431379742230
-      Brar_28: -3324399046533175836
-      Brar_29: 5843597016251538712
-      Brar_3: -7234624208263966788
-      Brar_30: 1269536059937707632
-      Brar_31: -46545470534618831
-      Brar_32: 6595860089651755067
-      Brar_33: -8052456341829370568
-      Brar_34: -303184159397926895
-      Brar_35: -5146188292696909522
-      Brar_36: -9066756234101142911
-      Brar_37: 3926564809990354408
-      Brar_38: -6878080853133165101
-      Brar_39: 2214349826834786751
-      Brar_4: -3633260544247469823
-      Brar_40: 3100684869683263402
-      Brar_41: 921275378676058836
-      Brar_42: -8685230573851631038
-      Brar_43: -5850884720603619196
-      Brar_44: -6009873586123098742
-      Brar_45: 6017836831539286596
-      Brar_46: -1153762035998617350
-      Brar_5: 1169911267600261044
-      Brar_6: -5346658607975371493
-      Brar_7: -5394845181912440417
-      Brar_8: 806170873935012405
-      Brar_9: -6031641384020751411
       Climb_0: 386128670
       Climb_1: 251366520
       Crawl_0: -588307894
@@ -1391,6 +1318,53 @@ TextureImporter:
       Death_0: 1595485655
       Death_1: 570459256
       Death_2: -1851735860
+      Demon_0: 6897479667268090689
+      Demon_1: 8954813872578069252
+      Demon_10: 3791707957330389740
+      Demon_11: -7274909863968520850
+      Demon_12: 9171309964130863691
+      Demon_13: 4722003673658673194
+      Demon_14: 6389475897870293006
+      Demon_15: 7345570803645785853
+      Demon_16: -3816738027147650159
+      Demon_17: 4159178971496386536
+      Demon_18: 1259176415752321585
+      Demon_19: -5490881593462538263
+      Demon_2: -1940908528617272751
+      Demon_20: 6788214838060343251
+      Demon_21: -7347408256789105559
+      Demon_22: 6103109496032920923
+      Demon_23: -4405182343981598328
+      Demon_24: -9045504080824079354
+      Demon_25: 5642518340673574431
+      Demon_26: -158545280745819172
+      Demon_27: -6383466576162509398
+      Demon_28: -2609549718274241967
+      Demon_29: -6105718918908464362
+      Demon_3: -4852002737857526351
+      Demon_30: 910300893206465889
+      Demon_31: 1808450962749550054
+      Demon_32: -1294936330296581024
+      Demon_33: 2001525827139418416
+      Demon_34: 615288364630332422
+      Demon_35: -6454514911448461777
+      Demon_36: -6461183532707855004
+      Demon_37: 2318833650700234816
+      Demon_38: 6029895421441279517
+      Demon_39: 290130455480760112
+      Demon_4: 3027676544100657071
+      Demon_40: -8208916501041879093
+      Demon_41: -4952242096649716762
+      Demon_42: -1685139248864526629
+      Demon_43: 3718277446596005941
+      Demon_44: -2938851500930800748
+      Demon_45: 2843576727894473030
+      Demon_46: -5933061777167506823
+      Demon_5: 6181064247269503151
+      Demon_6: -5948471928917789663
+      Demon_7: -7960351589147934266
+      Demon_8: -3287072301733668112
+      Demon_9: -1845691181641651264
       Fire_0: -590452713
       Fire_1: -1561385863
       Icon: -359901442

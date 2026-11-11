@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad3ba8e356df48c090987556e54612ef, type: 3}
+  m_Name: AngelRecipe
+  m_EditorClassIdentifier: Assembly-CSharp::MythicRecipe
+  Result: {fileID: 11400000, guid: 7dda8838dc07404caede6791fb43fadd, type: 2}
+  Icon: {fileID: 345717778, guid: 57ad82fedd8217141b969c9ec017170d, type: 3}
+  Materials:
+  - Character: {fileID: 11400000, guid: a62c16fe3e5442a49773d28fe8ef623d, type: 2}
+    Count: 1
+  - Character: {fileID: 11400000, guid: 275923149a834aacae2146a1b62b6baa, type: 2}
+    Count: 1
+  - Character: {fileID: 11400000, guid: 8012a4d0d5c97074288078235964e247, type: 2}
+    Count: 1

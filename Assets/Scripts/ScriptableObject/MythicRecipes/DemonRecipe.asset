@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad3ba8e356df48c090987556e54612ef, type: 3}
+  m_Name: DemonRecipe
+  m_EditorClassIdentifier: Assembly-CSharp::MythicRecipe
+  Result: {fileID: 11400000, guid: 69e9b54ed88f4522b668934db99a290f, type: 2}
+  Icon: {fileID: 345717778, guid: ff413f55af844ed4b92cf0efeb5c9ff4, type: 3}
+  Materials:
+  - Character: {fileID: 11400000, guid: e49539b86be34493bf2a9c24759bac10, type: 2}
+    Count: 1
+  - Character: {fileID: 11400000, guid: 284cab5c0b75f8e47b8eb2c5e1f6f399, type: 2}
+    Count: 1
+  - Character: {fileID: 11400000, guid: 939c0c664a8249d48ba0661e36e29263, type: 2}
+    Count: 1
