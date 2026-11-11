@@ -7,8 +7,6 @@ using UnityEngine;
 public struct StageCollection
 {
     public StageSetting stage_SO;
-    public GameObject StageIcon;
-    public bool unlocked;
 }
 
 // 로비의 스테이지 선택과 전투 시작을 담당한다.
@@ -42,11 +40,6 @@ public class StageManager : MonoBehaviour
             if (battleManager.GetBattleData(stage))
                 LobbyScreen.SetActive(false);
         }
-    }
-
-    // 매 프레임 호출되지만 현재 처리 내용은 없다.
-    void Update()
-    {
     }
 
     // 다음 버튼에서 호출한다. 선택 번호를 올리고 UI 묶음을 왼쪽으로 옮긴다.

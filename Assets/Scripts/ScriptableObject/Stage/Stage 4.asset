@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Stage 4
   m_EditorClassIdentifier: Assembly-CSharp::StageSetting
   StageName: "\uC2A4\uD14C\uC774\uC9C04"
-  StageNumber: 4
   WaveInterval: 30
   StageList:
   - monsterType: 0

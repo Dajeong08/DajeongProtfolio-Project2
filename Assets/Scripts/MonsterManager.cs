@@ -19,12 +19,6 @@ public class MonsterManager : MonoBehaviour
     private Animator ani;
     private Rigidbody2D body;
 
-    // 풀에서 꺼내 활성화하기 전에 새 웨이브의 최대 체력을 전달한다.
-    public void SetWaveHP(float maxHP)
-    {
-        MAX_HP = Mathf.Max(1, maxHP);
-    }
-
     // 자주 사용할 컴포넌트는 초기화할 때 가져와 보관한다.
     private void Awake()
     {
@@ -73,6 +67,12 @@ public class MonsterManager : MonoBehaviour
     {
         if (isAlive)
             MonsterMove();
+    }
+
+    // 풀에서 꺼내 활성화하기 전에 새 웨이브의 최대 체력을 전달한다.
+    public void SetWaveHP(float maxHP)
+    {
+        MAX_HP = Mathf.Max(1, maxHP);
     }
 
     // 목표에 도착하면 다음 지점을 골라 경로를 순환한다. (Todo)

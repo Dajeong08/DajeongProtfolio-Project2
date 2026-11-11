@@ -97,6 +97,23 @@ public class CharacterAttack : MonoBehaviour
         detectedColliders.Remove(other);
     }
 
+    // Scene에서 선택했을 때 확인용 범위를 그린다. 실제 판정은 콜라이더가 한다.
+    private void OnDrawGizmosSelected()
+    {
+        CircleCollider2D range = attackRange;
+        if (range == null)
+            range = GetComponent<CircleCollider2D>();
+        if (range == null)
+            return;
+
+        // TransformPoint: 로컬 좌표를 월드 좌표로 변환. lossyScale: 부모까지 반영한 크기.
+        Vector3 center = range.transform.TransformPoint(range.offset);
+        Vector3 scale = range.transform.lossyScale;
+        float radius = range.radius * Mathf.Max(Mathf.Abs(scale.x), Mathf.Abs(scale.y));
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(center, radius);
+    }
+
     // 살아 있는 몬스터의 콜라이더만 중복 없이 등록한다.
     private void RegisterMonster(Collider2D other)
     {
@@ -181,20 +198,4 @@ public class CharacterAttack : MonoBehaviour
             characterSprite.flipX = !faceLeft;
     }
 
-    // Scene에서 선택했을 때 확인용 범위를 그린다. 실제 판정은 콜라이더가 한다.
-    private void OnDrawGizmosSelected()
-    {
-        CircleCollider2D range = attackRange;
-        if (range == null)
-            range = GetComponent<CircleCollider2D>();
-        if (range == null)
-            return;
-
-        // TransformPoint: 로컬 좌표를 월드 좌표로 변환. lossyScale: 부모까지 반영한 크기.
-        Vector3 center = range.transform.TransformPoint(range.offset);
-        Vector3 scale = range.transform.lossyScale;
-        float radius = range.radius * Mathf.Max(Mathf.Abs(scale.x), Mathf.Abs(scale.y));
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(center, radius);
-    }
 }

@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: WerewolfRecipe
   m_EditorClassIdentifier: Assembly-CSharp::MythicRecipe
   Result: {fileID: 11400000, guid: d24d4131d2a2425bbafd4df9a47ab3d3, type: 2}
-  Icon: {fileID: 345717778, guid: 3c22d148a87d24947b28fb04f564a0e8, type: 3}
   Materials:
   - Character: {fileID: 11400000, guid: 5f79deca0f874b8f98f31b160dd643dc, type: 2}
     Count: 1

@@ -7,21 +7,21 @@ using UnityEngine.UI;
 // 랜덤 종류를 고르고 SlotManager에 소환을 요청한다.
 public class Draw : MonoBehaviour
 {
-    public List<CharacterData> CharacterList = new List<CharacterData>();
+    public List<CharacterData> CharacterList = new List<CharacterData>(); // 생성할 수 있는 캐릭터 종류를 에셋에서 드래그한다.
     public SlotManager slotManager;
-    public Button SummonButton;
-    public TMP_Text CoinText;
-    public TMP_Text SummonCostText;
-    public TMP_Text SummonLogText;
-    [Header("등급별 소환 가중치")]
+    public Button SummonButton; // 소환버튼
+    public TMP_Text CoinText; // 현재 코인
+    public TMP_Text SummonCostText; // 다음 소환 비용
+    public TMP_Text SummonLogText; // 소환 로그를 표시할 텍스트
+
+    [Header("등급별 소환 확률 (%) - 합계 100")]
     [Range(0f, 100f)] public float NormalWeight = 70f;
     [Range(0f, 100f)] public float RareWeight = 25f;
     [Range(0f, 100f)] public float EpicWeight = 5f;
     [Range(0f, 100f)] public float LegendaryWeight = 0f;
 
-    private const int MaxLogLines = 5;
-    private List<string> summonLogs = new List<string>();
-    private List<CharacterData> availableCharacters = new List<CharacterData>();
+    private const int MaxLogLines = 5; 
+    private List<string> summonLogs = new List<string>(); // 소환 로그를 최대 5줄까지 저장한다.
 
     private void OnEnable()
     {
@@ -44,59 +44,47 @@ public class Draw : MonoBehaviour
             return;
         }
 
-        CharacterData selectedData = PickSummonCharacter(out float gradeChance);
+        CharacterData selectedData = PickSummonCharacter(out float gradeChance);  
         if (selectedData == null)
         {
             RefreshButton();
             return;
         }
 
-        if (slotManager.TrySummon(selectedData))
-            AddSummonLog(selectedData, gradeChance);
+        if (slotManager.TrySummon(selectedData)) // 소환시도
+            AddSummonLog(selectedData, gradeChance); // 로그띄우기(생성할 캐릭터, 등급) 넘기기
 
-        RefreshButton();
+        RefreshButton(); 
     }
 
     // out으로 캐릭터와 함께 이번에 뽑힌 등급의 확률도 돌려준다.
-    private CharacterData PickSummonCharacter(out float gradeChance)
+    private CharacterData PickSummonCharacter(out float gradeChance) // 등급 뽑기
     {
-        gradeChance = 0f;
-        CollectAvailableCharacters();
-        float normal = GetWeight(CharacterGrade.Normal, NormalWeight);
-        float rare = GetWeight(CharacterGrade.Rare, RareWeight);
-        float epic = GetWeight(CharacterGrade.Epic, EpicWeight);
-        float legendary = GetWeight(CharacterGrade.Legendary, LegendaryWeight);
-        float total = normal + rare + epic + legendary;
-        if (total <= 0f)
-            return null;
-
-        float roll = Random.Range(0f, total);
-        CharacterGrade grade;
-        float weight;
-        if (normal > 0f && roll <= normal)
+        // 0.00~99.99를 뽑는다. 0%인 전설이 100 때문에 뽑히는 일을 막는다.
+        float roll = Random.Range(0, 10000) / 100f; // 확률 뽑기
+        CharacterGrade grade; 
+        if (roll < NormalWeight) 
         {
             grade = CharacterGrade.Normal;
-            weight = normal;
+            gradeChance = NormalWeight;
         }
-        else if (rare > 0f && roll <= normal + rare)
+        else if (roll < NormalWeight + RareWeight) 
         {
             grade = CharacterGrade.Rare;
-            weight = rare;
+            gradeChance = RareWeight; 
         }
-        else if (epic > 0f && roll <= normal + rare + epic)
+        else if (roll < NormalWeight + RareWeight + EpicWeight) 
         {
             grade = CharacterGrade.Epic;
-            weight = epic;
+            gradeChance = EpicWeight;
         }
-        else
+        else 
         {
             grade = CharacterGrade.Legendary;
-            weight = legendary;
+            gradeChance = LegendaryWeight;
         }
 
-        // 뽑을 수 있는 등급의 가중치 합을 기준으로 실제 확률을 구한다.
-        gradeChance = weight / total * 100f;
-        return PickFromAvailable(grade);
+        return PickFromList(grade); // 등급에 맞는 뽑은 캐릭터 반환
     }
 
     private void AddSummonLog(CharacterData data, float gradeChance)
@@ -104,79 +92,39 @@ public class Draw : MonoBehaviour
         if (SummonLogText == null)
             return;
 
-        string percent = gradeChance.ToString("0.##", CultureInfo.InvariantCulture);
+        string percent = gradeChance.ToString("0.##"); // 소수점 두 자리까지 표시
         summonLogs.Add($"{percent}% 확률로 {data.CharacterName} 소환!");
-        if (summonLogs.Count > MaxLogLines)
+        if (summonLogs.Count > MaxLogLines) // 최대 로그 라인 수를 초과하면 맨 위의 오래된 기록을 제거한다.
             summonLogs.RemoveAt(0);
 
-        string message = string.Join("\n", summonLogs);
-        if (summonLogs.Count == MaxLogLines)
+        string message = string.Join("\n", summonLogs); // summonLogs 리스트의 모든 문자열 사이에 줄바꿈을 넣어 연결하여 하나의 메시지로 만듬
+        if (summonLogs.Count == MaxLogLines) // 로그가 꽉차면
         {
             // 맨 위의 오래된 기록 한 줄만 반투명하게 표시한다.
-            int firstLineEnd = message.IndexOf('\n');
+            int firstLineEnd = message.IndexOf('\n'); // 가장 오래된 로그가 아닌 그 다음 로그
             message = message.Insert(firstLineEnd, "<alpha=#FF>");
             message = "<alpha=#66>" + message;
         }
         SummonLogText.text = message;
     }
 
-    // 캐릭터가 없는 등급은 가중치 합계에서 제외한다.
-    private float GetWeight(CharacterGrade grade, float weight)
-    {
-        for (int i = 0; i < availableCharacters.Count; i++)
-        {
-            if (availableCharacters[i].Grade == grade)
-                return Mathf.Clamp(weight, 0f, 100f);
-        }
-        return 0f;
-    }
-
     // 합성도 같은 등급별 선택 함수를 사용한다.
-    public CharacterData PickCharacterByGrade(CharacterGrade grade)
+    public CharacterData PickCharacterByGrade(CharacterGrade grade) 
     {
-        CollectAvailableCharacters();
-        return PickFromAvailable(grade);
+        return PickFromList(grade);
     }
 
-    private CharacterData PickFromAvailable(CharacterGrade grade)
+    private CharacterData PickFromList(CharacterGrade grade) // 전달받은 등급중에서 랜덤으로  캐릭터 뽑기 하나를 뽑는다.
     {
-        List<CharacterData> candidates = new List<CharacterData>();
-        for (int i = 0; i < availableCharacters.Count; i++)
+        List<CharacterData> candidates = new List<CharacterData>(); // 후보 캐릭터를 담을 리스트
+        for (int i = 0; i < CharacterList.Count; i++) // 등급에 맞는 캐릭터만 후보 리스트에 담는다.
         {
-            if (availableCharacters[i].Grade == grade)
-                candidates.Add(availableCharacters[i]);
+            if (CharacterList[i].Grade == grade)
+                candidates.Add(CharacterList[i]);
         }
-        if (candidates.Count == 0)
+        if (candidates.Count == 0) 
             return null;
-        return candidates[Random.Range(0, candidates.Count)];
-    }
-
-    // 프리팹과 스크립트가 연결된 데이터만 소환 후보에 넣는다.
-    private void CollectAvailableCharacters()
-    {
-        // Clear는 목록만 비우며, 에셋이나 실제 캐릭터를 삭제하지 않는다.
-        availableCharacters.Clear();
-        for (int i = 0; i < CharacterList.Count; i++)
-        {
-            CharacterData data = CharacterList[i];
-
-            // continue는 이번 항목을 건너뛰고 다음 항목을 검사한다.
-            if (data == null)
-                continue;
-            // 신화는 전용 조합으로만 소환한다. 일반 소환과 3명 합성에서는 제외한다.
-            if (data.Grade >= CharacterGrade.Mythic)
-                continue;
-            if (data.Prefab == null)
-                continue;
-
-            SummonedCharacter character = data.Prefab.GetComponent<SummonedCharacter>();
-            if (character == null)
-                continue;
-            if (availableCharacters.Contains(data))
-                continue;
-
-            availableCharacters.Add(data);
-        }
+        return candidates[Random.Range(0, candidates.Count)]; // 리스트중 랜덤으로 하나 반환
     }
 
     // 코인, 빈 슬롯, 소환 후보가 모두 있을 때만 버튼을 켠다.
@@ -199,11 +147,7 @@ public class Draw : MonoBehaviour
         if (slotManager.FindEmptySlot() == null)
             return;
 
-        CollectAvailableCharacters();
-        if (GetWeight(CharacterGrade.Normal, NormalWeight) == 0
-            && GetWeight(CharacterGrade.Rare, RareWeight) == 0
-            && GetWeight(CharacterGrade.Epic, EpicWeight) == 0
-            && GetWeight(CharacterGrade.Legendary, LegendaryWeight) == 0)
+        if (CharacterList.Count == 0)
             return;
 
         SummonButton.interactable = true;

@@ -11,7 +11,6 @@ public enum WaveType { BasicMonster, BossMonster }
 public class StageSetting : ScriptableObject
 {
     public string StageName;
-    public int StageNumber;
     public float BasicMonsterHP = 200;
     public float BasicHPIncrease = 20;
     public float BossMonsterHP = 2000;

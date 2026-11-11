@@ -15,6 +15,5 @@ public class MythicMaterial
 public class MythicRecipe : ScriptableObject
 {
     public CharacterData Result;
-    public Sprite Icon;
     public List<MythicMaterial> Materials = new List<MythicMaterial>();
 }

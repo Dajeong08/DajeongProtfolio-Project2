@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c197a0b3503d4c909861ed42f71a5cb8, type: 3}
   m_Name: Dinosaur
   m_EditorClassIdentifier: Assembly-CSharp::CharacterData
-  CharacterId: dinosaur
   CharacterName: Dinosaur
   Grade: 1
   Prefab: {fileID: 3211836744727103011, guid: b025c237e81e49acbb8f0d0d33ce452a, type: 3}

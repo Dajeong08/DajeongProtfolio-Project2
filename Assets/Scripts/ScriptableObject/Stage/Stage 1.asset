@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Stage 1
   m_EditorClassIdentifier: Assembly-CSharp::StageSetting
   StageName: "\uC2A4\uD14C\uC774\uC9C01"
-  StageNumber: 1
   BasicMonsterHP: 200
   BasicHPIncrease: 20
   BossMonsterHP: 2000

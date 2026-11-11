@@ -4,7 +4,6 @@ using UnityEngine;
 // 슬롯 하나의 종류, 인원, 캐릭터 위치를 관리한다.
 public class SlotController : MonoBehaviour
 {
-    public int SlotIndex;
     public GameObject Box_1;
     public GameObject Box_2;
     public GameObject Box_3;
@@ -13,6 +12,11 @@ public class SlotController : MonoBehaviour
     private List<SummonedCharacter> characters = new List<SummonedCharacter>();
 
     private void Awake()
+    {
+        HideAttackRange();
+    }
+
+    private void OnDisable()
     {
         HideAttackRange();
     }
@@ -71,32 +75,27 @@ public class SlotController : MonoBehaviour
         RangeCircle.SetActive(true);
     }
 
-    private void OnDisable()
-    {
-        HideAttackRange();
-    }
-
     // 캐릭터가 한 명도 없으면 빈 슬롯이다.
-    public bool IsEmpty()
+    public bool IsEmpty() // 비었는지 확인하는 함수
     {
         if (characters.Count == 0)
             return true;
         return false;
     }
 
+    // 일반 캐릭터는 3명, 신화는 한 슬롯에 1명만 배치한다.
+    public bool IsFull() // 꽉 찼는지 확인하는 함수
+    {
+        if (CurrentData != null && CurrentData.Grade == CharacterGrade.Mythic) // 신화 등급이면 1명만 배치 가능
+            return characters.Count >= 1; // 현재 슬롯이 신화 등급이면 1명 이상에서 꽉찬 상태
+        if (characters.Count >= 3)
+            return true; // 3 이상이라면 트루
+        return false;
+    }
+
     public int GetCharacterCount()
     {
         return characters.Count;
-    }
-
-    // 일반 캐릭터는 3명, 신화는 한 슬롯에 1명만 배치한다.
-    public bool IsFull()
-    {
-        if (CurrentData != null && CurrentData.Grade == CharacterGrade.Mythic)
-            return characters.Count >= 1;
-        if (characters.Count >= 3)
-            return true;
-        return false;
     }
 
     // 세 배치 위치가 모두 연결되어 있는지 확인한다.
@@ -107,19 +106,19 @@ public class SlotController : MonoBehaviour
         return true;
     }
 
-    // 빈 슬롯이거나 같은 종류의 슬롯일 때만 추가할 수 있다.
+    // 캐릭터를 넣을 수 있는지 확인
     public bool CanAdd(CharacterData data)
     {
         if (data == null)
             return false;
-        if (!HasPositions())
+        if (!HasPositions()) // 배치 위치 있는지 확인
             return false;
-        if (IsFull())
+        if (IsFull()) // 꽉 찼는지 확인
             return false;
-        if (IsEmpty())
+        if (IsEmpty()) // 비어있으면 어떤 캐릭터든 넣을 수 있다.
             return true;
 
-        // 이름이나 ID 문자열이 아니라 같은 데이터 에셋인지 비교한다.
+        // 같은 데이터인지 비교한다.
         if (CurrentData == data)
             return true;
         return false;
@@ -132,16 +131,16 @@ public class SlotController : MonoBehaviour
             return false;
         if (character.CurrentSlot != null)
             return false;
-        if (!CanAdd(character.Data))
+        if (!CanAdd(character.Data)) // 넣을 수 없다면 
             return false;
 
-        CurrentData = character.Data;
-        characters.Add(character);
-        // this는 현재 이 SlotController 자신이다.
-        character.SetSlot(this);
-        // true: 부모를 바꿀 때 기존 월드 크기와 위치를 유지한다.
-        character.transform.SetParent(transform, true);
-        RefreshPositions();
+        CurrentData = character.Data; // 이 슬롯의 데이터를 생성되는 캐릭터 데이터로 설정한다.
+        characters.Add(character); // 캐릭터를 리스트에 추가한다.
+        character.SetSlot(this); // 생성되는 캐릭터의 슬롯을 현재 슬롯으로 설정한다.
+        character.transform.SetParent(transform, true); // 생성되는 캐릭터의 부모를 현재 슬롯으로 설정한다.
+                                                        // true: 부모를 바꿀 때 기존 월드 크기와 위치를 유지한다.
+
+        RefreshPositions(); 
         return true;
     }
 
@@ -149,28 +148,28 @@ public class SlotController : MonoBehaviour
     public SummonedCharacter RemoveLastCharacter()
     {
         if (IsEmpty())
-            return null;
+            return null; 
 
-        int lastIndex = characters.Count - 1;
+        int lastIndex = characters.Count - 1; 
         SummonedCharacter character = characters[lastIndex];
-        characters.RemoveAt(lastIndex);
+        characters.RemoveAt(lastIndex); // 리스트의 마지막 캐릭터를 제거한다.
         if (character != null)
-            character.SetSlot(null);
+            character.SetSlot(null); // 캐릭터의 슬롯을 null로 설정한다.
 
-        if (IsEmpty())
+        if (IsEmpty()) // 제거후 슬롯이 비어있다면 CurrentData를 null로 설정하고 공격 범위를 숨긴다.
         {
             CurrentData = null;
             HideAttackRange();
         }
-        else
+        else // 제거후 슬롯이 비어있지 않다면 배치 위치를 새로 갱신한다.
         {
             RefreshPositions();
         }
-        return character;
+        return character; // 제거된 캐릭터를 반환한다.
     }
 
     // 목록 순서대로 첫째, 둘째, 셋째 위치에 세운다.
-    private void RefreshPositions()
+    private void RefreshPositions() // characters리스트에 있는 순서대로 배치 위치를 새로 갱신한다.
     {
         for (int i = 0; i < characters.Count; i++)
         {

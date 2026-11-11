@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c197a0b3503d4c909861ed42f71a5cb8, type: 3}
   m_Name: Demon
   m_EditorClassIdentifier: Assembly-CSharp::CharacterData
-  CharacterId: demon
   CharacterName: Demon
   Grade: 4
   Prefab: {fileID: 3211836744727103011, guid: 49d0cf6dd907454791d87dbd21defe13, type: 3}

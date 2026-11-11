@@ -7,7 +7,7 @@ using UnityEngine.UI;
 // 전체 슬롯에서 자리를 찾고 캐릭터 프리팹을 생성한다.
 public class SlotManager : MonoBehaviour
 {
-    // SlotIndex가 아니라 이 목록에 등록된 순서대로 검색한다.
+    // 이 목록에 등록된 순서대로 슬롯을 검색한다.
     public List<GameObject> SlotList = new List<GameObject>();
 
     // 상점 코인과 별개로, 이번 플레이에서 소환에 사용하는 코인이다.
@@ -53,6 +53,11 @@ public class SlotManager : MonoBehaviour
             }
             SlotCanvas.gameObject.SetActive(false);
         }
+    }
+
+    private void OnDisable()
+    {
+        HideSelectedRange();
     }
 
     private void Update()
@@ -299,11 +304,6 @@ public class SlotManager : MonoBehaviour
         }
     }
 
-    private void OnDisable()
-    {
-        HideSelectedRange();
-    }
-
     public void AddCoin(int amount)
     {
         Coin += amount;
@@ -340,12 +340,11 @@ public class SlotManager : MonoBehaviour
     // 배치 위치가 연결된 빈 슬롯을 찾는다. 없으면 null을 반환한다.
     public SlotController FindEmptySlot()
     {
-        for (int i = 0; i < SlotList.Count; i++)
+        for (int i = 0; i < SlotList.Count; i++) // 슬롯 목록을 순회한다.
         {
             if (SlotList[i] == null || !SlotList[i].activeInHierarchy)
                 continue;
 
-            // GetComponent는 오브젝트에 이미 붙어 있는 스크립트를 가져온다.
             SlotController slot = SlotList[i].GetComponent<SlotController>();
             if (slot == null || !slot.isActiveAndEnabled)
                 continue;
@@ -362,15 +361,15 @@ public class SlotManager : MonoBehaviour
     {
         for (int i = 0; i < SlotList.Count; i++)
         {
-            if (SlotList[i] == null || !SlotList[i].activeInHierarchy)
+            if (SlotList[i] == null || !SlotList[i].activeInHierarchy) // 슬롯이 없거나 비활성화 -> 건너뛰기
                 continue;
 
-            SlotController slot = SlotList[i].GetComponent<SlotController>();
-            if (slot == null || !slot.isActiveAndEnabled)
+            SlotController slot = SlotList[i].GetComponent<SlotController>(); 
+            if (slot == null || !slot.isActiveAndEnabled) // 슬롯 컨트롤러 없거나 비활성화 -> 건너뛰기
                 continue;
-            if (slot.IsEmpty())
+            if (slot.IsEmpty()) // 비어있으면 같은 종류아님 -> 건너뛰기
                 continue;
-            if (slot.CanAdd(data))
+            if (slot.CanAdd(data)) // 건너뛰지 않은 경우 슬롯 반환
                 return slot;
         }
         return null;

@@ -13,7 +13,6 @@ public class BattleManager : MonoBehaviour
 
     public Transform[] MonaterMovePoint;
     public Transform MonaterSpawonPoint;
-    public StageManager stageManager;
     public TMP_Text StageName_OBJ;
     public TMP_Text WaveTime_OBJ;
     public GameObject BossInfo_OBJ; // 보스 등장 연출
@@ -68,33 +67,10 @@ public class BattleManager : MonoBehaviour
         SetGameSpeed(1);
     }
 
-    // 배속 버튼의 On Click에서 호출한다.
-    public void ChangeSpeed()
+    // Unity가 시작할 때 한 번 호출한다. 몬스터를 미리 생성해 둔다.
+    private void Start()
     {
-        if (IsGameEnded || currentStage == null)
-            return;
-
-        if (currentSpeed == 1)
-            SetGameSpeed(2);
-        else if (currentSpeed == 2)
-            SetGameSpeed(MaxGameSpeed);
-        else
-            SetGameSpeed(1);
-    }
-
-    private void SetGameSpeed(int speed)
-    {
-        currentSpeed = speed;
-        Time.timeScale = speed;
-        if (SpeedText != null)
-            SpeedText.text = $"×{speed}";
-    }
-
-    // 게임 시간을 기준으로 잡아서 등장 연출도 배속을 따라간다.
-    private void LateUpdate()
-    {
-        if (BossInfo_OBJ != null && BossInfo_OBJ.activeSelf && Time.time >= bossIntroEndTime)
-            BossInfo_OBJ.SetActive(false);
+        CreatMonsterPool();
     }
 
     // 매 프레임 시간을 계산하고 웨이브 종류에 맞게 생성한다.
@@ -145,10 +121,40 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    // Unity가 시작할 때 한 번 호출한다. 몬스터를 미리 생성해 둔다.
-    private void Start()
+    // 게임 시간을 기준으로 잡아서 등장 연출도 배속을 따라간다.
+    private void LateUpdate()
     {
-        CreatMonsterPool();
+        if (BossInfo_OBJ != null && BossInfo_OBJ.activeSelf && Time.time >= bossIntroEndTime)
+            BossInfo_OBJ.SetActive(false);
+    }
+
+    private void OnDestroy()
+    {
+        // 이전 전투가 사라질 때 다음 씬이 멈춰 있지 않도록 시간을 복구한다.
+        if (IsGameEnded || currentSpeed != 1)
+            Time.timeScale = 1f;
+    }
+
+    // 배속 버튼의 On Click에서 호출한다.
+    public void ChangeSpeed()
+    {
+        if (IsGameEnded || currentStage == null)
+            return;
+
+        if (currentSpeed == 1)
+            SetGameSpeed(2);
+        else if (currentSpeed == 2)
+            SetGameSpeed(MaxGameSpeed);
+        else
+            SetGameSpeed(1);
+    }
+
+    private void SetGameSpeed(int speed)
+    {
+        currentSpeed = speed;
+        Time.timeScale = speed;
+        if (SpeedText != null)
+            SpeedText.text = $"×{speed}";
     }
 
     // StageManager가 선택한 설정을 전달한다. 첫 웨이브부터 다시 준비한다.
@@ -318,13 +324,6 @@ public class BattleManager : MonoBehaviour
             StageManager.RetryStage = currentStage;
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-
-    private void OnDestroy()
-    {
-        // 이전 전투가 사라질 때 다음 씬이 멈춰 있지 않도록 시간을 복구한다.
-        if (IsGameEnded || currentSpeed != 1)
-            Time.timeScale = 1f;
     }
 
     // 풀링은 개체를 매번 삭제하지 않고, 꺼 두었다가 다시 켜서 사용하는 방식이다.
