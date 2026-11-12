@@ -166,6 +166,10 @@ MonoBehaviour:
   Data: {fileID: 11400000, guid: 7dda8838dc07404caede6791fb43fadd, type: 2}
   CurrentSlot: {fileID: 0}
   SellCoin: 20
+  Mana: 0
+  MaxMana: 500
+  SkillType: 3
+  Attack: {fileID: 9000000000001002}
 --- !u!58 &9000000000001000
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -31,24 +31,26 @@ public class MonsterManager : MonoBehaviour
     // 풀에서 SetActive(true)로 꺼낼 때도 호출된다. 체력과 경로를 매번 초기화한다.
     private void OnEnable()
     {
+        // 채력 채우기, 살아있는 상태, 풀에 반환되지 않는 상태
         HP = MAX_HP;
         isAlive = true;
         returnedToPool = false;
         if (hitCollider != null)
-            hitCollider.enabled = true;
+            hitCollider.enabled = true; // 콜라이더 활성화
 
         if (ani != null)
         {
-            // Rebind: 이전 사망 상태 초기화. Update(0f): 시간 진행 없이 즉시 반영.
             ani.Rebind();
             ani.SetBool("Death", false);
             ani.SetInteger("Ani_Index", 0);
-            ani.Update(0f);
         }
 
-        MovePoint = null;
+        // 이동 지점 초기화
+        MovePoint = null; 
         CurrentMovePoint = 0;
         NextMovePoint = 1;
+
+        // 출발 위치로 이동하고, 이동 지점이 있으면 첫 번째 지점을 향하도록 설정한다.
         BattleManager battle = BattleManager.instance;
         if (battle != null)
         {
@@ -89,9 +91,9 @@ public class MonsterManager : MonoBehaviour
 
         Vector2 currentPosition;
         if (body != null)
-            currentPosition = body.position;
+            currentPosition = body.position; // Rigidbody2D가 있으면 물리 위치를 사용한다.
         else
-            currentPosition = transform.position;
+            currentPosition = transform.position; 
 
         Vector2 targetPosition = MovePoint.position;
         // 속도에 물리 시간 간격을 곱해 이번 이동량을 구한다.
@@ -107,17 +109,17 @@ public class MonsterManager : MonoBehaviour
             transform.position = new Vector3(nextPosition.x, nextPosition.y, transform.position.z);
         }
 
-        if (Vector2.Distance(nextPosition, targetPosition) <= 0.001f)
+        if (Vector2.Distance(nextPosition, targetPosition) <= 0.001f) // 목적지 도달시
         {
-            if (NextMovePoint >= battle.MonaterMovePoint.Length)
+            if (NextMovePoint >= battle.MonaterMovePoint.Length) // 마지막 지점이면 순환
                 NextMovePoint = 0;
             if (ani != null)
                 ani.SetInteger("Ani_Index", NextMovePoint);
 
             CurrentMovePoint = NextMovePoint;
-            MovePoint = battle.MonaterMovePoint[CurrentMovePoint];
-            NextMovePoint++;
-            if (NextMovePoint >= battle.MonaterMovePoint.Length)
+            MovePoint = battle.MonaterMovePoint[CurrentMovePoint]; // 다음 이동 지점으로 갱신
+            NextMovePoint++; // 다음 이동 지점 상승
+            if (NextMovePoint >= battle.MonaterMovePoint.Length) // 마지막 지점이면 순환
                 NextMovePoint = 0;
         }
     }
@@ -133,7 +135,7 @@ public class MonsterManager : MonoBehaviour
         HP -= damage;
         if (HP < 0)
             HP = 0;
-        HP_UI_Update();
+        HP_UI_Update(); // 체력바 갱신
     }
 
     // 체력바를 갱신하고 0이면 사망 처리로 연결한다.
@@ -183,6 +185,6 @@ public class MonsterManager : MonoBehaviour
         if (BattleManager.instance != null)
             BattleManager.instance.RemoveMonster(gameObject);
         else
-            gameObject.SetActive(false);
+            gameObject.SetActive(false); // 풀 반환
     }
 }

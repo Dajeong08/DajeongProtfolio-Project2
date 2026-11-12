@@ -139,16 +139,16 @@ public class CharacterAttack : MonoBehaviour
         // 뒤에서부터 삭제하면 아직 검사하지 않은 앞 항목의 번호는 바뀌지 않는다.
         for (int i = detectedColliders.Count - 1; i >= 0; i--)
         {
-            if (!CanAttack(detectedColliders[i]))
+            if (!CanAttack(detectedColliders[i])) // 살아 있지 않거나 범위를 벗어난 적은 제거한다.
             {
                 detectedColliders.RemoveAt(i);
             }
         }
 
-        for (int i = 0; i < detectedColliders.Count; i++)
+        for (int i = 0; i < detectedColliders.Count; i++) // 현재 타깃이 살아 있는지 확인한다.
         {
             MonsterManager monster = detectedColliders[i].GetComponentInParent<MonsterManager>();
-            if (monster == currentTarget)
+            if (monster == currentTarget) // 현재 타깃이 살아 있으면 그대로 유지한다.
             {
                 return;
             }
@@ -157,8 +157,24 @@ public class CharacterAttack : MonoBehaviour
         currentTarget = null;
         if (detectedColliders.Count > 0)
         {
-            currentTarget = detectedColliders[0].GetComponentInParent<MonsterManager>();
+            currentTarget = detectedColliders[0].GetComponentInParent<MonsterManager>(); // 살아 있는 적이 있으면 첫 번째를 새 타깃으로 지정한다.
         }
+    }
+
+    // 스킬에 사용할 적 목록. 콜라이더가 여러 개인 몬스터도 한 번만 넣는다.
+    public List<MonsterManager> GetSkillTargets()
+    {
+        List<MonsterManager> targets = new List<MonsterManager>();
+        for (int i = 0; i < detectedColliders.Count; i++)
+        {
+            if (!CanAttack(detectedColliders[i]))
+                continue;
+
+            MonsterManager monster = detectedColliders[i].GetComponentInParent<MonsterManager>();
+            if (!targets.Contains(monster))
+                targets.Add(monster);
+        }
+        return targets;
     }
 
     // 공격 대상의 좌우 위치를 기준으로 바라본다. 같은 x 위치면 방향을 유지한다.
@@ -167,8 +183,8 @@ public class CharacterAttack : MonoBehaviour
         if (characterSprite == null || currentTarget == null)
             return;
 
-        float differenceX = currentTarget.transform.position.x - transform.position.x;
-        if (Mathf.Abs(differenceX) < 0.001f)
+        float differenceX = currentTarget.transform.position.x - transform.position.x; // 타겟 위치 - 캐릭터 위치 
+        if (Mathf.Abs(differenceX) < 0.001f) // 절대값으로 플레이어 위치랑 차이가 크지 않으면 리턴
             return;
 
         bool faceLeft = differenceX < 0;

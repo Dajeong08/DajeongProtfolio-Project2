@@ -6,31 +6,31 @@ using UnityEngine;
 [Serializable]
 public struct StageCollection
 {
-    public StageSetting stage_SO;
+    public StageSetting stage_SO; // 스테이지 데이터 에셋
 }
 
 // 로비의 스테이지 선택과 전투 시작을 담당한다.
 public class StageManager : MonoBehaviour
 {
     // 재시작 버튼이 다음 씬에 한 번만 전달할 스테이지다.
-    public static StageSetting RetryStage;
-    public List<StageCollection> StageList;
+    public static StageSetting RetryStage; 
+    public List<StageCollection> StageList; // 스테이지 데이터 에셋 목록
     public GameObject StageCollection_OBJ;
-    public GameObject NextButton;
-    public GameObject PrevButton;
-    public BattleManager battleManager;
-    public GameObject LobbyScreen;
+    public GameObject NextButton; // 다음 버튼
+    public GameObject PrevButton; // 이전 버튼
+    public BattleManager battleManager; 
+    public GameObject LobbyScreen; // 로비 화면 
 
     private int SelectedStageIndex = 0; // 목록 번호는 0부터 시작한다.
 
     // Unity가 시작할 때 한 번 호출한다. 로비와 처음 버튼 상태를 준비한다.
     void Start()
     {
-        LobbyScreen.SetActive(true);
-        PrevButton.SetActive(false);
+        LobbyScreen.SetActive(true); // 로비 화면을 켠다.
+        PrevButton.SetActive(false); // 첫 번째 스테이지이므로 이전 버튼을 비활성화
         if (StageList.Count <= 1)
         {
-            NextButton.SetActive(false);
+            NextButton.SetActive(false); // 스테이지가 1개 이하이면 다음 버튼을 비활성화
         }
 
         if (RetryStage != null)
@@ -47,14 +47,14 @@ public class StageManager : MonoBehaviour
     {
         if (SelectedStageIndex < StageList.Count - 1)
         {
-            SelectedStageIndex++;
-            PrevButton.SetActive(true);
+            SelectedStageIndex++; 
+            PrevButton.SetActive(true); // 다음 버튼을 누르면 반드시 이전 버튼을 활성화
             StageCollection_OBJ.transform.position = new Vector3(
                 StageCollection_OBJ.transform.position.x - 360f,
                 StageCollection_OBJ.transform.position.y,
-                StageCollection_OBJ.transform.position.z);
+                StageCollection_OBJ.transform.position.z); // UI 묶음을 왼쪽으로 이동
 
-            if (SelectedStageIndex == StageList.Count - 1)
+            if (SelectedStageIndex == StageList.Count - 1) // 마지막 스테이지면 다음 버튼 비활성화
             {
                 NextButton.SetActive(false);
             }
@@ -66,14 +66,14 @@ public class StageManager : MonoBehaviour
     {
         if (SelectedStageIndex > 0)
         {
-            SelectedStageIndex--;
-            NextButton.SetActive(true);
+            SelectedStageIndex--; 
+            NextButton.SetActive(true); // 이전 버튼을 누르면 반드시 다음 버튼을 활성화
             StageCollection_OBJ.transform.position = new Vector3(
                 StageCollection_OBJ.transform.position.x + 360f,
                 StageCollection_OBJ.transform.position.y,
-                StageCollection_OBJ.transform.position.z);
+                StageCollection_OBJ.transform.position.z); // UI 묶음을 오른쪽으로 이동
 
-            if (SelectedStageIndex == 0)
+            if (SelectedStageIndex == 0) // 첫 번째 스테이지면 이전 버튼 비활성화
             {
                 PrevButton.SetActive(false);
             }
@@ -83,7 +83,7 @@ public class StageManager : MonoBehaviour
     // 전투 버튼에서 선택한 데이터 에셋을 BattleManager에 넘기고 로비를 숨긴다.
     public void OnBattleClick()
     {
-        if (battleManager.GetBattleData(StageList[SelectedStageIndex].stage_SO))
-            LobbyScreen.SetActive(false);
+        if (battleManager.GetBattleData(StageList[SelectedStageIndex].stage_SO)) // BattleManager에 선택한 스테이지 데이터를 전달
+            LobbyScreen.SetActive(false); // 전투 시작
     }
 }
