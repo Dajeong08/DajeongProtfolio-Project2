@@ -130,7 +130,8 @@ GameObject:
   - component: {fileID: 9511332}
   - component: {fileID: 9511333}
   - component: {fileID: 9511334}
-  m_Layer: 0
+  - component: {fileID: 9104000000000009}
+  m_Layer: 8
   m_Name: slot9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -227,7 +228,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ad4c5d17da4c84db520252086bc8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotController
-  SlotIndex: 9
   Box_1: {fileID: 9000000000000100}
   Box_2: {fileID: 9000000000000102}
   Box_3: {fileID: 9000000000000104}
@@ -244,7 +244,8 @@ GameObject:
   - component: {fileID: 102280150}
   - component: {fileID: 102280151}
   - component: {fileID: 102280152}
-  m_Layer: 0
+  - component: {fileID: 9104000000000022}
+  m_Layer: 8
   m_Name: slot22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -341,7 +342,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ad4c5d17da4c84db520252086bc8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotController
-  SlotIndex: 22
   Box_1: {fileID: 9000000000000106}
   Box_2: {fileID: 9000000000000108}
   Box_3: {fileID: 9000000000000110}
@@ -358,7 +358,8 @@ GameObject:
   - component: {fileID: 132775514}
   - component: {fileID: 132775515}
   - component: {fileID: 132775516}
-  m_Layer: 0
+  - component: {fileID: 9104000000000008}
+  m_Layer: 8
   m_Name: slot8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -455,7 +456,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ad4c5d17da4c84db520252086bc8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotController
-  SlotIndex: 8
   Box_1: {fileID: 9000000000000112}
   Box_2: {fileID: 9000000000000114}
   Box_3: {fileID: 9000000000000116}
@@ -563,7 +563,8 @@ GameObject:
   - component: {fileID: 215800152}
   - component: {fileID: 215800153}
   - component: {fileID: 215800154}
-  m_Layer: 0
+  - component: {fileID: 9104000000000021}
+  m_Layer: 8
   m_Name: slot21
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -660,7 +661,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ad4c5d17da4c84db520252086bc8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotController
-  SlotIndex: 21
   Box_1: {fileID: 9000000000000118}
   Box_2: {fileID: 9000000000000120}
   Box_3: {fileID: 9000000000000122}
@@ -833,7 +833,8 @@ GameObject:
   - component: {fileID: 227924868}
   - component: {fileID: 227924869}
   - component: {fileID: 227924870}
-  m_Layer: 0
+  - component: {fileID: 9104000000000016}
+  m_Layer: 8
   m_Name: slot16
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -930,7 +931,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ad4c5d17da4c84db520252086bc8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotController
-  SlotIndex: 16
   Box_1: {fileID: 9000000000000124}
   Box_2: {fileID: 9000000000000126}
   Box_3: {fileID: 9000000000000128}
@@ -947,7 +947,8 @@ GameObject:
   - component: {fileID: 352625253}
   - component: {fileID: 352625254}
   - component: {fileID: 352625255}
-  m_Layer: 0
+  - component: {fileID: 9104000000000015}
+  m_Layer: 8
   m_Name: slot15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1044,7 +1045,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ad4c5d17da4c84db520252086bc8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotController
-  SlotIndex: 15
   Box_1: {fileID: 9000000000000130}
   Box_2: {fileID: 9000000000000132}
   Box_3: {fileID: 9000000000000134}
@@ -1428,7 +1428,8 @@ GameObject:
   - component: {fileID: 467332592}
   - component: {fileID: 467332593}
   - component: {fileID: 467332594}
-  m_Layer: 0
+  - component: {fileID: 9104000000000010}
+  m_Layer: 8
   m_Name: slot10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1525,7 +1526,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ad4c5d17da4c84db520252086bc8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotController
-  SlotIndex: 10
   Box_1: {fileID: 9000000000000136}
   Box_2: {fileID: 9000000000000138}
   Box_3: {fileID: 9000000000000140}
@@ -1542,7 +1542,8 @@ GameObject:
   - component: {fileID: 480203478}
   - component: {fileID: 480203479}
   - component: {fileID: 480203480}
-  m_Layer: 0
+  - component: {fileID: 9104000000000027}
+  m_Layer: 8
   m_Name: slot27
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1639,7 +1640,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ad4c5d17da4c84db520252086bc8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotController
-  SlotIndex: 27
   Box_1: {fileID: 9000000000000142}
   Box_2: {fileID: 9000000000000144}
   Box_3: {fileID: 9000000000000146}
@@ -2259,7 +2259,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 519420031}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -2289,7 +2289,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 6.11, y: 7.93}
+  m_AnchoredPosition: {x: -3.03, y: 3.06}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &619394800
@@ -2708,7 +2708,6 @@ MonoBehaviour:
   - {fileID: 1092586397}
   - {fileID: 544353913}
   MonaterSpawonPoint: {fileID: 1412954792}
-  stageManager: {fileID: 1516231328}
   StageName_OBJ: {fileID: 5953237917330438612}
   WaveTime_OBJ: {fileID: 4557032990819115987}
   BossInfo_OBJ: {fileID: 319372826367395757}
@@ -2753,7 +2752,8 @@ GameObject:
   - component: {fileID: 760388044}
   - component: {fileID: 760388045}
   - component: {fileID: 760388046}
-  m_Layer: 0
+  - component: {fileID: 9104000000000000}
+  m_Layer: 8
   m_Name: slot0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2850,7 +2850,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ad4c5d17da4c84db520252086bc8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotController
-  SlotIndex: 0
   Box_1: {fileID: 9000000000000148}
   Box_2: {fileID: 9000000000000150}
   Box_3: {fileID: 9000000000000152}
@@ -2867,7 +2866,8 @@ GameObject:
   - component: {fileID: 827483351}
   - component: {fileID: 827483352}
   - component: {fileID: 827483353}
-  m_Layer: 0
+  - component: {fileID: 9104000000000005}
+  m_Layer: 8
   m_Name: slot5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2964,7 +2964,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ad4c5d17da4c84db520252086bc8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotController
-  SlotIndex: 5
   Box_1: {fileID: 9000000000000154}
   Box_2: {fileID: 9000000000000156}
   Box_3: {fileID: 9000000000000158}
@@ -3118,7 +3117,8 @@ GameObject:
   - component: {fileID: 952620629}
   - component: {fileID: 952620630}
   - component: {fileID: 952620631}
-  m_Layer: 0
+  - component: {fileID: 9104000000000006}
+  m_Layer: 8
   m_Name: slot6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3215,7 +3215,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ad4c5d17da4c84db520252086bc8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotController
-  SlotIndex: 6
   Box_1: {fileID: 9000000000000160}
   Box_2: {fileID: 9000000000000162}
   Box_3: {fileID: 9000000000000164}
@@ -3369,7 +3368,8 @@ GameObject:
   - component: {fileID: 1029277913}
   - component: {fileID: 1029277914}
   - component: {fileID: 1029277915}
-  m_Layer: 0
+  - component: {fileID: 9104000000000025}
+  m_Layer: 8
   m_Name: slot25
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3466,7 +3466,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ad4c5d17da4c84db520252086bc8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotController
-  SlotIndex: 25
   Box_1: {fileID: 9000000000000166}
   Box_2: {fileID: 9000000000000168}
   Box_3: {fileID: 9000000000000170}
@@ -4168,7 +4167,8 @@ GameObject:
   - component: {fileID: 1260764428}
   - component: {fileID: 1260764429}
   - component: {fileID: 1260764430}
-  m_Layer: 0
+  - component: {fileID: 9104000000000020}
+  m_Layer: 8
   m_Name: slot20
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4265,7 +4265,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ad4c5d17da4c84db520252086bc8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotController
-  SlotIndex: 20
   Box_1: {fileID: 9000000000000172}
   Box_2: {fileID: 9000000000000174}
   Box_3: {fileID: 9000000000000176}
@@ -4653,7 +4652,8 @@ GameObject:
   - component: {fileID: 1470489883}
   - component: {fileID: 1470489884}
   - component: {fileID: 1470489885}
-  m_Layer: 0
+  - component: {fileID: 9104000000000024}
+  m_Layer: 8
   m_Name: slot24
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4750,7 +4750,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ad4c5d17da4c84db520252086bc8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotController
-  SlotIndex: 24
   Box_1: {fileID: 9000000000000178}
   Box_2: {fileID: 9000000000000180}
   Box_3: {fileID: 9000000000000182}
@@ -4767,7 +4766,8 @@ GameObject:
   - component: {fileID: 1491645626}
   - component: {fileID: 1491645627}
   - component: {fileID: 1491645628}
-  m_Layer: 0
+  - component: {fileID: 9104000000000018}
+  m_Layer: 8
   m_Name: slot18
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4864,7 +4864,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ad4c5d17da4c84db520252086bc8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotController
-  SlotIndex: 18
   Box_1: {fileID: 9000000000000184}
   Box_2: {fileID: 9000000000000186}
   Box_3: {fileID: 9000000000000188}
@@ -4901,11 +4900,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StageManager
   StageList:
   - stage_SO: {fileID: 11400000, guid: 62af00a1d27cd3e44b5a0298344251f3, type: 2}
-    StageIcon: {fileID: 7252560806246199550}
-    unlocked: 1
   - stage_SO: {fileID: 11400000, guid: 486cbb32bfb5ce14aa2174f2e4090e0f, type: 2}
-    StageIcon: {fileID: 394210855}
-    unlocked: 1
   StageCollection_OBJ: {fileID: 705182583}
   NextButton: {fileID: 6571181247673724426}
   PrevButton: {fileID: 6571181247008033005}
@@ -5154,7 +5149,8 @@ GameObject:
   - component: {fileID: 1583102037}
   - component: {fileID: 1583102038}
   - component: {fileID: 1583102039}
-  m_Layer: 0
+  - component: {fileID: 9104000000000001}
+  m_Layer: 8
   m_Name: slot1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5251,7 +5247,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ad4c5d17da4c84db520252086bc8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotController
-  SlotIndex: 1
   Box_1: {fileID: 9000000000000190}
   Box_2: {fileID: 9000000000000192}
   Box_3: {fileID: 9000000000000194}
@@ -5316,6 +5311,9 @@ MonoBehaviour:
   - {fileID: 1029277912}
   - {fileID: 2128399013}
   - {fileID: 480203477}
+  SlotLayer:
+    serializedVersion: 2
+    m_Bits: 256
   Coin: 100
   SummonCost: 20
   SlotCanvas: {fileID: 587631917}
@@ -5591,7 +5589,8 @@ GameObject:
   - component: {fileID: 1693120874}
   - component: {fileID: 1693120875}
   - component: {fileID: 1693120876}
-  m_Layer: 0
+  - component: {fileID: 9104000000000014}
+  m_Layer: 8
   m_Name: slot14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5688,7 +5687,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ad4c5d17da4c84db520252086bc8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotController
-  SlotIndex: 14
   Box_1: {fileID: 9000000000000196}
   Box_2: {fileID: 9000000000000198}
   Box_3: {fileID: 9000000000000200}
@@ -5705,7 +5703,8 @@ GameObject:
   - component: {fileID: 1750022723}
   - component: {fileID: 1750022724}
   - component: {fileID: 1750022725}
-  m_Layer: 0
+  - component: {fileID: 9104000000000019}
+  m_Layer: 8
   m_Name: slot19
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5802,7 +5801,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ad4c5d17da4c84db520252086bc8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotController
-  SlotIndex: 19
   Box_1: {fileID: 9000000000000202}
   Box_2: {fileID: 9000000000000204}
   Box_3: {fileID: 9000000000000206}
@@ -6062,7 +6060,8 @@ GameObject:
   - component: {fileID: 1811560735}
   - component: {fileID: 1811560736}
   - component: {fileID: 1811560737}
-  m_Layer: 0
+  - component: {fileID: 9104000000000017}
+  m_Layer: 8
   m_Name: slot17
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6159,7 +6158,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ad4c5d17da4c84db520252086bc8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotController
-  SlotIndex: 17
   Box_1: {fileID: 9000000000000208}
   Box_2: {fileID: 9000000000000210}
   Box_3: {fileID: 9000000000000212}
@@ -6176,7 +6174,8 @@ GameObject:
   - component: {fileID: 1817300494}
   - component: {fileID: 1817300495}
   - component: {fileID: 1817300496}
-  m_Layer: 0
+  - component: {fileID: 9104000000000023}
+  m_Layer: 8
   m_Name: slot23
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6273,7 +6272,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ad4c5d17da4c84db520252086bc8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotController
-  SlotIndex: 23
   Box_1: {fileID: 9000000000000214}
   Box_2: {fileID: 9000000000000216}
   Box_3: {fileID: 9000000000000218}
@@ -6290,7 +6288,8 @@ GameObject:
   - component: {fileID: 1828548697}
   - component: {fileID: 1828548698}
   - component: {fileID: 1828548699}
-  m_Layer: 0
+  - component: {fileID: 9104000000000012}
+  m_Layer: 8
   m_Name: slot12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6387,7 +6386,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ad4c5d17da4c84db520252086bc8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotController
-  SlotIndex: 12
   Box_1: {fileID: 9000000000000220}
   Box_2: {fileID: 9000000000000222}
   Box_3: {fileID: 9000000000000224}
@@ -6537,7 +6535,8 @@ GameObject:
   - component: {fileID: 1898794937}
   - component: {fileID: 1898794938}
   - component: {fileID: 1898794939}
-  m_Layer: 0
+  - component: {fileID: 9104000000000013}
+  m_Layer: 8
   m_Name: slot13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6634,7 +6633,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ad4c5d17da4c84db520252086bc8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotController
-  SlotIndex: 13
   Box_1: {fileID: 9000000000000226}
   Box_2: {fileID: 9000000000000228}
   Box_3: {fileID: 9000000000000230}
@@ -6651,7 +6649,8 @@ GameObject:
   - component: {fileID: 1950279850}
   - component: {fileID: 1950279851}
   - component: {fileID: 1950279852}
-  m_Layer: 0
+  - component: {fileID: 9104000000000007}
+  m_Layer: 8
   m_Name: slot7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6748,7 +6747,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ad4c5d17da4c84db520252086bc8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotController
-  SlotIndex: 7
   Box_1: {fileID: 9000000000000232}
   Box_2: {fileID: 9000000000000234}
   Box_3: {fileID: 9000000000000236}
@@ -6826,7 +6824,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -910, y: -490}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2030305757
@@ -6878,7 +6876,8 @@ GameObject:
   - component: {fileID: 2038521748}
   - component: {fileID: 2038521749}
   - component: {fileID: 2038521750}
-  m_Layer: 0
+  - component: {fileID: 9104000000000004}
+  m_Layer: 8
   m_Name: slot4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6975,7 +6974,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ad4c5d17da4c84db520252086bc8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotController
-  SlotIndex: 4
   Box_1: {fileID: 9000000000000238}
   Box_2: {fileID: 9000000000000240}
   Box_3: {fileID: 9000000000000242}
@@ -6992,7 +6990,8 @@ GameObject:
   - component: {fileID: 2063174571}
   - component: {fileID: 2063174572}
   - component: {fileID: 2063174573}
-  m_Layer: 0
+  - component: {fileID: 9104000000000003}
+  m_Layer: 8
   m_Name: slot3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7089,7 +7088,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ad4c5d17da4c84db520252086bc8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotController
-  SlotIndex: 3
   Box_1: {fileID: 9000000000000244}
   Box_2: {fileID: 9000000000000246}
   Box_3: {fileID: 9000000000000248}
@@ -7106,7 +7104,8 @@ GameObject:
   - component: {fileID: 2081064920}
   - component: {fileID: 2081064921}
   - component: {fileID: 2081064922}
-  m_Layer: 0
+  - component: {fileID: 9104000000000002}
+  m_Layer: 8
   m_Name: slot2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7203,7 +7202,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ad4c5d17da4c84db520252086bc8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotController
-  SlotIndex: 2
   Box_1: {fileID: 9000000000000250}
   Box_2: {fileID: 9000000000000252}
   Box_3: {fileID: 9000000000000254}
@@ -7251,7 +7249,8 @@ GameObject:
   - component: {fileID: 2104613552}
   - component: {fileID: 2104613553}
   - component: {fileID: 2104613554}
-  m_Layer: 0
+  - component: {fileID: 9104000000000011}
+  m_Layer: 8
   m_Name: slot11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7348,7 +7347,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ad4c5d17da4c84db520252086bc8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotController
-  SlotIndex: 11
   Box_1: {fileID: 9000000000000256}
   Box_2: {fileID: 9000000000000258}
   Box_3: {fileID: 9000000000000260}
@@ -7440,7 +7438,8 @@ GameObject:
   - component: {fileID: 2128399014}
   - component: {fileID: 2128399015}
   - component: {fileID: 2128399016}
-  m_Layer: 0
+  - component: {fileID: 9104000000000026}
+  m_Layer: 8
   m_Name: slot26
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7537,7 +7536,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ad4c5d17da4c84db520252086bc8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotController
-  SlotIndex: 26
   Box_1: {fileID: 9000000000000262}
   Box_2: {fileID: 9000000000000264}
   Box_3: {fileID: 9000000000000266}
@@ -30208,6 +30206,1070 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7252560806731137100}
   m_CullTransparentMesh: 0
+--- !u!61 &9104000000000000
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 760388043}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &9104000000000001
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1583102036}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &9104000000000002
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2081064919}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &9104000000000003
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2063174570}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &9104000000000004
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2038521747}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &9104000000000005
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827483350}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &9104000000000006
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 952620628}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &9104000000000007
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1950279849}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &9104000000000008
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132775513}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &9104000000000009
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9511331}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &9104000000000010
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 467332591}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &9104000000000011
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104613551}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &9104000000000012
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828548696}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &9104000000000013
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1898794936}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &9104000000000014
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693120873}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &9104000000000015
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 352625252}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &9104000000000016
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 227924867}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &9104000000000017
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1811560734}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &9104000000000018
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1491645625}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &9104000000000019
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1750022722}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &9104000000000020
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1260764427}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &9104000000000021
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 215800151}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &9104000000000022
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 102280149}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &9104000000000023
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1817300493}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &9104000000000024
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1470489882}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &9104000000000025
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1029277912}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &9104000000000026
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2128399013}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!61 &9104000000000027
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 480203477}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

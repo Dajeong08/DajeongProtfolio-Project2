@@ -7,14 +7,14 @@ using UnityEngine;
 public class CharacterAttack : MonoBehaviour
 {
     public SummonedCharacter character; 
-    public CircleCollider2D attackRange; 
+    public CircleCollider2D attackRange;
     public Animator animator; 
     public SpriteRenderer characterSprite;
     public bool SpriteFacesRight = true; // 반전하지 않은 원본 그림이 오른쪽을 보는지 설정한다.
     public MonsterManager currentTarget; // 현재 공격할 적. null이면 공격하지 않는다.
 
-    private List<Collider2D> detectedColliders = new List<Collider2D>();
-    private float attackCooldown;
+    private List<Collider2D> detectedColliders = new List<Collider2D>(); // 공격 범위 안에 들어온 적의 콜라이더 목록. 중복 없이 등록한다.
+    private float attackCooldown; // 공격 쿨타임
 
     // Unity가 초기화할 때 호출한다. Inspector 참조가 비어 있으면 직접 찾는다.
     private void Awake()
@@ -51,7 +51,6 @@ public class CharacterAttack : MonoBehaviour
         if (BattleManager.instance != null && BattleManager.instance.IsGameEnded)
             return;
 
-        // deltaTime은 지난 프레임부터 흐른 시간이다.
         attackCooldown -= Time.deltaTime;
         if (attackCooldown < 0)
             attackCooldown = 0;
@@ -71,7 +70,6 @@ public class CharacterAttack : MonoBehaviour
         FaceTarget();
         if (animator != null && animator.runtimeAnimatorController != null)
         {
-            // Animator Trigger는 애니메이션 신호다. 콜라이더의 Is Trigger와는 별개다.
             animator.SetTrigger("Attack");
         }
         // 현재는 타격 프레임을 기다리지 않고 공격 시작 시 피해를 준다.
@@ -97,27 +95,10 @@ public class CharacterAttack : MonoBehaviour
         detectedColliders.Remove(other);
     }
 
-    // Scene에서 선택했을 때 확인용 범위를 그린다. 실제 판정은 콜라이더가 한다.
-    private void OnDrawGizmosSelected()
-    {
-        CircleCollider2D range = attackRange;
-        if (range == null)
-            range = GetComponent<CircleCollider2D>();
-        if (range == null)
-            return;
-
-        // TransformPoint: 로컬 좌표를 월드 좌표로 변환. lossyScale: 부모까지 반영한 크기.
-        Vector3 center = range.transform.TransformPoint(range.offset);
-        Vector3 scale = range.transform.lossyScale;
-        float radius = range.radius * Mathf.Max(Mathf.Abs(scale.x), Mathf.Abs(scale.y));
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(center, radius);
-    }
-
     // 살아 있는 몬스터의 콜라이더만 중복 없이 등록한다.
     private void RegisterMonster(Collider2D other)
     {
-        if (detectedColliders.Contains(other))
+        if (detectedColliders.Contains(other)) // 이미 있으면 리턴
             return;
 
         // 자식에 콜라이더가 있어도 부모의 MonsterManager를 찾는다.
@@ -128,7 +109,7 @@ public class CharacterAttack : MonoBehaviour
         if (!monster.isAlive || !monster.isActiveAndEnabled)
             return;
 
-        detectedColliders.Add(other);
+        detectedColliders.Add(other); // 공격 영역에 들어온 몬스터 리스트에 넣기
     }
 
     // 켜져 있고, 살아 있으며, 범위 안에 남은 적인지 확인한다.
@@ -141,8 +122,8 @@ public class CharacterAttack : MonoBehaviour
         if (!attackRange.isActiveAndEnabled)
             return false;
         // 마지막 물리 갱신의 접촉 정보를 확인한다.
-        if (!attackRange.IsTouching(targetCollider))
-            return false;
+        //if (!attackRange.IsTouching(targetCollider))
+        //    return false;
 
         MonsterManager monster = targetCollider.GetComponentInParent<MonsterManager>();
         if (monster == null)

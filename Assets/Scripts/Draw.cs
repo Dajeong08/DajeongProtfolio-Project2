@@ -108,13 +108,7 @@ public class Draw : MonoBehaviour
         SummonLogText.text = message;
     }
 
-    // 합성도 같은 등급별 선택 함수를 사용한다.
-    public CharacterData PickCharacterByGrade(CharacterGrade grade) 
-    {
-        return PickFromList(grade);
-    }
-
-    private CharacterData PickFromList(CharacterGrade grade) // 전달받은 등급중에서 랜덤으로  캐릭터 뽑기 하나를 뽑는다.
+    public CharacterData PickFromList(CharacterGrade grade) // 전달받은 등급중에서 랜덤으로  캐릭터 뽑기 하나를 뽑는다.
     {
         List<CharacterData> candidates = new List<CharacterData>(); // 후보 캐릭터를 담을 리스트
         for (int i = 0; i < CharacterList.Count; i++) // 등급에 맞는 캐릭터만 후보 리스트에 담는다.
