@@ -59,6 +59,8 @@ public class BattleManager : MonoBehaviour
 
     // 종료와 보상
     public bool IsClear = false; // 승리 여부
+    public Sprite ClearBenner;
+    public Sprite LossBenner; // 
     public bool IsGameEnded; // 전투 종료 여부
     [Min(0)] public int CoinPerClearedWave = 10; // 완료 웨이브당 로비 보상
     private bool isLeavingResult; // 재시작·로비 복귀 중복 요청 방지
@@ -252,6 +254,18 @@ public class BattleManager : MonoBehaviour
         IsPlay_Wave = false;
         IsClear = won;
         HideBossUI();
+
+        if (IsClear)
+        {
+            ResultImage.transform.GetChild(0).GetChild(1).GetComponent<Image>().sprite = ClearBenner;
+            Debug.Log("Game Clear");
+
+        }
+        else
+        {
+            ResultImage.transform.GetChild(0).GetChild(1).GetComponent<Image>().sprite = LossBenner;
+            Debug.Log("Game Over");
+        }
 
         int reward = LastClearedWave * Mathf.Max(0, CoinPerClearedWave);
         // PlayerPrefs는 다음 실행에서도 유지된다. 전투 골드와 별도로 저장한다.
