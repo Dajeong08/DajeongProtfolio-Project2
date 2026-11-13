@@ -14,6 +14,6 @@ public class MythicMaterial
 [CreateAssetMenu(fileName = "MythicRecipe", menuName = "Scriptable Objects/Mythic Recipe")]
 public class MythicRecipe : ScriptableObject
 {
-    public CharacterData Result;
-    public List<MythicMaterial> Materials = new List<MythicMaterial>();
+    public CharacterData Result; // 조합 결과로 얻는 신화 캐릭터
+    public List<MythicMaterial> Materials = new List<MythicMaterial>(); // 조합에 필요한 재료 목록
 }

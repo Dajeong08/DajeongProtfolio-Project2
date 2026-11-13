@@ -44,7 +44,7 @@ public class SummonedCharacter : MonoBehaviour
 
         AddMana(ManaPerSecond * Time.deltaTime);
         if (Mana >= MaxMana && UseSkill())
-            Mana -= MaxMana; // 사용한 만큼만 빼서 초과 마나는 남긴다.
+            Mana = 0f; // 스킬을 사용하면 마나를 비운다. 대상이 없으면 최대치로 유지한다.
     }
 
     // SlotManager가 소환 직후 호출한다. 캐릭터가 가질 데이터를 저장한다.
@@ -70,23 +70,24 @@ public class SummonedCharacter : MonoBehaviour
 
     public void AddMana(float amount)
     {
-        Mana += amount;
+        // 자연 회복과 엔젤의 마나 지급 모두 최대치를 넘지 못한다.
+        Mana = Mathf.Clamp(Mana + amount, 0f, MaxMana);
     }
 
     // 실제로 스킬을 사용했을 때만 true를 반환한다.
     private bool UseSkill()
     {
-        if (SkillType == MythicSkillType.Angel)
+        if (SkillType == MythicSkillType.Angel) // 천사 스킬
         {
-            bool restored = false;
+            bool restored = false; 
             List<SummonedCharacter> mythics = BattleManager.instance.MythicCharacters;
             for (int i = 0; i < mythics.Count; i++)
             {
                 // 천사끼리 마나를 주고받으며 스킬이 반복되는 것을 막는다.
-                if (mythics[i].SkillType == MythicSkillType.Angel)
+                if (mythics[i].SkillType == MythicSkillType.Angel) // 천사는 포함 하지 않음
                     continue;
 
-                mythics[i].AddMana(100f);
+                mythics[i].AddMana(100f); // 마나 채워주기
                 restored = true;
             }
             return restored;
@@ -103,7 +104,8 @@ public class SummonedCharacter : MonoBehaviour
         }
         else if (SkillType == MythicSkillType.Werewolf)
         {
-            targets[0].TakeDamage(300f);
+            targets[0].TakeDamage(300f); // 가장 앞의 적에게만 피해주기 
+            // 스턴 효과를 가진 영역을 하나 만들어서 그거를 껏다 키는 방식으로 해보기 다른 스턴 캐릭터도 그 스크립트를 사용할 예정
         }
         else
         {

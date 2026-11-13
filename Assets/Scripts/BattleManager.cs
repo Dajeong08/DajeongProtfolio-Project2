@@ -298,7 +298,10 @@ public class BattleManager : MonoBehaviour
         isLeavingResult = true;
         if (retry)
             StageManager.RetryStage = currentStage;
+        else
+            StageManager.RetryStage = null;
 
+        Time.timeScale = 1f; // 결과 화면에서 멈춘 시간을 복구한 뒤 씬을 다시 연다.
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
