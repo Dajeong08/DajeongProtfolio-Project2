@@ -13,6 +13,7 @@ public class Draw : MonoBehaviour
     public TMP_Text CoinText; // 현재 코인
     public TMP_Text SummonCostText; // 다음 소환 비용
     public TMP_Text SummonLogText; // 소환 로그를 표시할 텍스트
+    public RouletteManager rouletteManager;
 
     [Header("등급별 소환 확률 (%) - 합계 100")]
     [Range(0f, 100f)] public float NormalWeight = 70f;
@@ -125,6 +126,8 @@ public class Draw : MonoBehaviour
     public void RefreshButton()
     {
         RefreshCoinText();
+        if (rouletteManager != null)
+            rouletteManager.RefreshUI();
 
         if (SummonButton == null)
             return;

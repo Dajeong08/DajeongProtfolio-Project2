@@ -15,5 +15,5 @@ MonoBehaviour:
   CharacterName: Swordsman
   Grade: 0
   Prefab: {fileID: 3211836744727103011, guid: dab3613b2ad962e4aaf5dac31bf4d982, type: 3}
-  AttackDamage: 60
+  AttackDamage: 80
   AttackSpeed: 1

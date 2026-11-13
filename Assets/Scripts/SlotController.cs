@@ -168,6 +168,34 @@ public class SlotController : MonoBehaviour
         return character; // 제거된 캐릭터를 반환한다.
     }
 
+    // 빈 슬롯과 교환하면 이동, 캐릭터가 있는 슬롯과 교환하면 자리 바꾸기가 된다.
+    public void SwapCharacters(SlotController other)
+    {
+        List<SummonedCharacter> temp = characters;
+        characters = other.characters;
+        other.characters = temp;
+
+        CharacterData tempData = CurrentData;
+        CurrentData = other.CurrentData;
+        other.CurrentData = tempData;
+
+        HideAttackRange();
+        other.HideAttackRange();
+        PlaceMovedCharacters();
+        other.PlaceMovedCharacters();
+    }
+
+    private void PlaceMovedCharacters()
+    {
+        for (int i = 0; i < characters.Count; i++)
+        {
+            characters[i].SetSlot(this);
+            characters[i].transform.SetParent(transform, true);
+            characters[i].GetComponent<CharacterAttack>().ClearTargets();
+        }
+        RefreshPositions();
+    }
+
     // 목록 순서대로 첫째, 둘째, 셋째 위치에 세운다.
     private void RefreshPositions() // characters리스트에 있는 순서대로 배치 위치를 새로 갱신한다.
     {

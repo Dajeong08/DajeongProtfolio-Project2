@@ -11,6 +11,7 @@ public class BattleManager : MonoBehaviour
     // 공통 참조
     public static BattleManager instance; // 다른 코드에서 현재 전투 매니저에 접근
     private SlotManager slotManager; // 코인 지급과 슬롯 UI 정리
+    private RouletteManager rouletteManager;
     public List<SummonedCharacter> MythicCharacters = new List<SummonedCharacter>(); // 필드의 신화 목록
 
     // 전투 UI
@@ -70,6 +71,7 @@ public class BattleManager : MonoBehaviour
     {
         instance = this;
         slotManager = FindFirstObjectByType<SlotManager>(FindObjectsInactive.Include);
+        rouletteManager = FindFirstObjectByType<RouletteManager>(FindObjectsInactive.Include);
         HideBossUI();
         ResultImage.SetActive(false);
         SetGameSpeed(1);
@@ -190,7 +192,7 @@ public class BattleManager : MonoBehaviour
         {
             currentWaveType = WaveType.BossMonster;
             listIndex += 1;
-            currentMonsterHP = currentStage.BossMonsterHP + groupIndex * currentStage.BossHPIncrease;
+            currentMonsterHP = currentStage.BossHPList[groupIndex];
         }
         else
         {
@@ -204,16 +206,20 @@ public class BattleManager : MonoBehaviour
     }
 
     // 몬스터가 죽는 순간 호출한다. 풀 반환에서는 처치 보상을 지급하지 않는다.
-    public void MonsterDefeated(WaveType monsterType)
+    public void MonsterDefeated(WaveType monsterType, Vector3 position)
     {
         if (!IsPlay_Wave)
             return;
         // 사망 애니메이션이 재생되는 적은 생존 수에서 바로 제외한다.
         aliveMonsterCount--;
         if (monsterType == WaveType.BasicMonster)
-            slotManager.AddCoin(1);
+            slotManager.AddCoin(1, position);
         else
-            slotManager.AddCoin(50);
+        {
+            slotManager.AddCoin(50, position);
+            if (rouletteManager != null)
+                rouletteManager.AddToken(5, position);
+        }
 
         if (currentWaveType == WaveType.BossMonster
             && monsterType == WaveType.BossMonster && Timer > 0)

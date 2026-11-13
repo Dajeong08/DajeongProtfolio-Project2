@@ -12,6 +12,7 @@ public class CharacterAttack : MonoBehaviour
     public SpriteRenderer characterSprite;
     public bool SpriteFacesRight = true; // 반전하지 않은 원본 그림이 오른쪽을 보는지 설정한다.
     public MonsterManager currentTarget; // 현재 공격할 적. null이면 공격하지 않는다.
+    public StunArea AttackStunArea; // 연결한 캐릭터만 기본 공격 시 스턴 영역을 켠다.
 
     private List<Collider2D> detectedColliders = new List<Collider2D>(); // 공격 범위 안에 들어온 적의 콜라이더 목록. 중복 없이 등록한다.
     private float attackCooldown; // 공격 쿨타임
@@ -39,6 +40,13 @@ public class CharacterAttack : MonoBehaviour
 
     // 비활성화되면 이전 적 참조를 정리한다.
     private void OnDisable()
+    {
+        currentTarget = null;
+        detectedColliders.Clear();
+    }
+
+    // 슬롯 이동 후 새 위치의 적을 다시 감지한다. 공격 대기시간은 유지한다.
+    public void ClearTargets()
     {
         currentTarget = null;
         detectedColliders.Clear();
@@ -73,7 +81,13 @@ public class CharacterAttack : MonoBehaviour
             animator.SetTrigger("Attack");
         }
         // 현재는 타격 프레임을 기다리지 않고 공격 시작 시 피해를 준다.
+        Vector3 hitPosition = currentTarget.transform.position;
         currentTarget.TakeDamage(character.Data.AttackDamage);
+        // 스턴 영역이 연결된 캐릭터는 공격 한 번마다 5% 확률로 발동한다.
+        if (AttackStunArea != null && Random.Range(0, 100) < 5)
+        {
+            AttackStunArea.Activate(hitPosition);
+        }
         attackCooldown = 1f / character.Data.AttackSpeed;
     }
 

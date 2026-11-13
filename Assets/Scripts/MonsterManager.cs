@@ -12,6 +12,8 @@ public class MonsterManager : MonoBehaviour
     public Collider2D hitCollider;
     public bool isAlive;
     public int CurrentMovePoint; // 지금 향하는 이동 지점 번호다.
+    public bool IsStunned;
+    private float stunTimer;
 
     private Transform MovePoint;
     private int NextMovePoint;
@@ -35,6 +37,8 @@ public class MonsterManager : MonoBehaviour
         HP = MAX_HP;
         isAlive = true;
         returnedToPool = false;
+        IsStunned = false;
+        stunTimer = 0f;
         if (hitCollider != null)
             hitCollider.enabled = true; // 콜라이더 활성화
 
@@ -67,8 +71,24 @@ public class MonsterManager : MonoBehaviour
     // Rigidbody2D 이동은 물리 갱신 주기에 맞춰 처리한다.
     private void FixedUpdate()
     {
+        if (IsStunned)
+        {
+            stunTimer -= Time.fixedDeltaTime;
+            if (stunTimer > 0f)
+                return;
+            IsStunned = false;
+        }
         if (isAlive)
             MonsterMove();
+    }
+
+    // 남은 시간에 더하지 않고, 마지막으로 맞은 순간부터 다시 계산한다.
+    public void ApplyStun(float seconds)
+    {
+        if (!isAlive || !isActiveAndEnabled)
+            return;
+        IsStunned = true;
+        stunTimer = seconds;
     }
 
     // 풀에서 꺼내 활성화하기 전에 새 웨이브의 최대 체력을 전달한다.
@@ -80,7 +100,7 @@ public class MonsterManager : MonoBehaviour
     // 목표에 도착하면 다음 지점을 골라 경로를 순환한다. (Todo)
     public void MonsterMove()
     {
-        if (!isAlive || MovePoint == null)
+        if (!isAlive || IsStunned || MovePoint == null)
             return;
 
         BattleManager battle = BattleManager.instance;
@@ -132,9 +152,12 @@ public class MonsterManager : MonoBehaviour
         if (damage <= 0)
             return;
 
+        float actualDamage = Mathf.Min(HP, damage);
         HP -= damage;
         if (HP < 0)
             HP = 0;
+        if (FloatingTextManager.instance != null)
+            FloatingTextManager.instance.ShowDamageText(actualDamage, transform.position);
         HP_UI_Update(); // 체력바 갱신
     }
 
@@ -164,7 +187,7 @@ public class MonsterManager : MonoBehaviour
         isAlive = false;
         // isAlive를 먼저 false로 바꾸므로 처치 보상은 한 번만 요청한다.
         if (BattleManager.instance != null)
-            BattleManager.instance.MonsterDefeated(poolType);
+            BattleManager.instance.MonsterDefeated(poolType, transform.position);
         if (hitCollider != null)
             hitCollider.enabled = false;
 

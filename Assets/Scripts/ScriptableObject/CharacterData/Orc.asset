@@ -15,5 +15,5 @@ MonoBehaviour:
   CharacterName: Orc
   Grade: 1
   Prefab: {fileID: 3211836744727103011, guid: ecc1582454284df0aea07728283ab27b, type: 3}
-  AttackDamage: 80
+  AttackDamage: 110
   AttackSpeed: 1.3

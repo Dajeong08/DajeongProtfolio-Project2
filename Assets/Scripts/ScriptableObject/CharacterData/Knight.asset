@@ -15,5 +15,5 @@ MonoBehaviour:
   CharacterName: Knight
   Grade: 1
   Prefab: {fileID: 3211836744727103011, guid: f9fa3f0a467d11c4aabeb9399bf43efa, type: 3}
-  AttackDamage: 100
+  AttackDamage: 150
   AttackSpeed: 1

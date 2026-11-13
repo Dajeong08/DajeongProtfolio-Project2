@@ -20,6 +20,7 @@ public class SummonedCharacter : MonoBehaviour
     public float MaxMana = 100f;
     public MythicSkillType SkillType;
     public CharacterAttack Attack;
+    public StunArea SkillStunArea; // 프리팹의 비활성 스턴 영역 자식을 연결한다.
     private const float ManaPerSecond = 15f;
 
     private void OnEnable()
@@ -104,8 +105,9 @@ public class SummonedCharacter : MonoBehaviour
         }
         else if (SkillType == MythicSkillType.Werewolf)
         {
+            Vector3 hitPosition = targets[0].transform.position;
             targets[0].TakeDamage(300f); // 가장 앞의 적에게만 피해주기 
-            // 스턴 효과를 가진 영역을 하나 만들어서 그거를 껏다 키는 방식으로 해보기 다른 스턴 캐릭터도 그 스크립트를 사용할 예정
+            SkillStunArea.Activate(hitPosition);
         }
         else
         {
