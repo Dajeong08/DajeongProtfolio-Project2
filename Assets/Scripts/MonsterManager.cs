@@ -116,9 +116,13 @@ public class MonsterManager : MonoBehaviour
             currentPosition = transform.position; 
 
         Vector2 targetPosition = MovePoint.position;
+        float slowPercent = 0f;
+        if (poolType == WaveType.BossMonster)
+            slowPercent = Mathf.Clamp(battle.AngleSteck * 10f, 0f, 100f);
         // 속도에 물리 시간 간격을 곱해 이번 이동량을 구한다.
         Vector2 nextPosition = Vector2.MoveTowards(
-            currentPosition, targetPosition, Speed * Time.fixedDeltaTime);
+            currentPosition, targetPosition, Speed * (1f - slowPercent / 100f) * Time.fixedDeltaTime);
+        Debug.Log($"이속 감소 : {battle.AngleSteck*10}");
 
         if (body != null)
         {

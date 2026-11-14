@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad3ba8e356df48c090987556e54612ef, type: 3}
   m_Name: AngelRecipe
   m_EditorClassIdentifier: Assembly-CSharp::MythicRecipe
+  characterType: 0
   Result: {fileID: 11400000, guid: 7dda8838dc07404caede6791fb43fadd, type: 2}
   Materials:
   - Character: {fileID: 11400000, guid: a62c16fe3e5442a49773d28fe8ef623d, type: 2}

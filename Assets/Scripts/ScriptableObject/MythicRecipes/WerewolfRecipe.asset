@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad3ba8e356df48c090987556e54612ef, type: 3}
   m_Name: WerewolfRecipe
   m_EditorClassIdentifier: Assembly-CSharp::MythicRecipe
+  characterType: 2
   Result: {fileID: 11400000, guid: d24d4131d2a2425bbafd4df9a47ab3d3, type: 2}
   Materials:
   - Character: {fileID: 11400000, guid: 5f79deca0f874b8f98f31b160dd643dc, type: 2}

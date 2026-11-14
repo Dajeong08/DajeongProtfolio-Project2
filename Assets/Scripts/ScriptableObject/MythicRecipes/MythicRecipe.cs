@@ -2,6 +2,13 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum CharacterType
+{
+    Angle,
+    Demon,
+    Warewolf
+}
+
 // 재료의 종류와 수량을 함께 저장한다.
 [Serializable]
 public class MythicMaterial
@@ -14,6 +21,7 @@ public class MythicMaterial
 [CreateAssetMenu(fileName = "MythicRecipe", menuName = "Scriptable Objects/Mythic Recipe")]
 public class MythicRecipe : ScriptableObject
 {
+    public CharacterType characterType; // 조합 결과 캐릭터의 종류    
     public CharacterData Result; // 조합 결과로 얻는 신화 캐릭터
     public List<MythicMaterial> Materials = new List<MythicMaterial>(); // 조합에 필요한 재료 목록
 }

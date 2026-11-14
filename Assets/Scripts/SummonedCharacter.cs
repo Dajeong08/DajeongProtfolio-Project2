@@ -33,8 +33,10 @@ public class SummonedCharacter : MonoBehaviour
     private void OnDisable()
     {
         // 씬이 닫힐 때는 전투 매니저가 먼저 사라질 수 있다.
-        if (BattleManager.instance != null)
-            BattleManager.instance.MythicCharacters.Remove(this);
+        if (BattleManager.instance != null
+            && BattleManager.instance.MythicCharacters.Remove(this)
+            && SkillType == MythicSkillType.Angel)
+            BattleManager.instance.AngleSteck--;
     }
 
     private void Update()
@@ -64,9 +66,16 @@ public class SummonedCharacter : MonoBehaviour
 
         List<SummonedCharacter> mythics = BattleManager.instance.MythicCharacters;
         if (slot == null)
-            mythics.Remove(this);
+        {
+            if (mythics.Remove(this) && SkillType == MythicSkillType.Angel)
+                BattleManager.instance.AngleSteck--;
+        }
         else if (isActiveAndEnabled && !mythics.Contains(this))
+        {
             mythics.Add(this);
+            if (SkillType == MythicSkillType.Angel)
+                BattleManager.instance.AngleSteck++;
+        }
     }
 
     public void AddMana(float amount)

@@ -12,7 +12,9 @@ public class BattleManager : MonoBehaviour
     public static BattleManager instance; // 다른 코드에서 현재 전투 매니저에 접근
     private SlotManager slotManager; // 코인 지급과 슬롯 UI 정리
     private RouletteManager rouletteManager;
+    public MythicSummonManager mythicSummonManager; // 신화 소환과 슬롯 관리
     public List<SummonedCharacter> MythicCharacters = new List<SummonedCharacter>(); // 필드의 신화 목록
+    public int AngleSteck;
 
     // 전투 UI
     public TMP_Text StageName_OBJ; // 스테이지 이름과 웨이브
@@ -72,6 +74,7 @@ public class BattleManager : MonoBehaviour
         instance = this;
         slotManager = FindFirstObjectByType<SlotManager>(FindObjectsInactive.Include);
         rouletteManager = FindFirstObjectByType<RouletteManager>(FindObjectsInactive.Include);
+
         HideBossUI();
         ResultImage.SetActive(false);
         SetGameSpeed(1);
@@ -167,6 +170,7 @@ public class BattleManager : MonoBehaviour
         aliveMonsterCount = 0;
         IsClear = false;
         IsGameEnded = false;
+        AngleSteck = 0;
         SetGameSpeed(1);
         StartWave();
         return true;
