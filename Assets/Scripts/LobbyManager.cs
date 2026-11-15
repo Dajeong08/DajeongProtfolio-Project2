@@ -17,6 +17,16 @@ public class LobbyManager : MonoBehaviour
 
     public GameObject SkillPanel;
 
+    [Header("강화 비용")]
+    [Min(1)] public int MonsterLimitInitialCost = 1000;
+    [Min(1)] public int WaveCoinInitialCost = 1000;
+    [Min(1)] public int StartTokenInitialCost = 1000;
+    [Min(1.01f)] public float UpgradeCostMultiplier = 1.5f;
+
+    public static int MonsterLimit => currentMonsterLimit;
+    public static int WaveCoin => currentWaveCoin;
+    public static int StartToken => currentStartToKen;
+
     // 씬을 다시 불러와도 이번 실행에서 재화와 업그레이드는 유지한다.
     private static int sessionCoin;
     private static int currentMonsterLimit;
@@ -28,6 +38,7 @@ public class LobbyManager : MonoBehaviour
     private static int currentStartToKen;
     private static int currentStartToKenLevel;
     private static int StartTokenCost;
+    private static bool costsInitialized;
     
 
     // 에디터에서 Domain Reload를 꺼도 플레이를 새로 시작하면 0으로 초기화한다.
@@ -38,7 +49,24 @@ public class LobbyManager : MonoBehaviour
         currentMonsterLimit = 100;
         currentWaveCoin = 100;
         currentStartToKen = 0;
-        
+        currentmonsterLimitLevel = 0;
+        currentWaveCoinLevel = 0;
+        currentStartToKenLevel = 0;
+        MonsterLimitCost = 0;
+        WaveCoinCost = 0;
+        StartTokenCost = 0;
+        costsInitialized = false;
+    }
+
+    private void Awake()
+    {
+        // 씬 재시작 시에는 구매 후 비용을 유지한다.
+        if (costsInitialized)
+            return;
+        MonsterLimitCost = Mathf.Max(1, MonsterLimitInitialCost);
+        WaveCoinCost = Mathf.Max(1, WaveCoinInitialCost);
+        StartTokenCost = Mathf.Max(1, StartTokenInitialCost);
+        costsInitialized = true;
     }
 
     private void Start()
@@ -63,25 +91,40 @@ public class LobbyManager : MonoBehaviour
 
     public void UpGread_MonsterLimit()
     {
-
+        if (sessionCoin < MonsterLimitCost)
+            return;
+        UpdateCoin(-MonsterLimitCost);
         currentMonsterLimit++;
         currentmonsterLimitLevel++;
-        MonsterLimitCost += 1000;
+        MonsterLimitCost = NextUpgradeCost(MonsterLimitCost);
         Update_UpGread_UI();
     }
     public void UpGread_WaveCoin()
     {
+        if (sessionCoin < WaveCoinCost)
+            return;
+        UpdateCoin(-WaveCoinCost);
         currentWaveCoin += 10;
         currentWaveCoinLevel++;
-        WaveCoinCost += 1000;
+        WaveCoinCost = NextUpgradeCost(WaveCoinCost);
         Update_UpGread_UI();
     }
     public void UpGread_StartToken()
     {
+        if (sessionCoin < StartTokenCost)
+            return;
+        UpdateCoin(-StartTokenCost);
         currentStartToKen++;
         currentStartToKenLevel++;
-        StartTokenCost += 1000;
+        StartTokenCost = NextUpgradeCost(StartTokenCost);
         Update_UpGread_UI();
+    }
+
+    private int NextUpgradeCost(int cost)
+    {
+        // 큰 비용에서도 정수 범위를 넘어 음수가 되지 않게 한다.
+        double next = System.Math.Ceiling(cost * (double)Mathf.Max(1.01f, UpgradeCostMultiplier));
+        return (int)System.Math.Min(next, int.MaxValue);
     }
     private void Update_UpGread_UI()
     {

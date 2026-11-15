@@ -28317,6 +28317,10 @@ MonoBehaviour:
   StartToKen_Text: {fileID: 1821982515}
   StartToken_Cost: {fileID: 983772536}
   SkillPanel: {fileID: 417094573}
+  MonsterLimitInitialCost: 1000
+  WaveCoinInitialCost: 1000
+  StartTokenInitialCost: 1000
+  UpgradeCostMultiplier: 1.5
 --- !u!4 &1813130294
 Transform:
   m_ObjectHideFlags: 0

@@ -42,6 +42,7 @@ public class BattleManager : MonoBehaviour
     public GameObject current_BossMonster; // 보스 원본 프리팹
     [Min(1)] public int MonsterLimit = 100; // 패배하는 생존 몬스터 수
     private int aliveMonsterCount; // 현재 살아 있는 몬스터 수
+    private int waveCoin; // 전투 시작 시 적용한 웨이브 보상
     private float currentMonsterHP; // 이번 웨이브 몬스터의 최대 체력
     private SpriteLibraryAsset WaveSpriteLibrary; // 이번 웨이브 몬스터 외형
     // 풀 목록에는 꺼져 있고 재사용을 기다리는 몬스터를 보관한다.
@@ -174,6 +175,10 @@ public class BattleManager : MonoBehaviour
         IsClear = false;
         IsGameEnded = false;
         AngleSteck = 0;
+        MonsterLimit = LobbyManager.MonsterLimit;
+        waveCoin = LobbyManager.WaveCoin;
+        if (rouletteManager != null)
+            rouletteManager.SetStartToken(LobbyManager.StartToken);
         SetGameSpeed(1);
         StartWave();
         return true;
@@ -246,7 +251,7 @@ public class BattleManager : MonoBehaviour
         IsPlay_Wave = false;
         // 진행 중인 번호와 완료한 번호를 따로 기록한다.
         LastClearedWave = CurrentWave;
-        slotManager.AddCoin(100);
+        slotManager.AddCoin(waveCoin);
 
         if (CurrentWave == TotalWaves)
         {

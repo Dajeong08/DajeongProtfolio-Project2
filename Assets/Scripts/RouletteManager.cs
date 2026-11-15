@@ -15,10 +15,21 @@ public class RouletteManager : MonoBehaviour
     public Button LegendaryButton;
     public GameObject RoulettePanel;
 
-    private void Start()
+    private void Awake()
     {
         Token = 0;
+    }
+
+    private void Start()
+    {
         ClosePanel();
+        RefreshUI();
+    }
+
+    // 재시작해도 토큰이 누적되지 않도록 초기값으로 설정한다.
+    public void SetStartToken(int amount)
+    {
+        Token = Mathf.Max(0, amount);
         RefreshUI();
     }
 
