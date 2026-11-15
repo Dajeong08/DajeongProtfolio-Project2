@@ -122,7 +122,6 @@ public class MonsterManager : MonoBehaviour
         // 속도에 물리 시간 간격을 곱해 이번 이동량을 구한다.
         Vector2 nextPosition = Vector2.MoveTowards(
             currentPosition, targetPosition, Speed * (1f - slowPercent / 100f) * Time.fixedDeltaTime);
-        Debug.Log($"이속 감소 : {battle.AngleSteck*10}");
 
         if (body != null)
         {

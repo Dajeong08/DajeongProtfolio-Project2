@@ -16,6 +16,8 @@ public class CharacterAttack : MonoBehaviour
 
     private List<Collider2D> detectedColliders = new List<Collider2D>(); // 공격 범위 안에 들어온 적의 콜라이더 목록. 중복 없이 등록한다.
     private float attackCooldown; // 공격 쿨타임
+    private const float AttackRangeMultiplier = 1.1f; // 실제 공격 반지름만 10% 넓힌다.
+    public float DisplayRangeRadius { get; private set; } // 선택 시 보여 줄 기존 반지름
 
     // Unity가 초기화할 때 호출한다. Inspector 참조가 비어 있으면 직접 찾는다.
     private void Awake()
@@ -24,6 +26,10 @@ public class CharacterAttack : MonoBehaviour
             character = GetComponent<SummonedCharacter>();
         if (attackRange == null)
             attackRange = GetComponent<CircleCollider2D>();
+        // 표시용 원은 원래 크기를 보관하고, 실제 콜라이더만 넓힌다.
+        DisplayRangeRadius = attackRange.radius;
+        attackRange.radius = DisplayRangeRadius * AttackRangeMultiplier;
+
         if (animator == null)
             animator = GetComponent<Animator>();
         if (characterSprite == null)
@@ -84,7 +90,7 @@ public class CharacterAttack : MonoBehaviour
         Vector3 hitPosition = currentTarget.transform.position;
         currentTarget.TakeDamage(character.Data.AttackDamage);
         // 스턴 영역이 연결된 캐릭터는 공격 한 번마다 5% 확률로 발동한다.
-        if (AttackStunArea != null && Random.Range(0, 100) < 5)
+        if (AttackStunArea != null && Random.Range(0, 100) < 10)
         {
             AttackStunArea.Activate(hitPosition);
         }

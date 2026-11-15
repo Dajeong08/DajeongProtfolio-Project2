@@ -13,13 +13,16 @@ public class BattleManager : MonoBehaviour
     private SlotManager slotManager; // 코인 지급과 슬롯 UI 정리
     private RouletteManager rouletteManager;
     public MythicSummonManager mythicSummonManager; // 신화 소환과 슬롯 관리
+    public LobbyManager lobbyManager;
     public List<SummonedCharacter> MythicCharacters = new List<SummonedCharacter>(); // 필드의 신화 목록
     public int AngleSteck;
+    public TMP_Text SpeedLoss;
 
     // 전투 UI
     public TMP_Text StageName_OBJ; // 스테이지 이름과 웨이브
     public TMP_Text WaveTime_OBJ; // 남은 시간
     public GameObject ResultImage; // 전투 종료 이미지
+    public TMP_Text ResultCoin;
 
     // 웨이브 진행
     private const int TotalWaves = 25; // 전체 웨이브 수
@@ -278,10 +281,9 @@ public class BattleManager : MonoBehaviour
         }
 
         int reward = LastClearedWave * Mathf.Max(0, CoinPerClearedWave);
-        // PlayerPrefs는 다음 실행에서도 유지된다. 전투 골드와 별도로 저장한다.
-        int lobbyCoin = PlayerPrefs.GetInt("LobbyCoin", 0) + reward;
-        PlayerPrefs.SetInt("LobbyCoin", lobbyCoin);
-        PlayerPrefs.Save();
+        // 로비 코인은 이번 게임 실행 중에만 누적한다.
+        ResultCoin.text = $"{reward}";
+        lobbyManager.UpdateCoin(reward);
 
         slotManager.CloseBattleControls();
 

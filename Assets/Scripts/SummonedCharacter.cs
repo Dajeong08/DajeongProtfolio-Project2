@@ -74,7 +74,10 @@ public class SummonedCharacter : MonoBehaviour
         {
             mythics.Add(this);
             if (SkillType == MythicSkillType.Angel)
+            {
                 BattleManager.instance.AngleSteck++;
+                BattleManager.instance.SpeedLoss.text = $"{BattleManager.instance.AngleSteck*10}%";
+            }
         }
     }
 
@@ -114,9 +117,9 @@ public class SummonedCharacter : MonoBehaviour
         }
         else if (SkillType == MythicSkillType.Werewolf)
         {
-            Vector3 hitPosition = targets[0].transform.position;
+            Vector3 hitPosition = targets[0].transform.position; // 타겟의 위치 가져오기 
             targets[0].TakeDamage(300f); // 가장 앞의 적에게만 피해주기 
-            SkillStunArea.Activate(hitPosition);
+            SkillStunArea.Activate(hitPosition); // 타겟 위치에 스턴 범위 주기
         }
         else
         {

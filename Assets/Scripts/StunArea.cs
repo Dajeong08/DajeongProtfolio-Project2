@@ -7,7 +7,6 @@ public class StunArea : MonoBehaviour
     public float StunSeconds = 3f;
     public float ActiveSeconds = 0.2f;
     public GameObject EffectPrefab;
-    public float EffectScale = 1f;
     public Vector3 EffectRotation;
     public float EffectSeconds = 0.5f;
 
@@ -27,7 +26,7 @@ public class StunArea : MonoBehaviour
         effectTransform = effect.transform;
         effect.transform.localPosition = transform.localPosition;
         effect.transform.localRotation = Quaternion.Euler(EffectRotation);
-        effect.transform.localScale *= EffectScale;
+        // 이펙트 스케일은 원본 프리팹에 설정된 값을 그대로 사용한다.
         effectParticles = effect.GetComponentsInChildren<ParticleSystem>(true);
         for (int i = 0; i < effectParticles.Length; i++)
         {
@@ -43,10 +42,10 @@ public class StunArea : MonoBehaviour
     public void Activate(Vector3 position)
     {
         gameObject.SetActive(false);
-        effectPosition = position;
+        transform.position = position; // 스턴 판정 영역 이동
+        effectPosition = position;     // 이펙트 위치
         gameObject.SetActive(true);
     }
-
     private void OnEnable()
     {
         activeTimer = 0f;

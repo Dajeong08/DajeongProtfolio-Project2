@@ -111,6 +111,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StunArea
   StunSeconds: 1
   ActiveSeconds: 0.2
+  EffectPrefab: {fileID: 8593464584776411535, guid: b21d155ec7ea5a349a0e36106f913148, type: 3}
+  EffectRotation: {x: 0, y: 0, z: 0}
+  EffectSeconds: 0.5
 --- !u!1 &3211836744727103011
 GameObject:
   m_ObjectHideFlags: 0

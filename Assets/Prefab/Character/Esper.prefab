@@ -112,7 +112,6 @@ MonoBehaviour:
   StunSeconds: 2
   ActiveSeconds: 0.2
   EffectPrefab: {fileID: 7834434380170384362, guid: 68101499d07aced4aa0ded4acb624942, type: 3}
-  EffectScale: 1
   EffectRotation: {x: 0, y: 0, z: 0}
   EffectSeconds: 0.5
 --- !u!1 &3211836744727103011

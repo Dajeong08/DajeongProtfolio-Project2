@@ -69,7 +69,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.2
+  m_Radius: 0.3
 --- !u!50 &9000000000002003
 Rigidbody2D:
   serializedVersion: 5
@@ -111,8 +111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StunArea
   StunSeconds: 2
   ActiveSeconds: 0.2
-  EffectPrefab: {fileID: 339158821923109191, guid: 108ca465382c11742bd2c91fe4fdb13f, type: 3}
-  EffectScale: 0.15
+  EffectPrefab: {fileID: 339158821923109191, guid: 6d81940eb658ed342af00df3fb0eea9b, type: 3}
   EffectRotation: {x: 90, y: 0, z: 0}
   EffectSeconds: 0.5
 --- !u!1 &3211836744727103011

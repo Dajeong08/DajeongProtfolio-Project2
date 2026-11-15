@@ -34,6 +34,7 @@ public class SlotController : MonoBehaviour
             return;
 
         CircleCollider2D range = null;
+        float displayRadius = 0f;
         for (int i = 0; i < characters.Count; i++)
         {
             if (characters[i] == null || !characters[i].isActiveAndEnabled)
@@ -44,6 +45,7 @@ public class SlotController : MonoBehaviour
                 range = attack.attackRange;
                 if (range == null)
                     range = attack.GetComponent<CircleCollider2D>();
+                displayRadius = attack.DisplayRangeRadius;
             }
             if (range != null)
                 break;
@@ -55,9 +57,9 @@ public class SlotController : MonoBehaviour
         if (circleSprite == null || circleSprite.sprite == null)
             return;
 
-        // 콜라이더의 로컬 반지름에 실제 월드 배율을 곱한다.
+        // 기존 표시 반지름에 실제 월드 배율을 곱한다.
         Vector3 rangeScale = range.transform.lossyScale;
-        float radius = range.radius * Mathf.Max(Mathf.Abs(rangeScale.x), Mathf.Abs(rangeScale.y));
+        float radius = displayRadius * Mathf.Max(Mathf.Abs(rangeScale.x), Mathf.Abs(rangeScale.y));
         Vector3 spriteSize = circleSprite.sprite.bounds.size;
         Vector3 parentScale = Vector3.one;
         if (RangeCircle.transform.parent != null)
