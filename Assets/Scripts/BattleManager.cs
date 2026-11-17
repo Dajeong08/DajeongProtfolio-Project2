@@ -83,6 +83,7 @@ public class BattleManager : MonoBehaviour
         HideBossUI();
         ResultImage.SetActive(false);
         SetGameSpeed(1);
+        RefreshSpeedLoss();
     }
 
     // Unity가 시작할 때 한 번 호출한다. 몬스터를 미리 생성해 둔다.
@@ -161,6 +162,13 @@ public class BattleManager : MonoBehaviour
         SpeedText.text = $"×{speed}";
     }
 
+    public void RefreshSpeedLoss()
+    {
+        // 씬이 닫힐 때는 표시 UI가 먼저 사라질 수 있다.
+        if (SpeedLoss != null)
+            SpeedLoss.text = $"{Mathf.Clamp(AngleSteck * 10, 0, 100)}%";
+    }
+
     // StageManager가 선택한 설정을 전달한다. 첫 웨이브부터 다시 준비한다.
     public bool GetBattleData(StageSetting stageSetting)
     {
@@ -176,6 +184,7 @@ public class BattleManager : MonoBehaviour
         IsClear = false;
         IsGameEnded = false;
         AngleSteck = 0;
+        RefreshSpeedLoss();
         MonsterLimit = LobbyManager.MonsterLimit;
         waveCoin = LobbyManager.WaveCoin;
         if (rouletteManager != null)

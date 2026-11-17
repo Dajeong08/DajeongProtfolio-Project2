@@ -119,6 +119,8 @@ public class RouletteManager : MonoBehaviour
             ResultText.color = resultColor;
         }
 
+        draw.AddLog($"[룰렛 {gradeName} {chance}%] {message}");
+
         // 소환 결과와 토큰 차감을 기존 UI 갱신 흐름에 반영한다.
         slotManager.NotifyCharactersChanged();
     }

@@ -11173,6 +11173,7 @@ GameObject:
   m_Component:
   - component: {fileID: 743576078}
   - component: {fileID: 743576077}
+  - component: {fileID: 920500000000000001}
   m_Layer: 0
   m_Name: BattleManager
   m_TagString: Untagged
@@ -11224,6 +11225,22 @@ MonoBehaviour:
   IsGameEnded: 0
   CoinPerClearedWave: 100
   ClearBonusCoin: 1000
+--- !u!114 &920500000000000001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 743576076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc67826509624b019c70861065e365fb, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::DeveloperManager
+  Character: {fileID: 0}
+  SlotNumber: 0
+  slotManager: {fileID: 1585610686}
+  LobbyScreen: {fileID: 6631770122006775369}
 --- !u!4 &743576078
 Transform:
   m_ObjectHideFlags: 0

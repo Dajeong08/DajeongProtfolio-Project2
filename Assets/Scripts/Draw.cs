@@ -90,11 +90,17 @@ public class Draw : MonoBehaviour
 
     private void AddSummonLog(CharacterData data, float gradeChance)
     {
+        string percent = gradeChance.ToString("0.##"); // 소수점 두 자리까지 표시
+        AddLog($"{percent}% 확률로 {data.CharacterName} 소환!");
+    }
+
+    // 일반 소환과 룰렛 결과를 같은 최근 5줄 로그에 기록한다.
+    public void AddLog(string log)
+    {
         if (SummonLogText == null)
             return;
 
-        string percent = gradeChance.ToString("0.##"); // 소수점 두 자리까지 표시
-        summonLogs.Add($"{percent}% 확률로 {data.CharacterName} 소환!");
+        summonLogs.Add(log);
         if (summonLogs.Count > MaxLogLines) // 최대 로그 라인 수를 초과하면 맨 위의 오래된 기록을 제거한다.
             summonLogs.RemoveAt(0);
 

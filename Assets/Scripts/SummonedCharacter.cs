@@ -38,7 +38,10 @@ public class SummonedCharacter : MonoBehaviour
         if (BattleManager.instance != null
             && BattleManager.instance.MythicCharacters.Remove(this)
             && SkillType == MythicSkillType.Angel)
+        {
             BattleManager.instance.AngleSteck--;
+            BattleManager.instance.RefreshSpeedLoss();
+        }
     }
 
     private void Update()
@@ -70,7 +73,10 @@ public class SummonedCharacter : MonoBehaviour
         if (slot == null)
         {
             if (mythics.Remove(this) && SkillType == MythicSkillType.Angel)
+            {
                 BattleManager.instance.AngleSteck--;
+                BattleManager.instance.RefreshSpeedLoss();
+            }
         }
         else if (isActiveAndEnabled && !mythics.Contains(this))
         {
@@ -78,7 +84,7 @@ public class SummonedCharacter : MonoBehaviour
             if (SkillType == MythicSkillType.Angel)
             {
                 BattleManager.instance.AngleSteck++;
-                BattleManager.instance.SpeedLoss.text = $"{BattleManager.instance.AngleSteck*10}%";
+                BattleManager.instance.RefreshSpeedLoss();
             }
         }
     }
