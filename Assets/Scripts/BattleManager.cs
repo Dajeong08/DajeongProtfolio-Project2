@@ -70,6 +70,7 @@ public class BattleManager : MonoBehaviour
     public Sprite LossBenner; // 
     public bool IsGameEnded; // 전투 종료 여부
     [Min(0)] public int CoinPerClearedWave = 10; // 완료 웨이브당 로비 보상
+    [Min(0)] public int ClearBonusCoin = 1000; // 모든 웨이브 클리어 시 추가 보상
     private bool isLeavingResult; // 재시작·로비 복귀 중복 요청 방지
 
     // Unity가 초기화할 때 현재 전투 매니저 자신을 공유 참조에 등록한다.
@@ -286,6 +287,8 @@ public class BattleManager : MonoBehaviour
         }
 
         int reward = LastClearedWave * Mathf.Max(0, CoinPerClearedWave);
+        if (IsClear && LastClearedWave == TotalWaves)
+            reward += Mathf.Max(0, ClearBonusCoin);
         // 로비 코인은 이번 게임 실행 중에만 누적한다.
         ResultCoin.text = $"{reward}";
         lobbyManager.UpdateCoin(reward);

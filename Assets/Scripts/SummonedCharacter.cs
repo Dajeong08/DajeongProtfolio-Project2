@@ -21,6 +21,8 @@ public class SummonedCharacter : MonoBehaviour
     public MythicSkillType SkillType;
     public CharacterAttack Attack;
     public StunArea SkillStunArea; // 프리팹의 비활성 스턴 영역 자식을 연결한다.
+    public GameObject SkillEffectPrefab; // 엔젤·악마가 자기 위치에 생성할 연출
+    [Min(0.1f)] public float SkillEffectSeconds = 2f;
     private const float ManaPerSecond = 15f;
 
     private void OnEnable()
@@ -103,6 +105,8 @@ public class SummonedCharacter : MonoBehaviour
                 mythics[i].AddMana(100f); // 마나 채워주기
                 restored = true;
             }
+            if (restored)
+                ShowSkillEffect();
             return restored;
         }
 
@@ -114,6 +118,7 @@ public class SummonedCharacter : MonoBehaviour
         {
             for (int i = 0; i < targets.Count; i++)
                 targets[i].TakeDamage(1000f);
+            ShowSkillEffect();
         }
         else if (SkillType == MythicSkillType.Werewolf)
         {
@@ -126,5 +131,16 @@ public class SummonedCharacter : MonoBehaviour
             return false;
         }
         return true;
+    }
+
+    private void ShowSkillEffect()
+    {
+        if (SkillEffectPrefab == null)
+            return;
+
+        // 생성 순간의 자기 위치에 두고, 프리팹의 회전과 크기를 사용한다.
+        GameObject effect = Instantiate(SkillEffectPrefab, transform.position,
+            SkillEffectPrefab.transform.rotation);
+        Destroy(effect, Mathf.Max(0.1f, SkillEffectSeconds));
     }
 }

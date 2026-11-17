@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteResolver
   m_CategoryHash: 0.009161512
-  m_labelHash: 4.0954276E-07
+  m_labelHash: 0.00000040954276
   m_SpriteKey: 0
   m_SpriteHash: 288431053
 --- !u!114 &9000000000000002
@@ -170,6 +170,9 @@ MonoBehaviour:
   MaxMana: 500
   SkillType: 3
   Attack: {fileID: 9000000000001002}
+  SkillStunArea: {fileID: 0}
+  SkillEffectPrefab: {fileID: 3077343761403282166, guid: d8ddf225b26df16449e6d3e30fa8f0ea, type: 3}
+  SkillEffectSeconds: 2
 --- !u!58 &9000000000001000
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -251,6 +254,7 @@ MonoBehaviour:
   characterSprite: {fileID: 46784520271938380}
   SpriteFacesRight: 1
   currentTarget: {fileID: 0}
+  AttackStunArea: {fileID: 0}
 --- !u!1 &8521128264706368631
 GameObject:
   m_ObjectHideFlags: 0

@@ -22,6 +22,8 @@ public class RouletteManager : MonoBehaviour
 
     private void Start()
     {
+        if (ResultText != null)
+            ResultText.text = "";
         ClosePanel();
         RefreshUI();
     }
@@ -37,6 +39,8 @@ public class RouletteManager : MonoBehaviour
     {
         if (BattleManager.instance.IsGameEnded || LobbyScreen.activeInHierarchy)
             return;
+        if (ResultText != null)
+            ResultText.text = "";
         RefreshUI();
         RoulettePanel.SetActive(true);
     }
@@ -90,7 +94,8 @@ public class RouletteManager : MonoBehaviour
             return;
 
         Token -= cost;
-        string message = $"{gradeName} 룰렛 실패";
+        string message = "룰렛 실패";
+        Color resultColor = Color.red;
         // 정수 추첨은 0~99이며, 60 미만이면 정확히 60%다.
         if (Random.Range(0, 100) < chance)
         {
@@ -98,16 +103,21 @@ public class RouletteManager : MonoBehaviour
             if (slotManager.TryPlaceCharacter(data))
             {
                 message = $"{data.CharacterName} 소환 성공!";
+                resultColor = Color.white;
             }
             else
             {
                 // 배치 오류는 확률 실패와 다르므로 토큰을 돌려준다.
                 Token += cost;
                 message = "캐릭터를 배치할 수 없습니다.";
+                resultColor = Color.white;
             }
         }
         if (ResultText != null)
+        {
             ResultText.text = message;
+            ResultText.color = resultColor;
+        }
 
         // 소환 결과와 토큰 차감을 기존 UI 갱신 흐름에 반영한다.
         slotManager.NotifyCharactersChanged();
