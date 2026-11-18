@@ -53,6 +53,7 @@ public class MythicSummonUI : MonoBehaviour
                 {
                     // 숨겨진 버튼의 빈 공간 없이 위에서부터 배치한다.
                     RectTransform rect = entry.QuickButton.GetComponent<RectTransform>();
+                    // visibleCount는 표시된 버튼만 센다. 목록 중간 버튼이 숨겨져도 빈 줄이 생기지 않는다.
                     rect.anchoredPosition = new Vector2(0f, 88f - visibleCount * 88f);
                     visibleCount++;
                 }
@@ -72,6 +73,7 @@ public class MythicSummonUI : MonoBehaviour
                 if (hasMaterial)
                     icon.color = Color.white;
                 else
+                    // 마지막 값은 투명도. 없는 재료도 이미지는 남기고 흐리게 보여 준다.
                     icon.color = new Color(1f, 1f, 1f, 0.25f);
             }
         }

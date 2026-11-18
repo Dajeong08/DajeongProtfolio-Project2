@@ -89,7 +89,7 @@ public class CharacterAttack : MonoBehaviour
         // 현재는 타격 프레임을 기다리지 않고 공격 시작 시 피해를 준다.
         Vector3 hitPosition = currentTarget.transform.position;
         currentTarget.TakeDamage(character.Data.AttackDamage);
-        // 스턴 영역이 연결된 캐릭터는 공격 한 번마다 5% 확률로 발동한다.
+        // 스턴 영역이 연결된 캐릭터는 공격 한 번마다 10% 확률로 발동한다.
         if (AttackStunArea != null && Random.Range(0, 100) < 10)
         {
             AttackStunArea.Activate(hitPosition);

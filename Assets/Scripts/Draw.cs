@@ -91,6 +91,7 @@ public class Draw : MonoBehaviour
     private void AddSummonLog(CharacterData data, float gradeChance)
     {
         string percent = gradeChance.ToString("0.##"); // 소수점 두 자리까지 표시
+        // 일반 소환 문구만 여기서 만들고, 줄 수 제한과 표시는 AddLog에서 함께 처리한다.
         AddLog($"{percent}% 확률로 {data.CharacterName} 소환!");
     }
 
@@ -109,6 +110,7 @@ public class Draw : MonoBehaviour
         {
             // 맨 위의 오래된 기록 한 줄만 반투명하게 표시한다.
             int firstLineEnd = message.IndexOf('\n'); // 가장 오래된 로그가 아닌 그 다음 로그
+            // 알파 태그는 뒤 글자에도 적용된다. 첫 줄 끝에 FF를 넣어 다음 줄부터 불투명하게 되돌린다.
             message = message.Insert(firstLineEnd, "<alpha=#FF>");
             message = "<alpha=#66>" + message;
         }

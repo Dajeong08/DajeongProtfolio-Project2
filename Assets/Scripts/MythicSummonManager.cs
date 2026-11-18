@@ -41,6 +41,7 @@ public class MythicSummonManager : MonoBehaviour
     // 같은 슬롯이 여러 번 들어가면 그 슬롯에서 여러 명을 꺼낸다는 뜻이다.
     private bool CollectMaterialSlots(MythicRecipe recipe, List<SlotController> materialSlots)
     {
+        // 전달받은 리스트에 결과를 채운다. 여기서는 위치만 조사하고 실제 캐릭터는 아직 빼지 않는다.
         materialSlots.Clear();
         if (slotManager == null || BattleManager.instance == null
             || BattleManager.instance.IsGameEnded)
@@ -73,6 +74,7 @@ public class MythicSummonManager : MonoBehaviour
                 SlotController slot = GetSlot(j);
                 if (slot == null || slot.CurrentData != material.Character)
                     continue;
+                // 필요한 남은 수량과 슬롯 인원 중 작은 수만 사용해 재료를 과하게 잡지 않는다.
                 int count = Mathf.Min(remaining, slot.GetCharacterCount());
                 for (int k = 0; k < count; k++)
                     materialSlots.Add(slot);
@@ -100,6 +102,7 @@ public class MythicSummonManager : MonoBehaviour
                 if (materialSlots[j] == slot)
                     consumedCount++;
             }
+            // 현재 빈칸이 없어도, 이 슬롯의 재료를 전부 쓰면 빈칸이 되므로 결과를 배치할 수 있다.
             if (consumedCount == slot.GetCharacterCount())
                 return slot;
         }
@@ -111,6 +114,7 @@ public class MythicSummonManager : MonoBehaviour
         List<SlotController> materialSlots = new List<SlotController>();
         if (!CollectMaterialSlots(recipe, materialSlots))
             return false;
+        // 재료만 충분한 것으로 끝내지 않고, 소환 결과를 놓을 자리까지 있어야 true다.
         return FindResultSlot(materialSlots) != null;
     }
 
@@ -126,6 +130,7 @@ public class MythicSummonManager : MonoBehaviour
 
         GameObject resultObject = Instantiate(recipe.Result.Prefab,
             targetSlot.Box_1.transform.position, recipe.Result.Prefab.transform.rotation);
+        // 재료 소비와 슬롯 등록을 마친 뒤 켠다. 꺼진 동안에는 신화 목록 등록을 미룬다.
         resultObject.SetActive(false);
         SummonedCharacter resultCharacter = resultObject.GetComponent<SummonedCharacter>();
         resultCharacter.Initialize(recipe.Result);
@@ -147,6 +152,7 @@ public class MythicSummonManager : MonoBehaviour
         {
             // 실패하면 파괴하지 않고 원래 슬롯에 역순으로 되돌린다.
             for (int i = materials.Count - 1; i >= 0; i--)
+                // 두 리스트의 같은 번호는 꺼낸 캐릭터와 원래 소속 슬롯을 가리킨다.
                 materialSlots[i].TryAddCharacter(materials[i]);
             Destroy(resultObject);
             slotManager.NotifyCharactersChanged();

@@ -60,7 +60,9 @@ public class FloatingTextManager : MonoBehaviour
     private void CreateWorldText(FloatingText prefab, string message,
         Vector3 position, bool moveUp, float offsetX)
     {
+        // 몬스터의 월드 위치를 화면 픽셀 좌표로 바꾼 뒤 UI 텍스트 생성에 전달한다.
         Vector3 screen = textCamera.WorldToScreenPoint(position);
+        // z가 양수이면 카메라 앞쪽이다. 카메라 뒤의 위치에는 텍스트를 만들지 않는다.
         if (screen.z > 0f)
             CreateText(prefab, message, (Vector2)screen + new Vector2(offsetX, 20f), moveUp);
     }

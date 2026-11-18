@@ -31,6 +31,7 @@ public class SlotManager : MonoBehaviour
             SlotDragHandler handler = SlotList[i].GetComponent<SlotDragHandler>();
             if (handler == null)
                 handler = SlotList[i].AddComponent<SlotDragHandler>();
+            // this는 현재 SlotManager. 발판에서 클릭·드래그 결과를 이 매니저로 전달하게 한다.
             handler.slotManager = this;
         }
         if (SlotCanvas != null)
@@ -79,6 +80,7 @@ public class SlotManager : MonoBehaviour
             return;
 
         HideSelectedRange();
+        // 빈 슬롯이면 이동, 캐릭터가 있으면 두 슬롯의 캐릭터 전체를 교환한다.
         source.SwapCharacters(target);
         SelectSlot(target);
     }
@@ -114,8 +116,8 @@ public class SlotManager : MonoBehaviour
     {
         // 슬롯은 같은 데이터의 캐릭터만 받는다. 다음 등급 후보는 여기서 검사하지 않는다.
         return selectedSlot != null && selectedSlot.isActiveAndEnabled // 슬롯 있는지, 비활성화 확인
-            && selectedSlot.IsFull() && selectedSlot.CurrentData != null // 꽉차지 않음 && 데이터 확인
-            && selectedSlot.CurrentData.Grade < CharacterGrade.Legendary; // 전설 이하
+            && selectedSlot.IsFull() && selectedSlot.CurrentData != null // 꽉 찼는지 && 데이터 확인
+            && selectedSlot.CurrentData.Grade < CharacterGrade.Legendary; // 전설 미만 (일반·희귀·에픽)
     }
 
     public void OnMergeClick() // 합성 버튼 클릭시

@@ -185,6 +185,7 @@ public class BattleManager : MonoBehaviour
         IsGameEnded = false;
         AngleSteck = 0;
         RefreshSpeedLoss();
+        // 로비의 강화 값을 이번 전투에 복사한다. 웨이브마다 로비 값을 다시 읽지는 않는다.
         MonsterLimit = LobbyManager.MonsterLimit;
         waveCoin = LobbyManager.WaveCoin;
         if (rouletteManager != null)
@@ -296,6 +297,7 @@ public class BattleManager : MonoBehaviour
         }
 
         int reward = LastClearedWave * Mathf.Max(0, CoinPerClearedWave);
+        // 마지막 웨이브 진행 중 패배한 경우는 제외하고, 전부 완료한 승리일 때만 보너스를 더한다.
         if (IsClear && LastClearedWave == TotalWaves)
             reward += Mathf.Max(0, ClearBonusCoin);
         // 로비 코인은 이번 게임 실행 중에만 누적한다.
@@ -325,6 +327,7 @@ public class BattleManager : MonoBehaviour
             return;
 
         isLeavingResult = true;
+        // 씬을 다시 열면 일반 필드는 초기화된다. 재도전할 스테이지만 static 변수로 전달한다.
         if (retry)
             StageManager.RetryStage = currentStage;
         else
@@ -371,6 +374,7 @@ public class BattleManager : MonoBehaviour
         }
 
         GameObject monsterObject = pool[0];
+        // 출전한 몬스터는 대기 목록에서 뺀다. 사망 애니메이션이 끝나면 다시 목록에 넣는다.
         pool.RemoveAt(0);
         monsterObject.GetComponent<SpriteLibrary>().spriteLibraryAsset = WaveSpriteLibrary;
         MonsterManager monster = monsterObject.GetComponent<MonsterManager>();
@@ -417,6 +421,7 @@ public class BattleManager : MonoBehaviour
             return;
 
         BossHPSlider.maxValue = monster.MAX_HP;
+        // 슬라이더 값만 바꾸고 OnValueChanged 이벤트는 호출하지 않는다.
         BossHPSlider.SetValueWithoutNotify(monster.HP);
         BossHPText.text = $"{monster.HP:N0}/{monster.MAX_HP:N0}";
     }
@@ -445,6 +450,7 @@ public class BattleManager : MonoBehaviour
         if (!pool.Contains(Monster))
             pool.Add(Monster);
 
+        // 보스 처치 순간이 아니라 풀에 돌아온 시점에 넘어가므로 사망 연출을 끝까지 보여 준다.
         if (monster.poolType == WaveType.BossMonster
             && currentWaveType == WaveType.BossMonster && bossDefeated)
             CompleteWave();

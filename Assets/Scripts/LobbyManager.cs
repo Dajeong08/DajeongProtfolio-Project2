@@ -23,11 +23,13 @@ public class LobbyManager : MonoBehaviour
     [Min(1)] public int StartTokenInitialCost = 1000;
     [Min(1.01f)] public float UpgradeCostMultiplier = 1.5f;
 
+    // =>는 값을 반환하는 짧은 프로퍼티 문법. 밖에서는 읽기만 하고 강화 함수에서 값을 바꾼다.
     public static int MonsterLimit => currentMonsterLimit;
     public static int WaveCoin => currentWaveCoin;
     public static int StartToken => currentStartToKen;
 
     // 씬을 다시 불러와도 이번 실행에서 재화와 업그레이드는 유지한다.
+    // static 값은 씬을 다시 열어도 유지된다. 게임을 종료한 뒤에도 저장되는 것은 아니다.
     private static int sessionCoin;
     private static int currentMonsterLimit;
     private static int currentmonsterLimitLevel;
@@ -42,6 +44,7 @@ public class LobbyManager : MonoBehaviour
     
 
     // 에디터에서 Domain Reload를 꺼도 플레이를 새로 시작하면 0으로 초기화한다.
+    // 일반 Start보다 먼저 실행해서, 새 플레이를 시작할 때만 강화와 재화를 초기화한다.
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void ResetSessionCoin()
     {
@@ -93,6 +96,7 @@ public class LobbyManager : MonoBehaviour
     {
         if (sessionCoin < MonsterLimitCost)
             return;
+        // 음수를 넘기면 그만큼 코인이 줄어든다. 차감 후 다음 강화 비용을 계산한다.
         UpdateCoin(-MonsterLimitCost);
         currentMonsterLimit++;
         currentmonsterLimitLevel++;
@@ -123,6 +127,7 @@ public class LobbyManager : MonoBehaviour
     private int NextUpgradeCost(int cost)
     {
         // 큰 비용에서도 정수 범위를 넘어 음수가 되지 않게 한다.
+        // Ceiling은 소수점을 올림한다. double로 계산하고 int 최대값 안에서 정수로 바꾼다.
         double next = System.Math.Ceiling(cost * (double)Mathf.Max(1.01f, UpgradeCostMultiplier));
         return (int)System.Math.Min(next, int.MaxValue);
     }

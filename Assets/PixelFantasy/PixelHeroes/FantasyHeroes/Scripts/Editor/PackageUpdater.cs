@@ -60,7 +60,7 @@ namespace Assets.PixelFantasy.PixelHeroes.FantasyHeroes.Scripts.Editor
                 }
                 else
                 {
-                    Debug.LogError(request.error);
+                    //Debug.LogError(request.error);
                 }
 
                 request.Dispose();

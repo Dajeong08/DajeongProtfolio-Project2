@@ -35,6 +35,7 @@ public class SummonedCharacter : MonoBehaviour
     private void OnDisable()
     {
         // 씬이 닫힐 때는 전투 매니저가 먼저 사라질 수 있다.
+        // Remove는 목록에서 실제로 제거했으면 true. 제거 성공 시에만 엔젤 수를 줄인다.
         if (BattleManager.instance != null
             && BattleManager.instance.MythicCharacters.Remove(this)
             && SkillType == MythicSkillType.Angel)
@@ -51,6 +52,7 @@ public class SummonedCharacter : MonoBehaviour
             return;
 
         AddMana(ManaPerSecond * Time.deltaTime);
+        // &&는 앞 조건이 true일 때만 뒤를 실행한다. 마나가 가득 찼을 때만 스킬을 시도한다.
         if (Mana >= MaxMana && UseSkill())
             Mana = 0f; // 스킬을 사용하면 마나를 비운다. 대상이 없으면 최대치로 유지한다.
     }
@@ -78,6 +80,7 @@ public class SummonedCharacter : MonoBehaviour
                 BattleManager.instance.RefreshSpeedLoss();
             }
         }
+        // 슬롯 간 이동 때도 SetSlot이 호출되므로, 이미 등록된 신화는 중복으로 넣지 않는다.
         else if (isActiveAndEnabled && !mythics.Contains(this))
         {
             mythics.Add(this);
@@ -113,6 +116,7 @@ public class SummonedCharacter : MonoBehaviour
             }
             if (restored)
                 ShowSkillEffect();
+            // 다른 신화가 한 명도 없으면 false라서 마나를 소비하지 않는다.
             return restored;
         }
 
@@ -145,6 +149,7 @@ public class SummonedCharacter : MonoBehaviour
             return;
 
         // 생성 순간의 자기 위치에 두고, 프리팹의 회전과 크기를 사용한다.
+        // 부모를 지정하지 않아 캐릭터가 이동해도 연출은 생성한 자리에 남는다.
         GameObject effect = Instantiate(SkillEffectPrefab, transform.position,
             SkillEffectPrefab.transform.rotation);
         Destroy(effect, Mathf.Max(0.1f, SkillEffectSeconds));

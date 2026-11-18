@@ -36,6 +36,7 @@ public class StageManager : MonoBehaviour
         if (RetryStage != null)
         {
             StageSetting stage = RetryStage;
+            // 먼저 비워서 이 스테이지를 이번 씬 시작에 한 번만 전달한다.
             RetryStage = null;
             if (battleManager.GetBattleData(stage))
                 LobbyScreen.SetActive(false);

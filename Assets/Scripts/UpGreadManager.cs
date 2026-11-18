@@ -2,15 +2,19 @@ using UnityEngine;
 
 public class UpGreadManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public GameObject UpGreadPanel;
 
-    // Update is called once per frame
-    void Update()
+
+    private void Start()
     {
-        
+        UpGreadPanel.SetActive(false);
+    }
+    public void OpenUpGreadPanel()
+    {
+        UpGreadPanel.SetActive(true);
+    }
+    public void CloseUpGreadPanel()
+    {
+        UpGreadPanel.SetActive(false);
     }
 }

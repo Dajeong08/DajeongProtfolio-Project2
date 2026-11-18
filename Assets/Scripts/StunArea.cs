@@ -27,10 +27,12 @@ public class StunArea : MonoBehaviour
         effect.transform.localPosition = transform.localPosition;
         effect.transform.localRotation = Quaternion.Euler(EffectRotation);
         // 이펙트 스케일은 원본 프리팹에 설정된 값을 그대로 사용한다.
+        // true를 넘기면 꺼져 있는 자식의 파티클까지 함께 가져온다.
         effectParticles = effect.GetComponentsInChildren<ParticleSystem>(true);
         for (int i = 0; i < effectParticles.Length; i++)
         {
             effectParticles[i].Stop(false, ParticleSystemStopBehavior.StopEmittingAndClear);
+            // main을 통해 파티클의 반복 여부와 재생 시간을 설정한다.
             ParticleSystem.MainModule main = effectParticles[i].main;
             main.loop = false;
             main.duration = EffectSeconds;
@@ -41,6 +43,7 @@ public class StunArea : MonoBehaviour
     // 공격 순간의 적 위치를 전달하고, 영역을 켜면서 이펙트를 재생한다.
     public void Activate(Vector3 position)
     {
+        // 먼저 끈 뒤 위치를 바꾸고 켜면, 매 발동마다 OnEnable에서 타이머와 피격 목록을 비운다.
         gameObject.SetActive(false);
         transform.position = position; // 스턴 판정 영역 이동
         effectPosition = position;     // 이펙트 위치
@@ -84,6 +87,7 @@ public class StunArea : MonoBehaviour
             return;
 
         monster.ApplyStun(StunSeconds);
+        // Stay가 여러 번 호출되어도 이번 발동에서는 같은 적에게 기절을 한 번만 적용한다.
         hitMonsters.Add(monster);
     }
 }

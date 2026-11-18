@@ -58,6 +58,7 @@ public class SlotController : MonoBehaviour
             return;
 
         // 기존 표시 반지름에 실제 월드 배율을 곱한다.
+        // lossyScale은 부모들의 배율까지 포함한 최종 월드 배율이다.
         Vector3 rangeScale = range.transform.lossyScale;
         float radius = displayRadius * Mathf.Max(Mathf.Abs(rangeScale.x), Mathf.Abs(rangeScale.y));
         Vector3 spriteSize = circleSprite.sprite.bounds.size;
@@ -73,6 +74,7 @@ public class SlotController : MonoBehaviour
             radius * 2 / spriteSize.x / Mathf.Abs(parentScale.x),
             radius * 2 / spriteSize.y / Mathf.Abs(parentScale.y), 1);
         RangeCircle.transform.position = transform.position;
+        // 그림의 중심이 원점과 다른 경우, 그 차이만큼 빼서 원의 중심을 슬롯에 맞춘다.
         RangeCircle.transform.position -= RangeCircle.transform.TransformVector(circleSprite.sprite.bounds.center);
         RangeCircle.SetActive(true);
     }
@@ -173,6 +175,7 @@ public class SlotController : MonoBehaviour
     // 빈 슬롯과 교환하면 이동, 캐릭터가 있는 슬롯과 교환하면 자리 바꾸기가 된다.
     public void SwapCharacters(SlotController other)
     {
+        // 목록 자체를 서로 교환한다. temp에 먼저 보관해야 한쪽 목록을 덮어쓰지 않는다.
         List<SummonedCharacter> temp = characters;
         characters = other.characters;
         other.characters = temp;
@@ -193,6 +196,7 @@ public class SlotController : MonoBehaviour
         {
             characters[i].SetSlot(this);
             characters[i].transform.SetParent(transform, true);
+            // 이전 슬롯에서 감지했던 적은 비우고, 이동한 위치에서 다시 감지한다.
             characters[i].GetComponent<CharacterAttack>().ClearTargets();
         }
         RefreshPositions();

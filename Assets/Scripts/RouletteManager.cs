@@ -15,6 +15,7 @@ public class RouletteManager : MonoBehaviour
     public Button LegendaryButton;
     public GameObject RoulettePanel;
 
+    // 재시작 시 StageManager.Start에서 받은 시작 토큰을 덮어쓰지 않도록 Awake에서 먼저 초기화한다.
     private void Awake()
     {
         Token = 0;
@@ -119,6 +120,7 @@ public class RouletteManager : MonoBehaviour
             ResultText.color = resultColor;
         }
 
+        // 룰렛 창의 결과 표시와 별개로, 일반 소환과 같은 최근 로그에도 남긴다.
         draw.AddLog($"[룰렛 {gradeName} {chance}%] {message}");
 
         // 소환 결과와 토큰 차감을 기존 UI 갱신 흐름에 반영한다.

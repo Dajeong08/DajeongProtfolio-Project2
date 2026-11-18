@@ -117,6 +117,7 @@ public class MonsterManager : MonoBehaviour
 
         Vector2 targetPosition = MovePoint.position;
         float slowPercent = 0f;
+        // 현재 엔젤 감속은 보스에게만 적용한다. 20% 감속이면 원래 속도의 0.8배로 이동한다.
         if (poolType == WaveType.BossMonster)
             slowPercent = Mathf.Clamp(battle.AngleSteck * 10f, 0f, 100f);
         // 속도에 물리 시간 간격을 곱해 이번 이동량을 구한다.
@@ -155,6 +156,7 @@ public class MonsterManager : MonoBehaviour
         if (damage <= 0)
             return;
 
+        // 남은 체력보다 큰 공격도 텍스트에는 실제로 깎인 체력만 표시한다.
         float actualDamage = Mathf.Min(HP, damage);
         HP -= damage;
         if (HP < 0)
