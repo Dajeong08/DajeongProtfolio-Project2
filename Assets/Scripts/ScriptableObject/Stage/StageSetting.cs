@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
 
+// 웨이브 총 25개로 고정
 // 일반, 보스 웨이브 구분
 public enum WaveType { BasicMonster, BossMonster }
 

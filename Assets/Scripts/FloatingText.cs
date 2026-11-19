@@ -31,19 +31,18 @@ public class FloatingText : MonoBehaviour
         rect.anchorMin = parent.pivot;
         rect.anchorMax = parent.pivot;
         rect.anchoredPosition = position;
-        gameObject.SetActive(true);
     }
 
     // 텍스트를 이동시키고 서서히 투명하게 만들기
     private void Update()
     {
-        timer += Time.unscaledDeltaTime;
+        timer += Time.deltaTime;
         if (timer >= ShowSeconds)
         {
             Destroy(gameObject);
             return;
         }
-        rect.anchoredPosition += Vector2.up * direction * MoveSpeed * Time.unscaledDeltaTime;
+        rect.anchoredPosition += Vector2.up * direction * MoveSpeed * Time.deltaTime;
         group.alpha = 1f - timer / ShowSeconds;
     }
 }
