@@ -3,35 +3,33 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 
-// 전체 슬롯에서 자리를 찾고 캐릭터 프리팹을 생성한다.
+// 전체 슬롯의 소환, 판매, 합성 관리
 public class SlotManager : MonoBehaviour
 {
-    // 이 목록에 등록된 순서대로 슬롯을 검색한다.
-    public List<GameObject> SlotList = new List<GameObject>();
+    public List<GameObject> SlotList = new List<GameObject>(); // 검색 순서대로 등록한 전체 슬롯
 
-    // 상점 코인과 별개로, 이번 플레이에서 소환에 사용하는 코인이다.
-    public int Coin = 100;
-    public int SummonCost = 20;
-    private const int MaxSummonCost = 60;
-    public Canvas SlotCanvas;
-    public GameObject MergeButton;
-    public GameObject SellButton;
-    public Vector3 SlotCanvasOffset;
-    public MythicSummonUI mythicUI;
+    public int Coin = 100; // 이번 전투 코인
+    public int SummonCost = 20; // 다음 소환 비용
+    private const int MaxSummonCost = 60; // 소환 비용 상한
+    public Canvas SlotCanvas; // 선택한 슬롯의 버튼 UI
+    public GameObject MergeButton; // 합성 버튼
+    public GameObject SellButton; // 판매 버튼
+    public Vector3 SlotCanvasOffset; // 슬롯 기준 UI 표시 위치
+    public MythicSummonUI mythicUI; // 신화 소환 UI 갱신
 
-    private Draw draw;
-    private SlotController selectedSlot;
+    private Draw draw; // 확률 추첨과 소환 UI
+    private SlotController selectedSlot; // 현재 선택한 슬롯
 
+    // 소환 코드 연결, 슬롯 입력 등록, 선택 UI 초기화
     private void Awake()
     {
-        // 비활성화된 UI도 찾아 두므로 Inspector 연결을 추가하지 않아도 된다.
         draw = FindFirstObjectByType<Draw>(FindObjectsInactive.Include);
         for (int i = 0; i < SlotList.Count; i++)
         {
             SlotDragHandler handler = SlotList[i].GetComponent<SlotDragHandler>();
             if (handler == null)
                 handler = SlotList[i].AddComponent<SlotDragHandler>();
-            // this는 현재 SlotManager. 발판에서 클릭·드래그 결과를 이 매니저로 전달하게 한다.
+            // this는 현재 SlotManager
             handler.slotManager = this;
         }
         if (SlotCanvas != null)
@@ -40,11 +38,13 @@ public class SlotManager : MonoBehaviour
         }
     }
 
+    // 선택된 슬롯과 범위 표시 정리
     private void OnDisable()
     {
         HideSelectedRange();
     }
 
+    // 빈 배경을 누르면 슬롯 선택 해제
     private void Update()
     {
         if (BattleManager.instance != null && BattleManager.instance.IsGameEnded)
@@ -53,12 +53,12 @@ public class SlotManager : MonoBehaviour
         if (Mouse.current == null || !Mouse.current.leftButton.wasPressedThisFrame)
             return; // 마우스 왼쪽 버튼을 눌렀을때만 처리
 
-        // UI와 발판 클릭은 EventSystem에서 처리하고, 빈 배경을 누르면 선택을 닫는다.
         if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
             return;
         HideSelectedRange();
     }
 
+    // 슬롯 선택과 판매, 합성 UI 표시
     public void SelectSlot(SlotController slot)
     {
         if (BattleManager.instance != null && BattleManager.instance.IsGameEnded)
@@ -70,6 +70,7 @@ public class SlotManager : MonoBehaviour
         ShowSlotCanvas();
     }
 
+    // 두 슬롯의 캐릭터를 이동 또는 교환
     public void MoveSlot(SlotController source, SlotController target)
     {
         if (BattleManager.instance != null && BattleManager.instance.IsGameEnded)
@@ -80,11 +81,11 @@ public class SlotManager : MonoBehaviour
             return;
 
         HideSelectedRange();
-        // 빈 슬롯이면 이동, 캐릭터가 있으면 두 슬롯의 캐릭터 전체를 교환한다.
         source.SwapCharacters(target);
         SelectSlot(target);
     }
 
+    // 선택 UI와 범위 표시 숨기기
     private void HideSelectedRange()
     {
         if (selectedSlot != null)
@@ -94,6 +95,7 @@ public class SlotManager : MonoBehaviour
             SlotCanvas.gameObject.SetActive(false);
     }
 
+    // 선택한 슬롯에 판매, 합성 버튼 표시
     private void ShowSlotCanvas()
     {
         if (selectedSlot == null || !selectedSlot.isActiveAndEnabled || selectedSlot.IsEmpty())
@@ -112,15 +114,16 @@ public class SlotManager : MonoBehaviour
         SlotCanvas.gameObject.SetActive(true);
     }
 
-    private bool CanMergeSelectedSlot()// 합성 가능한 슬롯인지 확인
+    // 같은 캐릭터 3명이고 전설 미만인지 확인
+    private bool CanMergeSelectedSlot()
     {
-        // 슬롯은 같은 데이터의 캐릭터만 받는다. 다음 등급 후보는 여기서 검사하지 않는다.
-        return selectedSlot != null && selectedSlot.isActiveAndEnabled // 슬롯 있는지, 비활성화 확인
+        return selectedSlot != null && selectedSlot.isActiveAndEnabled // 선택한 슬롯 활성 여부
             && selectedSlot.IsFull() && selectedSlot.CurrentData != null // 꽉 찼는지 && 데이터 확인
             && selectedSlot.CurrentData.Grade < CharacterGrade.Legendary; // 전설 미만 (일반·희귀·에픽)
     }
 
-    public void OnMergeClick() // 합성 버튼 클릭시
+    // 3명을 소비하고 다음 등급 캐릭터 생성
+    public void OnMergeClick()
     {
         if (BattleManager.instance != null && BattleManager.instance.IsGameEnded)
             return;
@@ -131,11 +134,10 @@ public class SlotManager : MonoBehaviour
         if (!slot.HasPositions())
             return;
 
-        // 등급이 일반 → 희귀 → 에픽 → 전설 순서로 저장되어 있다.
+        // enum이 일반, 희귀, 에픽, 전설 순서라 +1이 다음 등급
         CharacterGrade nextGrade = slot.CurrentData.Grade + 1; // 다음 등급
         CharacterData result = draw.PickFromList(nextGrade); // 랜덤 캐릭터 반환
 
-        // 소환처럼 같은 캐릭터가 있는 칸을 우선하고, 없으면 재료 칸을 쓴다.
         SlotController targetSlot = FindMatchingSlot(result); // 랜덤 생성될 캐릭터와 같은 슬롯 찾기
         if (targetSlot == null)
             targetSlot = slot;
@@ -145,12 +147,12 @@ public class SlotManager : MonoBehaviour
         SummonedCharacter resultCharacter = resultObject.GetComponent<SummonedCharacter>();
         resultCharacter.Initialize(result);
 
-        // 결과를 슬롯에 등록할 때까지 재료 오브젝트를 보관한다.
+        // 결과 등록 실패 시 복구할 재료 보관
         SummonedCharacter[] materials = new SummonedCharacter[3];
         for (int i = 0; i < materials.Length; i++)
             materials[i] = slot.RemoveLastCharacter();
 
-        if (!targetSlot.TryAddCharacter(resultCharacter)) // 등록 시도 후 실패시 
+        if (!targetSlot.TryAddCharacter(resultCharacter)) // 등록 시도 후 실패시
         {
             resultObject.SetActive(false);
             Destroy(resultObject);
@@ -167,10 +169,11 @@ public class SlotManager : MonoBehaviour
             Destroy(materials[i].gameObject); // 삭제
         }
 
+        AchievementManager.instance.AddProgress(AchievementType.Merge, 1);
         NotifyCharactersChanged(); // UI 갱신
     }
 
-    // 판매 버튼의 On Click에 연결한다. 클릭 한 번에 캐릭터 한 명을 판매한다.
+    // 캐릭터 1명 판매 후 같은 종류 재정렬
     public void OnSellClick()
     {
         if (BattleManager.instance != null && BattleManager.instance.IsGameEnded) // 게임 끝인지 확인
@@ -178,11 +181,10 @@ public class SlotManager : MonoBehaviour
 
         if (selectedSlot == null || !selectedSlot.isActiveAndEnabled) // 슬롯 없거나 비활성화 확인
             return;
-        // 신화는 버튼 외의 경로로 호출해도 판매하지 않는다.
         if (selectedSlot.IsEmpty() || selectedSlot.CurrentData.Grade == CharacterGrade.Mythic)
             return;
 
-        // 마지막 한 명을 팔면 CurrentData가 비워지므로 종류를 먼저 기억한다.
+        // 마지막 캐릭터를 빼면 슬롯 데이터가 비워지므로 먼저 보관
         CharacterData soldData = selectedSlot.CurrentData; // 판매할 캐릭터 종류 저장
         Vector3 sellPosition = selectedSlot.transform.position;
         SummonedCharacter character = selectedSlot.RemoveLastCharacter(); // 삭제된 캐릭터 반환
@@ -190,12 +192,15 @@ public class SlotManager : MonoBehaviour
             return;
 
         int reward = character.SellCoin; 
-        // Destroy는 프레임 끝에 실행되므로 먼저 꺼서 공격도 즉시 중단한다.
+        // Destroy는 프레임 끝에 실행되므로 먼저 꺼서 공격 중단
         character.gameObject.SetActive(false);
         Destroy(character.gameObject);
-        FillMatchingSlots(soldData);// 
+        FillMatchingSlots(soldData);
         if (soldData.Grade == CharacterGrade.Normal)
+        {
             AddCoin(reward, sellPosition);
+            AchievementManager.instance.AddProgress(AchievementType.SellNormal, 1);
+        }
         else if (soldData.Grade == CharacterGrade.Rare)
             draw.rouletteManager.AddToken(1, sellPosition);
         else if (soldData.Grade == CharacterGrade.Epic)
@@ -205,7 +210,7 @@ public class SlotManager : MonoBehaviour
         NotifyCharactersChanged(); // UI 갱신
     }
 
-    // 판매 후 같은 종류끼리 앞 슬롯부터 3명씩 채운다.
+    // 같은 종류의 남은 캐릭터를 앞 슬롯부터 채우기
     private void FillMatchingSlots(CharacterData data)
     {
         if (data == null)
@@ -221,7 +226,6 @@ public class SlotManager : MonoBehaviour
             if (!target.CanAdd(data)) // 슬롯이 같은 종류가 아니거나 꽉 찼으면 건너뛰기
                 continue;
 
-            // 현재 슬롯보다 뒤에 있는 같은 종류 슬롯에서 캐릭터를 가져온다.
             for (int j = i + 1; j < SlotList.Count; j++) // 현재 슬롯 뒤의 슬롯 쭉 확인
             {
                 if (SlotList[j] == null || !SlotList[j].activeInHierarchy) 
@@ -238,7 +242,6 @@ public class SlotManager : MonoBehaviour
                     if (movingCharacter == null)
                         break;
 
-                    // 기존 개체를 옮기므로 생성, 판매 보상, 소환 비용 처리는 하지 않는다.
                     if (!target.TryAddCharacter(movingCharacter)) // 자리 옮기기
                     {
                         source.TryAddCharacter(movingCharacter); // 자리 옮기기 실패시 원상복구
@@ -251,25 +254,30 @@ public class SlotManager : MonoBehaviour
         }
     }
 
-    public void AddCoin(int amount) 
-        // 일반 적 처치시 1코인, 보스 처치시 50코인, 판매시 캐릭터에 따른 코인 지급
+    // 전투 코인 증감 후 UI와 도전과제 갱신
+    public void AddCoin(int amount, bool countAchievement = true)
     {
         Coin += amount;
+        if (amount > 0 && countAchievement)
+            AchievementManager.instance.AddProgress(AchievementType.CollectCoin, amount);
         if (draw != null)
             draw.RefreshButton(); // 버튼 갱신
         if (amount > 0 && FloatingTextManager.instance != null)
             FloatingTextManager.instance.ShowCoinText(amount);
     }
 
+    // 전투 코인 증감 후 UI와 도전과제 갱신
     public void AddCoin(int amount, Vector3 position)
     {
-        AddCoin(amount); // 지급과 재화 UI 표시는 한 번만 실행한다.
+        AddCoin(amount); // 재화 지급과 UI 갱신
         if (amount > 0 && FloatingTextManager.instance != null)
             FloatingTextManager.instance.ShowCoinText(amount, position);
     }
 
+    // 전투 종료 후 선택 UI 정리
     public void CloseBattleControls()
     {
+        UpGreadManager.instance.CloseUpGreadPanel();
         HideSelectedRange();
         if (draw != null)
             draw.RefreshButton();
@@ -277,16 +285,17 @@ public class SlotManager : MonoBehaviour
             mythicUI.RefreshUI();
     }
 
-    // 소환, 판매, 합성 후 바뀐 캐릭터 수를 UI에 반영한다.
+    // 소환, 판매, 합성 후 관련 UI 갱신
     public void NotifyCharactersChanged()
     {
-        ShowSlotCanvas(); // 매 프레임 대신 캐릭터가 바뀌었을 때 선택 UI를 갱신한다.
+        ShowSlotCanvas(); // 선택 UI 갱신
         if (draw != null)
             draw.RefreshButton();
         if (mythicUI != null)
             mythicUI.RefreshUI();
     }
 
+    // 신화 재료 슬롯을 정리하고 UI 갱신
     public void FinishMythicSummon(MythicRecipe recipe)
     {
         HideSelectedRange();
@@ -295,7 +304,7 @@ public class SlotManager : MonoBehaviour
         NotifyCharactersChanged();
     }
 
-    // 배치 위치가 연결된 빈 슬롯을 찾는다. 없으면 null을 반환한다.
+    // 캐릭터를 배치할 수 있는 빈 슬롯 찾기
     public SlotController FindEmptySlot()
     {
         for (int i = 0; i < SlotList.Count; i++) // 슬롯 목록을 순회한다.
@@ -314,7 +323,7 @@ public class SlotManager : MonoBehaviour
         return null;
     }
 
-    // 같은 종류가 들어 있고 3명 미만인 슬롯을 먼저 찾는다.
+    // 같은 종류가 있고 자리가 남은 슬롯 찾기
     private SlotController FindMatchingSlot(CharacterData data)
     {
         for (int i = 0; i < SlotList.Count; i++)
@@ -333,27 +342,25 @@ public class SlotManager : MonoBehaviour
         return null;
     }
 
-    // 생성과 슬롯 등록을 마치면 true, 실패하면 false를 반환한다.
+    // 코인을 지불하고 캐릭터 소환
     public bool TrySummon(CharacterData data)
     {
         if (BattleManager.instance != null && BattleManager.instance.IsGameEnded) // 게임 끝인지 확인
             return false;
 
-        // 코인이 현재 소환 비용보다 적으면 소환하지 않는다.
         if (Coin < SummonCost)
             return false;
 
         if (!TryPlaceCharacter(data))
             return false;
 
-        // 일반 소환만 골드를 사용하고 다음 소환 비용을 올린다.
         Coin -= SummonCost;
         SummonCost = Mathf.Min(SummonCost + 10, MaxSummonCost);
         NotifyCharactersChanged();
         return true;
     }
 
-    // 골드 결제 없이 배치만 한다. 호출한 쪽에서 재화 처리 후 UI를 갱신한다.
+    // 비용 차감 없이 캐릭터 생성과 배치
     public bool TryPlaceCharacter(CharacterData data)
     {
         if (BattleManager.instance != null && BattleManager.instance.IsGameEnded)
@@ -366,7 +373,7 @@ public class SlotManager : MonoBehaviour
             return false;
 
         SlotController targetSlot = FindMatchingSlot(data); // 같은 종류 찾기
-        if (targetSlot == null) // 같은 종류 없으면 
+        if (targetSlot == null) // 같은 종류 없으면
         {
             targetSlot = emptySlot; // 빈 슬롯 등록
         }
@@ -377,12 +384,11 @@ public class SlotManager : MonoBehaviour
             data.Prefab.transform.rotation
         );
         SummonedCharacter character = newCharacter.GetComponent<SummonedCharacter>();
-        character.Initialize(data); // 생성된 캐릭터가 데이터 들고 있게 하기 
+        character.Initialize(data); // 생성된 캐릭터가 데이터 들고 있게 하기
 
         bool added = targetSlot.TryAddCharacter(character); // 슬롯에 생성된 캐릭터 등록하고 자리 배치
         if (!added) // 등록 실패시
         {
-            // 생성만 되고 슬롯에 들어가지 못한 개체는 제거한다.
             Destroy(newCharacter);
             return false;
         }

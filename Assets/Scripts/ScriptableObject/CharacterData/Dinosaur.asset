@@ -15,5 +15,5 @@ MonoBehaviour:
   CharacterName: Dinosaur
   Grade: 1
   Prefab: {fileID: 3211836744727103011, guid: b025c237e81e49acbb8f0d0d33ce452a, type: 3}
-  AttackDamage: 120
+  AttackDamage: 144
   AttackSpeed: 1

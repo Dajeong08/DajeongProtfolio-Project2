@@ -1,37 +1,38 @@
 using UnityEngine;
 
-// 데미지와 재화 획득 프리팹 생성만 담당한다.
+// 데미지와 재화 텍스트 생성
 public class FloatingTextManager : MonoBehaviour
 {
-    public static FloatingTextManager instance;
-    // Screen Space Overlay Canvas 아래의 표시 위치와 사용자 제작 프리팹이다.
-    public RectTransform TextRoot;
-    public FloatingText DamageTextPrefab;
-    public FloatingText CoinTextPrefab;
-    public FloatingText TokenTextPrefab;
-    public RectTransform CoinGainPoint;
-    public RectTransform TokenGainPoint;
-    private Camera textCamera;
+    public static FloatingTextManager instance; // 텍스트 생성 매니저
+    public RectTransform TextRoot; // 생성한 텍스트의 부모
+    public FloatingText DamageTextPrefab; // 데미지 텍스트 프리팹
+    public FloatingText CoinTextPrefab; // 코인 획득 텍스트 프리팹
+    public FloatingText TokenTextPrefab; // 토큰 획득 텍스트 프리팹
+    public RectTransform CoinGainPoint; // 코인 획득 표시 위치
+    public RectTransform TokenGainPoint; // 토큰 획득 표시 위치
+    private Camera textCamera; // 월드 위치를 화면 좌표로 바꿀 카메라
 
+    // 매니저와 카메라 참조 등록
     private void Awake()
     {
         instance = this;
         textCamera = Camera.main;
     }
 
+    // 삭제된 매니저 참조 해제
     private void OnDestroy()
     {
         if (instance == this)
             instance = null;
     }
 
-    // 데미지는 맞은 위치에서 아래로 내려간다.
+    // 피격 위치에 데미지 표시
     public void ShowDamageText(float amount, Vector3 position)
     {
         CreateWorldText(DamageTextPrefab, amount.ToString("0.#"), position, false, 0f);
     }
 
-    // 위치를 받지 않는 호출은 재화 UI 위에만 표시한다.
+    // 코인 획득량 표시
     public void ShowCoinText(int amount)
     {
         if (CoinGainPoint != null)
@@ -39,6 +40,7 @@ public class FloatingTextManager : MonoBehaviour
                 RectTransformUtility.WorldToScreenPoint(null, CoinGainPoint.position), true);
     }
 
+    // 토큰 획득량 표시
     public void ShowTokenText(int amount)
     {
         if (TokenGainPoint != null)
@@ -46,30 +48,32 @@ public class FloatingTextManager : MonoBehaviour
                 RectTransformUtility.WorldToScreenPoint(null, TokenGainPoint.position), true);
     }
 
-    // 처치와 판매는 현장에도 표시한다. 코인과 토큰은 좌우로 살짝 나눈다.
+    // 코인 획득량 표시
     public void ShowCoinText(int amount, Vector3 position)
     {
         CreateWorldText(CoinTextPrefab, $"+{amount}", position, true, -20f);
     }
 
+    // 토큰 획득량 표시
     public void ShowTokenText(int amount, Vector3 position)
     {
         CreateWorldText(TokenTextPrefab, $"+{amount}", position, true, 20f);
     }
 
+    // 월드 위치를 화면 좌표로 바꿔 텍스트 생성
     private void CreateWorldText(FloatingText prefab, string message,
         Vector3 position, bool moveUp, float offsetX)
     {
-        // 몬스터의 월드 위치를 화면 픽셀 좌표로 바꾼 뒤 UI 텍스트 생성에 전달한다.
+        // 월드 좌표를 화면 픽셀 좌표로 변환
         Vector3 screen = textCamera.WorldToScreenPoint(position);
-        // z가 양수이면 카메라 앞쪽이다. 카메라 뒤의 위치에는 텍스트를 만들지 않는다.
+        // 카메라 앞에 있는 위치만 표시
         if (screen.z > 0f)
             CreateText(prefab, message, (Vector2)screen + new Vector2(offsetX, 20f), moveUp);
     }
 
+    // 프리팹을 생성하고 표시 정보 전달
     private void CreateText(FloatingText prefab, string message, Vector2 screenPosition, bool moveUp)
     {
-        // 프리팹을 아직 연결하지 않았으면 연출만 건너뛴다.
         if (prefab == null || TextRoot == null)
             return;
         FloatingText text = Instantiate(prefab, TextRoot);

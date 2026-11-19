@@ -5,75 +5,67 @@ using UnityEngine.SceneManagement;
 using UnityEngine.U2D.Animation;
 using UnityEngine.UI;
 
-// 웨이브 시간, 몬스터 생성, 대기 중인 몬스터 풀을 관리한다.
+// 웨이브, 몬스터 풀, 종료 보상 관리
 public class BattleManager : MonoBehaviour
 {
-    // 공통 참조
-    public static BattleManager instance; // 다른 코드에서 현재 전투 매니저에 접근
-    private SlotManager slotManager; // 코인 지급과 슬롯 UI 정리
-    private RouletteManager rouletteManager;
-    public MythicSummonManager mythicSummonManager; // 신화 소환과 슬롯 관리
-    public LobbyManager lobbyManager;
-    public List<SummonedCharacter> MythicCharacters = new List<SummonedCharacter>(); // 필드의 신화 목록
-    public int AngleSteck;
-    public TMP_Text SpeedLoss;
+    public static BattleManager instance; // 현재 전투 매니저
+    private SlotManager slotManager; // 코인 지급과 슬롯 UI 갱신
+    private RouletteManager rouletteManager; // 토큰 지급과 룰렛 UI 갱신
+    public LobbyManager lobbyManager; // 로비 보상 지급
+    public List<SummonedCharacter> MythicCharacters = new List<SummonedCharacter>(); // 필드에 있는 신화 목록
+    public int AngleSteck; // 필드의 천사 수
+    public TMP_Text SpeedLoss; // 보스 감속률 텍스트
+    public List<GameObject> StageBackgrounds = new List<GameObject>(); // 0번부터 스테이지 순서대로 배경 연결
 
-    // 전투 UI
-    public TMP_Text StageName_OBJ; // 스테이지 이름과 웨이브
-    public TMP_Text WaveTime_OBJ; // 남은 시간
-    public GameObject ResultImage; // 전투 종료 이미지
-    public TMP_Text ResultCoin;
+    public TMP_Text StageName_OBJ; // 스테이지와 웨이브 표시
+    public TMP_Text WaveTime_OBJ; // 남은 시간 표시
+    public GameObject ResultImage; // 결과 창
+    public TMP_Text ResultCoin; // 정산한 로비 코인 표시
 
-    // 웨이브 진행
     private const int TotalWaves = 25; // 전체 웨이브 수
-    private const int BossInterval = 5; // 보스 등장 간격
+    private const int BossInterval = 5; // 보스가 나오는 웨이브 간격
     public int CurrentWave = 1; // 진행 중인 웨이브
-    public int LastClearedWave; // 마지막으로 완료한 웨이브
+    public int LastClearedWave; // 마지막으로 클리어한 웨이브
     private StageSetting currentStage; // 선택한 스테이지 데이터
-    private WaveType currentWaveType; // 일반 또는 보스 웨이브
+    private WaveType currentWaveType; // 현재 일반 또는 보스 웨이브
     private bool IsPlay_Wave = false; // 웨이브 진행 여부
     private float Timer = 0; // 남은 웨이브 시간
-    private float MonsterInterval; // 마지막 몬스터 생성 후 흐른 시간
+    private float MonsterInterval; // 마지막 생성 후 지난 시간
 
-    // 몬스터 생성과 풀링
-    public Transform[] MonaterMovePoint; // 순서대로 이동할 지점
-    public Transform MonaterSpawonPoint; // 출발 위치
-    public GameObject current_BasicMonster; // 일반 몬스터 원본 프리팹
-    public GameObject current_BossMonster; // 보스 원본 프리팹
-    [Min(1)] public int MonsterLimit = 100; // 패배하는 생존 몬스터 수
+    public Transform[] MonaterMovePoint; // 몬스터 이동 경로
+    public Transform MonaterSpawonPoint; // 몬스터 출발 위치
+    public GameObject current_BasicMonster; // 일반 몬스터 프리팹
+    public GameObject current_BossMonster; // 보스 프리팹
+    [Min(1)] public int MonsterLimit = 100; // 패배 기준인 생존 몬스터 수
     private int aliveMonsterCount; // 현재 살아 있는 몬스터 수
-    private int waveCoin; // 전투 시작 시 적용한 웨이브 보상
-    private float currentMonsterHP; // 이번 웨이브 몬스터의 최대 체력
-    private SpriteLibraryAsset WaveSpriteLibrary; // 이번 웨이브 몬스터 외형
-    // 풀 목록에는 꺼져 있고 재사용을 기다리는 몬스터를 보관한다.
-    private List<GameObject> Basic_MonsterPool = new List<GameObject>();
-    private List<GameObject> Boss_MonsterPool = new List<GameObject>();
+    private int waveCoin; // 이번 전투의 웨이브 보상
+    private float currentMonsterHP; // 이번 웨이브의 몬스터 체력
+    private SpriteLibraryAsset WaveSpriteLibrary; // 이번 웨이브의 몬스터 외형
+    private List<GameObject> Basic_MonsterPool = new List<GameObject>(); // 재사용을 기다리는 일반 몬스터
+    private List<GameObject> Boss_MonsterPool = new List<GameObject>(); // 재사용을 기다리는 보스
 
-    // 보스 UI와 등장 상태
     public GameObject BossInfo_OBJ; // 보스 등장 연출
     public Slider BossHPSlider; // 보스 체력바
-    public TMP_Text BossHPText; // 현재 체력과 최대 체력
-    [Min(0f)] public float BossIntroSeconds = 1f; // 연출 표시 시간
-    private bool bossSpawned; // 이번 웨이브에서 보스를 생성했는지
-    private bool bossDefeated; // 보스를 처치했는지
-    private MonsterManager activeBoss; // 체력바에 표시할 보스
-    private float bossIntroEndTime; // 연출을 끌 게임 시간
+    public TMP_Text BossHPText; // 보스 현재 / 최대 체력
+    [Min(0f)] public float BossIntroSeconds = 1f; // 등장 연출 시간
+    private bool bossSpawned; // 이번 웨이브 보스 생성 여부
+    private bool bossDefeated; // 이번 보스 처치 여부
+    private MonsterManager activeBoss; // 상단 체력바에 표시할 보스
+    private float bossIntroEndTime; // 등장 연출 종료 시각
 
-    // 배속
     public TMP_Text SpeedText; // 현재 배속 표시
     [Range(3, 4)] public int MaxGameSpeed = 4; // 마지막 배속 단계
     private int currentSpeed = 1; // 현재 배속
 
-    // 종료와 보상
-    public bool IsClear = false; // 승리 여부
-    public Sprite ClearBenner;
-    public Sprite LossBenner; // 
+    public bool IsClear = false; // 클리어 여부
+    public Sprite ClearBenner; // 승리 이미지
+    public Sprite LossBenner; // 패배 이미지
     public bool IsGameEnded; // 전투 종료 여부
-    [Min(0)] public int CoinPerClearedWave = 10; // 완료 웨이브당 로비 보상
-    [Min(0)] public int ClearBonusCoin = 1000; // 모든 웨이브 클리어 시 추가 보상
-    private bool isLeavingResult; // 재시작·로비 복귀 중복 요청 방지
+    [Min(0)] public int CoinPerClearedWave = 10; // 클리어 웨이브당 로비 코인
+    [Min(0)] public int ClearBonusCoin = 1000; // 전체 클리어 추가 코인
+    private bool isLeavingResult; // 재시작, 로비 버튼 중복 입력 방지
 
-    // Unity가 초기화할 때 현재 전투 매니저 자신을 공유 참조에 등록한다.
+    // 매니저 연결, 보스 UI와 배속 초기화
     private void Awake()
     {
         instance = this;
@@ -86,13 +78,13 @@ public class BattleManager : MonoBehaviour
         RefreshSpeedLoss();
     }
 
-    // Unity가 시작할 때 한 번 호출한다. 몬스터를 미리 생성해 둔다.
+    // 재사용할 몬스터 미리 생성
     private void Start()
     {
         CreatMonsterPool();
     }
 
-    // 매 프레임 시간을 계산하고 웨이브 종류에 맞게 생성한다.
+    // 웨이브 시간과 몬스터 생성 간격 계산
     private void Update()
     {
         if (!IsPlay_Wave || bossDefeated)
@@ -117,7 +109,6 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-            // 보스는 웨이브마다 한 번만 꺼낸다.
             if (!bossSpawned)
             {
                 GetMonster();
@@ -128,20 +119,20 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    // 게임 시간을 기준으로 잡아서 등장 연출도 배속을 따라간다.
+    // 보스 등장 연출 시간이 지나면 끄기
     private void LateUpdate()
     {
         if (BossInfo_OBJ.activeSelf && Time.time >= bossIntroEndTime)
             BossInfo_OBJ.SetActive(false);
     }
 
+    // 씬을 나갈 때 배속 복구
     private void OnDestroy()
     {
-        // 이전 전투가 사라질 때 다음 씬이 멈춰 있지 않도록 시간을 복구한다.
         Time.timeScale = 1f;
     }
 
-    // 배속 버튼의 On Click에서 호출한다.
+    // 배속 버튼을 누르면 다음 배속으로 변경
     public void ChangeSpeed()
     {
         if (IsGameEnded || currentStage == null)
@@ -155,6 +146,7 @@ public class BattleManager : MonoBehaviour
             SetGameSpeed(1);
     }
 
+    // 게임 시간과 배속 텍스트 변경
     private void SetGameSpeed(int speed)
     {
         currentSpeed = speed;
@@ -162,22 +154,22 @@ public class BattleManager : MonoBehaviour
         SpeedText.text = $"×{speed}";
     }
 
+    // 천사 수에 따른 보스 감속률 표시
     public void RefreshSpeedLoss()
     {
-        // 씬이 닫힐 때는 표시 UI가 먼저 사라질 수 있다.
         if (SpeedLoss != null)
             SpeedLoss.text = $"{Mathf.Clamp(AngleSteck * 10, 0, 100)}%";
     }
 
-    // StageManager가 선택한 설정을 전달한다. 첫 웨이브부터 다시 준비한다.
-    public bool GetBattleData(StageSetting stageSetting)
+    // 선택한 스테이지로 새 전투 준비
+    public bool GetBattleData(StageSetting stageSetting, int stageIndex)
     {
-        // 25웨이브에 필요한 일반·보스 외형 10개가 있어야 시작한다.
         if (stageSetting == null || currentStage != null || stageSetting.WaveList == null
             || stageSetting.WaveList.Count != TotalWaves / BossInterval * 2)
             return false;
 
         currentStage = stageSetting;
+        SetStageBackground(stageIndex);
         CurrentWave = 1;
         LastClearedWave = 0;
         aliveMonsterCount = 0;
@@ -185,9 +177,10 @@ public class BattleManager : MonoBehaviour
         IsGameEnded = false;
         AngleSteck = 0;
         RefreshSpeedLoss();
-        // 로비의 강화 값을 이번 전투에 복사한다. 웨이브마다 로비 값을 다시 읽지는 않는다.
         MonsterLimit = LobbyManager.MonsterLimit;
         waveCoin = LobbyManager.WaveCoin;
+        UpGreadManager.instance.ResetUpgrades();
+        AchievementManager.instance.ResetAchievements();
         if (rouletteManager != null)
             rouletteManager.SetStartToken(LobbyManager.StartToken);
         SetGameSpeed(1);
@@ -195,7 +188,15 @@ public class BattleManager : MonoBehaviour
         return true;
     }
 
-    // 현재 목록 번호에 맞는 종류와 외형을 읽고 제한 시간을 설정한다.
+    // 배경을 모두 끄고 선택한 배경만 켜기
+    private void SetStageBackground(int stageIndex)
+    {
+        for (int i = 0; i < StageBackgrounds.Count; i++)
+            StageBackgrounds[i].SetActive(false);
+        StageBackgrounds[stageIndex].SetActive(true);
+    }
+
+    // 이번 웨이브의 외형, 체력, 제한 시간 설정
     public void StartWave()
     {
         if (currentStage == null || CurrentWave > TotalWaves || IsPlay_Wave || IsGameEnded)
@@ -206,11 +207,11 @@ public class BattleManager : MonoBehaviour
         bossDefeated = false;
         MonsterInterval = 0;
         IsPlay_Wave = true;
-        // 정수 나눗셈은 소수점을 버린다. 1~5는 0, 6~10은 1이다.
+        // 정수 나눗셈: 1~5웨이브는 0, 6~10웨이브는 1
         int groupIndex = (CurrentWave - 1) / BossInterval;
-        // 5웨이브 묶음마다 일반/보스 두 칸을 사용한다.
+        // 목록은 일반, 보스 순서로 두 칸씩 사용
         int listIndex = groupIndex * 2;
-        // %는 나머지다. 5로 나눈 나머지가 0이면 보스 웨이브다.
+        // %는 나머지. 5의 배수 웨이브가 보스
         if (CurrentWave % BossInterval == 0)
         {
             currentWaveType = WaveType.BossMonster;
@@ -224,16 +225,15 @@ public class BattleManager : MonoBehaviour
         }
         WaveSpriteLibrary = currentStage.WaveList[listIndex].MonsterSpriteLibrary;
         StageName_OBJ.text = $"{currentStage.StageName}  {CurrentWave}/{TotalWaves}";
-        Timer = 30;
-        WaveTime_OBJ.text = "30";
+        Timer = currentWaveType == WaveType.BossMonster ? 60f : 30f;
+        WaveTime_OBJ.text = Timer.ToString("F0");
     }
 
-    // 몬스터가 죽는 순간 호출한다. 풀 반환에서는 처치 보상을 지급하지 않는다.
+    // 처치 수와 보상 처리, 보스 사망 기록
     public void MonsterDefeated(WaveType monsterType, Vector3 position)
     {
         if (!IsPlay_Wave)
             return;
-        // 사망 애니메이션이 재생되는 적은 생존 수에서 바로 제외한다.
         aliveMonsterCount--;
         if (monsterType == WaveType.BasicMonster)
             slotManager.AddCoin(1, position);
@@ -248,19 +248,19 @@ public class BattleManager : MonoBehaviour
             && monsterType == WaveType.BossMonster && Timer > 0)
         {
             bossDefeated = true;
-            // 처치 시 체력바를 숨긴다. 등장 연출은 별도 타이머에서 닫는다.
+            if (CurrentWave == 10)
+                AchievementManager.instance.AddProgress(AchievementType.DefeatWave10Boss, 1);
             HideBossHP();
         }
     }
 
-    // 정상 완료한 웨이브에 한 번 보상하고 다음 웨이브를 시작한다.
+    // 클리어 웨이브 기록 후 다음 웨이브 진행
     private void CompleteWave()
     {
         if (!IsPlay_Wave)
             return;
 
         IsPlay_Wave = false;
-        // 진행 중인 번호와 완료한 번호를 따로 기록한다.
         LastClearedWave = CurrentWave;
         slotManager.AddCoin(waveCoin);
 
@@ -273,13 +273,14 @@ public class BattleManager : MonoBehaviour
         StartWave();
     }
 
-    // 두 종료 경로가 같은 함수를 사용하므로 결과 보상은 한 번만 지급된다.
+    // 승패 처리와 클리어한 웨이브 기준 보상 정산
     private void EndGame(bool won)
     {
         if (IsGameEnded)
             return;
 
         IsGameEnded = true;
+        AchievementManager.instance.EndBattle();
         IsPlay_Wave = false;
         IsClear = won;
         HideBossUI();
@@ -297,10 +298,8 @@ public class BattleManager : MonoBehaviour
         }
 
         int reward = LastClearedWave * Mathf.Max(0, CoinPerClearedWave);
-        // 마지막 웨이브 진행 중 패배한 경우는 제외하고, 전부 완료한 승리일 때만 보너스를 더한다.
         if (IsClear && LastClearedWave == TotalWaves)
             reward += Mathf.Max(0, ClearBonusCoin);
-        // 로비 코인은 이번 게임 실행 중에만 누적한다.
         ResultCoin.text = $"{reward}";
         lobbyManager.UpdateCoin(reward);
 
@@ -310,24 +309,26 @@ public class BattleManager : MonoBehaviour
         ResultImage.SetActive(true);
     }
 
-    // 씬을 다시 읽으면 슬롯, 풀, 전투 골드가 초기값으로 돌아온다.
+    // 같은 스테이지 재시작
     public void RestartBattle()
     {
         LeaveResult(true);
     }
 
+    // 결과 창에서 로비로 돌아가기
     public void ReturnToLobby()
     {
         LeaveResult(false);
     }
 
+    // 재도전 여부를 기록하고 씬 다시 불러오기
     private void LeaveResult(bool retry)
     {
         if (!IsGameEnded || isLeavingResult)
             return;
 
         isLeavingResult = true;
-        // 씬을 다시 열면 일반 필드는 초기화된다. 재도전할 스테이지만 static 변수로 전달한다.
+        // static에 재도전 스테이지를 남겨 씬 재시작 후 전달
         if (retry)
             StageManager.RetryStage = currentStage;
         else
@@ -337,7 +338,7 @@ public class BattleManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    // 풀링은 개체를 매번 삭제하지 않고, 꺼 두었다가 다시 켜서 사용하는 방식이다.
+    // 꺼진 몬스터를 풀에 미리 보관
     public void CreatMonsterPool()
     {
         GameObject poolRoot = new GameObject("MonsterPool_Basic");
@@ -353,7 +354,7 @@ public class BattleManager : MonoBehaviour
         Boss_MonsterPool.Add(boss);
     }
 
-    // 대기 목록에서 개체를 꺼내고 웨이브 외형을 적용해 활성화한다.
+    // 풀에서 몬스터를 꺼내 외형과 체력 설정
     public void GetMonster()
     {
         if (!IsPlay_Wave)
@@ -367,19 +368,16 @@ public class BattleManager : MonoBehaviour
         {
             if (currentWaveType == WaveType.BossMonster)
                 return;
-            // 일반 몬스터가 쌓이면 풀을 늘린다.
             GameObject extra = Instantiate(current_BasicMonster);
             extra.SetActive(false);
             pool.Add(extra);
         }
 
         GameObject monsterObject = pool[0];
-        // 출전한 몬스터는 대기 목록에서 뺀다. 사망 애니메이션이 끝나면 다시 목록에 넣는다.
         pool.RemoveAt(0);
         monsterObject.GetComponent<SpriteLibrary>().spriteLibraryAsset = WaveSpriteLibrary;
         MonsterManager monster = monsterObject.GetComponent<MonsterManager>();
         monster.SetWaveHP(currentMonsterHP);
-        // OnEnable에서 출발 위치, 체력, 이동 경로를 초기화한다.
         monsterObject.SetActive(true);
 
         if (currentWaveType == WaveType.BossMonster)
@@ -390,7 +388,7 @@ public class BattleManager : MonoBehaviour
             EndGame(false);
     }
 
-    // 보스가 실제로 활성화된 뒤 체력과 등장 연출을 표시한다.
+    // 보스 등장 연출과 체력바 표시
     private void ShowBossUI(MonsterManager boss)
     {
         activeBoss = boss;
@@ -402,7 +400,6 @@ public class BattleManager : MonoBehaviour
 
         if (BossIntroSeconds > 0)
         {
-            // 연출이 화면을 덮어도 소환 버튼과 슬롯을 누를 수 있게 한다.
             CanvasGroup intro = BossInfo_OBJ.GetComponent<CanvasGroup>();
             if (intro == null)
                 intro = BossInfo_OBJ.AddComponent<CanvasGroup>();
@@ -414,43 +411,42 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    // 일반 몬스터는 자기 체력바만 갱신한다. 상단에는 현재 보스만 표시한다.
+    // 현재 보스의 체력 표시 갱신
     public void RefreshBossHP(MonsterManager monster)
     {
         if (monster == null || monster != activeBoss)
             return;
 
         BossHPSlider.maxValue = monster.MAX_HP;
-        // 슬라이더 값만 바꾸고 OnValueChanged 이벤트는 호출하지 않는다.
-        BossHPSlider.SetValueWithoutNotify(monster.HP);
+        BossHPSlider.SetValueWithoutNotify(monster.HP); // 슬라이더 이벤트 없이 값만 변경
         BossHPText.text = $"{monster.HP:N0}/{monster.MAX_HP:N0}";
     }
 
+    // 보스 연출과 체력바 끄기
     private void HideBossUI()
     {
         BossInfo_OBJ.SetActive(false);
         HideBossHP();
     }
 
+    // 보스 체력바 끄기
     private void HideBossHP()
     {
         activeBoss = null;
         BossHPSlider.gameObject.SetActive(false);
     }
 
-    // MonsterManager가 사망 애니메이션 종료 후 호출해 대기 목록으로 돌려보낸다.
+    // 사망 연출이 끝난 몬스터를 풀에 반환
     public void RemoveMonster(GameObject Monster)
     {
         MonsterManager monster = Monster.GetComponent<MonsterManager>();
         Monster.SetActive(false);
-        // 현재 웨이브가 바뀌었어도 몬스터 자신의 종류로 반환해야 한다.
         List<GameObject> pool = Basic_MonsterPool;
         if (monster.poolType == WaveType.BossMonster)
             pool = Boss_MonsterPool;
         if (!pool.Contains(Monster))
             pool.Add(Monster);
 
-        // 보스 처치 순간이 아니라 풀에 돌아온 시점에 넘어가므로 사망 연출을 끝까지 보여 준다.
         if (monster.poolType == WaveType.BossMonster
             && currentWaveType == WaveType.BossMonster && bossDefeated)
             CompleteWave();

@@ -15,5 +15,5 @@ MonoBehaviour:
   CharacterName: Esper
   Grade: 3
   Prefab: {fileID: 3211836744727103011, guid: db442b401c954e6c9ec6b9bc27a94336, type: 3}
-  AttackDamage: 500
+  AttackDamage: 600
   AttackSpeed: 1.5

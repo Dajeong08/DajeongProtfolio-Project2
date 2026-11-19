@@ -2,31 +2,31 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [DisallowMultipleComponent]
-// 필요한 컴포넌트를 지정한다. 반지름 등 세부 값은 Inspector에서 설정한다.
 [RequireComponent(typeof(SummonedCharacter), typeof(CircleCollider2D), typeof(Rigidbody2D))]
+// 적 감지와 기본 공격
 public class CharacterAttack : MonoBehaviour
 {
-    public SummonedCharacter character; 
-    public CircleCollider2D attackRange;
-    public Animator animator; 
-    public SpriteRenderer characterSprite;
-    public bool SpriteFacesRight = true; // 반전하지 않은 원본 그림이 오른쪽을 보는지 설정한다.
-    public MonsterManager currentTarget; // 현재 공격할 적. null이면 공격하지 않는다.
-    public StunArea AttackStunArea; // 연결한 캐릭터만 기본 공격 시 스턴 영역을 켠다.
+    public SummonedCharacter character; // 공격할 캐릭터의 데이터
+    public CircleCollider2D attackRange; // 공격 범위 콜라이더
+    public Animator animator; // 공격 애니메이션
+    public SpriteRenderer characterSprite; // 좌우 반전할 스프라이트
+    public bool SpriteFacesRight = true; // 원본 그림이 오른쪽을 보는지 설정
+    public MonsterManager currentTarget; // 현재 공격할 적
+    public StunArea AttackStunArea; // 기본 공격에 사용할 기절 영역
 
-    private List<Collider2D> detectedColliders = new List<Collider2D>(); // 공격 범위 안에 들어온 적의 콜라이더 목록. 중복 없이 등록한다.
-    private float attackCooldown; // 공격 쿨타임
-    private const float AttackRangeMultiplier = 1.1f; // 실제 공격 반지름만 10% 넓힌다.
-    public float DisplayRangeRadius { get; private set; } // 선택 시 보여 줄 기존 반지름
+    private List<Collider2D> detectedColliders = new List<Collider2D>(); // 범위에서 감지한 적 콜라이더 목록
+    private float attackCooldown; // 다음 공격까지 남은 시간
+    private const float AttackRangeMultiplier = 1.1f; // 실제 판정 반지름은 표시보다 10% 크게
+    public float DisplayRangeRadius { get; private set; } // 선택 시 표시할 원래 반지름
 
-    // Unity가 초기화할 때 호출한다. Inspector 참조가 비어 있으면 직접 찾는다.
+    // 필요한 컴포넌트와 공격 반지름 설정
     private void Awake()
     {
         if (character == null)
             character = GetComponent<SummonedCharacter>();
         if (attackRange == null)
             attackRange = GetComponent<CircleCollider2D>();
-        // 표시용 원은 원래 크기를 보관하고, 실제 콜라이더만 넓힌다.
+        // 표시용은 원래 반지름, 실제 판정만 10% 확대
         DisplayRangeRadius = attackRange.radius;
         attackRange.radius = DisplayRangeRadius * AttackRangeMultiplier;
 
@@ -36,7 +36,7 @@ public class CharacterAttack : MonoBehaviour
             characterSprite = GetComponentInChildren<SpriteRenderer>();
     }
 
-    // 활성화될 때 이전 타깃을 비우고 첫 공격을 바로 할 수 있게 한다.
+    // 공격 대기시간과 감지 목록 초기화
     private void OnEnable()
     {
         attackCooldown = 0;
@@ -44,24 +44,23 @@ public class CharacterAttack : MonoBehaviour
         detectedColliders.Clear();
     }
 
-    // 비활성화되면 이전 적 참조를 정리한다.
+    // 기존 타깃과 감지 목록 비우기
     private void OnDisable()
     {
         currentTarget = null;
         detectedColliders.Clear();
     }
 
-    // 슬롯 이동 후 새 위치의 적을 다시 감지한다. 공격 대기시간은 유지한다.
+    // 슬롯 이동 후 기존 타깃 비우기
     public void ClearTargets()
     {
         currentTarget = null;
         detectedColliders.Clear();
     }
 
-    // 매 프레임 타깃과 남은 대기시간을 확인해 공격한다.
+    // 타깃을 확인하고 공속에 맞춰 공격
     private void Update()
     {
-        // 화면이 멈춰도 Update는 호출되므로 종료 후 공격을 막는다.
         if (BattleManager.instance != null && BattleManager.instance.IsGameEnded)
             return;
 
@@ -86,53 +85,54 @@ public class CharacterAttack : MonoBehaviour
         {
             animator.SetTrigger("Attack");
         }
-        // 현재는 타격 프레임을 기다리지 않고 공격 시작 시 피해를 준다.
         Vector3 hitPosition = currentTarget.transform.position;
-        currentTarget.TakeDamage(character.Data.AttackDamage);
-        // 스턴 영역이 연결된 캐릭터는 공격 한 번마다 10% 확률로 발동한다.
+        float damage = character.Data.AttackDamage;
+        if (UpGreadManager.instance != null)
+            damage *= UpGreadManager.instance.GetAttackMultiplier(character.Data.Grade);
+        currentTarget.TakeDamage(damage);
         if (AttackStunArea != null && Random.Range(0, 100) < 10)
         {
             AttackStunArea.Activate(hitPosition);
         }
+        // 초당 공격 횟수를 공격 간격으로 변환
         attackCooldown = 1f / character.Data.AttackSpeed;
     }
 
-    // 상대가 공격 범위에 들어오면 Unity 물리 시스템이 호출한다.
+    // 범위에 들어온 적 등록
     private void OnTriggerEnter2D(Collider2D other)
     {
         RegisterMonster(other);
     }
 
-    // 이미 범위와 겹친 상태로 활성화된 경우도 등록할 수 있다.
+    // 이미 범위 안에 있는 적도 등록
     private void OnTriggerStay2D(Collider2D other)
     {
         RegisterMonster(other);
     }
 
-    // 범위를 나간 상대는 감지 목록에서 제거한다.
+    // 범위를 나간 적 제거
     private void OnTriggerExit2D(Collider2D other)
     {
         detectedColliders.Remove(other);
     }
 
-    // 살아 있는 몬스터의 콜라이더만 중복 없이 등록한다.
+    // 살아 있는 적을 중복 없이 등록
     private void RegisterMonster(Collider2D other)
     {
         if (detectedColliders.Contains(other)) // 이미 있으면 리턴
             return;
 
-        // 자식에 콜라이더가 있어도 부모의 MonsterManager를 찾는다.
+        // 콜라이더가 자식에 있어도 부모의 몬스터 컴포넌트 확인
         MonsterManager monster = other.GetComponentInParent<MonsterManager>();
         if (monster == null)
             return;
-        // isActiveAndEnabled는 오브젝트와 이 스크립트가 모두 켜져 있는지 확인한다.
         if (!monster.isAlive || !monster.isActiveAndEnabled)
             return;
 
         detectedColliders.Add(other); // 공격 영역에 들어온 몬스터 리스트에 넣기
     }
 
-    // 켜져 있고, 살아 있으며, 범위 안에 남은 적인지 확인한다.
+    // 활성 상태이고 살아 있는 적인지 확인
     private bool CanAttack(Collider2D targetCollider)
     {
         if (targetCollider == null)
@@ -141,9 +141,6 @@ public class CharacterAttack : MonoBehaviour
             return false;
         if (!attackRange.isActiveAndEnabled)
             return false;
-        // 마지막 물리 갱신의 접촉 정보를 확인한다.
-        //if (!attackRange.IsTouching(targetCollider))
-        //    return false;
 
         MonsterManager monster = targetCollider.GetComponentInParent<MonsterManager>();
         if (monster == null)
@@ -153,13 +150,13 @@ public class CharacterAttack : MonoBehaviour
         return true;
     }
 
-    // 기존 타깃이 없어졌을 때만 다른 적으로 교체한다.
+    // 무효한 적을 지우고 현재 타깃 유지 또는 교체
     private void RefreshTarget()
     {
-        // 뒤에서부터 삭제하면 아직 검사하지 않은 앞 항목의 번호는 바뀌지 않는다.
+        // 뒤부터 지우면 아직 확인하지 않은 인덱스가 바뀌지 않음
         for (int i = detectedColliders.Count - 1; i >= 0; i--)
         {
-            if (!CanAttack(detectedColliders[i])) // 살아 있지 않거나 범위를 벗어난 적은 제거한다.
+            if (!CanAttack(detectedColliders[i])) // 공격할 수 없는 적 제거
             {
                 detectedColliders.RemoveAt(i);
             }
@@ -168,7 +165,7 @@ public class CharacterAttack : MonoBehaviour
         for (int i = 0; i < detectedColliders.Count; i++) // 현재 타깃이 살아 있는지 확인한다.
         {
             MonsterManager monster = detectedColliders[i].GetComponentInParent<MonsterManager>();
-            if (monster == currentTarget) // 현재 타깃이 살아 있으면 그대로 유지한다.
+            if (monster == currentTarget) // 현재 타깃 유지
             {
                 return;
             }
@@ -177,11 +174,11 @@ public class CharacterAttack : MonoBehaviour
         currentTarget = null;
         if (detectedColliders.Count > 0)
         {
-            currentTarget = detectedColliders[0].GetComponentInParent<MonsterManager>(); // 살아 있는 적이 있으면 첫 번째를 새 타깃으로 지정한다.
+            currentTarget = detectedColliders[0].GetComponentInParent<MonsterManager>(); // 첫 번째 적을 타깃으로 선택
         }
     }
 
-    // 스킬에 사용할 적 목록. 콜라이더가 여러 개인 몬스터도 한 번만 넣는다.
+    // 스킬에 사용할 적 목록 반환
     public List<MonsterManager> GetSkillTargets()
     {
         List<MonsterManager> targets = new List<MonsterManager>();
@@ -197,18 +194,18 @@ public class CharacterAttack : MonoBehaviour
         return targets;
     }
 
-    // 공격 대상의 좌우 위치를 기준으로 바라본다. 같은 x 위치면 방향을 유지한다.
+    // 적의 좌우 위치에 맞춰 스프라이트 반전
     private void FaceTarget()
     {
         if (characterSprite == null || currentTarget == null)
             return;
 
-        float differenceX = currentTarget.transform.position.x - transform.position.x; // 타겟 위치 - 캐릭터 위치 
-        if (Mathf.Abs(differenceX) < 0.001f) // 절대값으로 플레이어 위치랑 차이가 크지 않으면 리턴
+        float differenceX = currentTarget.transform.position.x - transform.position.x; // 적과 캐릭터의 좌우 차이
+        if (Mathf.Abs(differenceX) < 0.001f) // 좌우 차이가 거의 없으면 방향 유지
             return;
 
         bool faceLeft = differenceX < 0;
-        // flipX는 그림만 반전하므로 콜라이더 크기와 슬롯 배치에는 영향이 없다.
+        // flipX는 그림만 반전
         if (SpriteFacesRight)
             characterSprite.flipX = faceLeft;
         else

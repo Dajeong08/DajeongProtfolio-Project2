@@ -15,5 +15,5 @@ MonoBehaviour:
   CharacterName: Ogre
   Grade: 2
   Prefab: {fileID: 3211836744727103011, guid: 2280985bd7154b0f843d726487821cee, type: 3}
-  AttackDamage: 280
+  AttackDamage: 336
   AttackSpeed: 1.3

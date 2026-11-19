@@ -15,5 +15,5 @@ MonoBehaviour:
   CharacterName: Werewolf
   Grade: 4
   Prefab: {fileID: 3211836744727103011, guid: d2fb56b56ca244a68f2e25361c79b542, type: 3}
-  AttackDamage: 920
+  AttackDamage: 1104
   AttackSpeed: 1.5

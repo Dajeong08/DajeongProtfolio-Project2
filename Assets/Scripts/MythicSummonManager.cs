@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// 일반 합성과 같은 슬롯 함수를 사용하되, 여러 종류의 재료를 소비한다.
+// 신화 조합 재료 확인과 소환
 public class MythicSummonManager : MonoBehaviour
 {
-    public SlotManager slotManager;
-    public GameObject LobbyScreen;
+    public SlotManager slotManager; // 재료와 빈 슬롯 확인
+    public GameObject LobbyScreen; // 로비에서 조합을 막기 위한 확인
 
-    // 비활성 슬롯과 목록에 중복 등록된 슬롯은 검색에서 제외한다.
+    // 중복 등록되지 않은 활성 슬롯 가져오기
     private SlotController GetSlot(int index)
     {
         GameObject slotObject = slotManager.SlotList[index];
@@ -24,6 +24,7 @@ public class MythicSummonManager : MonoBehaviour
         return slot;
     }
 
+    // 필드에 있는 해당 재료 캐릭터 수 계산
     public int CountMaterial(CharacterData data)
     {
         if (slotManager == null || data == null)
@@ -38,10 +39,10 @@ public class MythicSummonManager : MonoBehaviour
         return count;
     }
 
-    // 같은 슬롯이 여러 번 들어가면 그 슬롯에서 여러 명을 꺼낸다는 뜻이다.
+    // 재료를 꺼낼 슬롯 목록 작성
     private bool CollectMaterialSlots(MythicRecipe recipe, List<SlotController> materialSlots)
     {
-        // 전달받은 리스트에 결과를 채운다. 여기서는 위치만 조사하고 실제 캐릭터는 아직 빼지 않는다.
+        // 리스트에 꺼낼 슬롯만 기록, 아직 재료는 소비하지 않음
         materialSlots.Clear();
         if (slotManager == null || BattleManager.instance == null
             || BattleManager.instance.IsGameEnded)
@@ -62,7 +63,6 @@ public class MythicSummonManager : MonoBehaviour
             if (material == null || material.Character == null || material.Count <= 0
                 || material.Character.Grade == CharacterGrade.Mythic)
                 return false;
-            // 같은 재료는 한 항목에 수량으로 설정한다. 중복 항목은 잘못된 데이터다.
             for (int j = 0; j < i; j++)
             {
                 if (recipe.Materials[j].Character == material.Character)
@@ -74,9 +74,9 @@ public class MythicSummonManager : MonoBehaviour
                 SlotController slot = GetSlot(j);
                 if (slot == null || slot.CurrentData != material.Character)
                     continue;
-                // 필요한 남은 수량과 슬롯 인원 중 작은 수만 사용해 재료를 과하게 잡지 않는다.
                 int count = Mathf.Min(remaining, slot.GetCharacterCount());
                 for (int k = 0; k < count; k++)
+                    // 같은 슬롯을 여러 번 넣으면 그만큼 캐릭터를 꺼냄
                     materialSlots.Add(slot);
                 remaining -= count;
                 if (remaining == 0)
@@ -88,6 +88,7 @@ public class MythicSummonManager : MonoBehaviour
         return true;
     }
 
+    // 빈 슬롯 또는 재료 소비 후 비게 될 슬롯 찾기
     private SlotController FindResultSlot(List<SlotController> materialSlots)
     {
         SlotController emptySlot = slotManager.FindEmptySlot();
@@ -102,25 +103,25 @@ public class MythicSummonManager : MonoBehaviour
                 if (materialSlots[j] == slot)
                     consumedCount++;
             }
-            // 현재 빈칸이 없어도, 이 슬롯의 재료를 전부 쓰면 빈칸이 되므로 결과를 배치할 수 있다.
+            // 재료를 모두 소비해 비는 슬롯도 결과 배치 가능
             if (consumedCount == slot.GetCharacterCount())
                 return slot;
         }
         return null;
     }
 
+    // 재료와 결과 배치 공간 확인
     public bool CanSummon(MythicRecipe recipe)
     {
         List<SlotController> materialSlots = new List<SlotController>();
         if (!CollectMaterialSlots(recipe, materialSlots))
             return false;
-        // 재료만 충분한 것으로 끝내지 않고, 소환 결과를 놓을 자리까지 있어야 true다.
         return FindResultSlot(materialSlots) != null;
     }
 
+    // 재료를 소비하고 신화 조합 소환
     public bool TrySummon(MythicRecipe recipe)
     {
-        // 버튼 표시 후 재료가 바뀌었을 수 있으므로 클릭 순간 다시 검사한다.
         List<SlotController> materialSlots = new List<SlotController>();
         if (!CollectMaterialSlots(recipe, materialSlots))
             return false;
@@ -130,7 +131,7 @@ public class MythicSummonManager : MonoBehaviour
 
         GameObject resultObject = Instantiate(recipe.Result.Prefab,
             targetSlot.Box_1.transform.position, recipe.Result.Prefab.transform.rotation);
-        // 재료 소비와 슬롯 등록을 마친 뒤 켠다. 꺼진 동안에는 신화 목록 등록을 미룬다.
+        // 재료 소비와 슬롯 등록이 끝난 뒤 활성화
         resultObject.SetActive(false);
         SummonedCharacter resultCharacter = resultObject.GetComponent<SummonedCharacter>();
         resultCharacter.Initialize(recipe.Result);
@@ -150,9 +151,8 @@ public class MythicSummonManager : MonoBehaviour
 
         if (!removedAll || !targetSlot.TryAddCharacter(resultCharacter))
         {
-            // 실패하면 파괴하지 않고 원래 슬롯에 역순으로 되돌린다.
+            // 실패 시 꺼낸 역순으로 원래 슬롯에 복구
             for (int i = materials.Count - 1; i >= 0; i--)
-                // 두 리스트의 같은 번호는 꺼낸 캐릭터와 원래 소속 슬롯을 가리킨다.
                 materialSlots[i].TryAddCharacter(materials[i]);
             Destroy(resultObject);
             slotManager.NotifyCharactersChanged();
@@ -166,6 +166,7 @@ public class MythicSummonManager : MonoBehaviour
         }
         resultObject.SetActive(true);
         slotManager.FinishMythicSummon(recipe);
+        AchievementManager.instance.AddProgress(AchievementType.SummonMythic, 1);
         return true;
     }
 }

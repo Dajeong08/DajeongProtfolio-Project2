@@ -1,18 +1,18 @@
 using UnityEngine;
 
-// Play 모드에서 Inspector 메뉴로 캐릭터를 무료 생성한다.
+// 인스펙터에서 캐릭터 생성
 public class DeveloperManager : MonoBehaviour
 {
-    public CharacterData Character;
-    public int SlotNumber; // SlotList 순서 기준, 0부터 시작
-    public SlotManager slotManager;
-    public GameObject LobbyScreen;
+    public CharacterData Character; // 생성할 캐릭터 데이터
+    public int SlotNumber; // SlotList 기준 슬롯 번호, 0부터 시작
+    public SlotManager slotManager; // 캐릭터를 배치할 슬롯 목록
+    public GameObject LobbyScreen; // 로비에서는 생성하지 않도록 확인
 
-    // 컴포넌트의 메뉴에서 직접 실행한다. UI 버튼에 연결하지 않아도 호출할 수 있다.
+    // 컴포넌트 제목 우클릭 메뉴에 추가
     [ContextMenu("선택한 슬롯에 캐릭터 생성")]
+    // 플레이 중 지정한 슬롯에 캐릭터 무료 생성
     private void SpawnCharacter()
     {
-        // 편집 모드에서 실행해 씬에 캐릭터가 저장되지 않도록 플레이 중에만 허용한다.
         if (!Application.isPlaying)
             return;
         if (BattleManager.instance.IsGameEnded || LobbyScreen.activeInHierarchy)
@@ -40,7 +40,6 @@ public class DeveloperManager : MonoBehaviour
             return;
         }
 
-        // 비용을 내는 일반 소환을 거치지 않았으므로 생성 후 UI는 여기서 직접 갱신한다.
         slotManager.NotifyCharactersChanged();
     }
 }

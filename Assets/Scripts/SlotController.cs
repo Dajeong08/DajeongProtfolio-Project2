@@ -1,32 +1,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// 슬롯 하나의 종류, 인원, 캐릭터 위치를 관리한다.
+// 슬롯 하나의 캐릭터와 배치 관리
 public class SlotController : MonoBehaviour
 {
-    public GameObject Box_1;
-    public GameObject Box_2;
-    public GameObject Box_3;
-    public CharacterData CurrentData;
-    public GameObject RangeCircle;
-    private List<SummonedCharacter> characters = new List<SummonedCharacter>();
+    public GameObject Box_1; // 첫 번째 배치 위치
+    public GameObject Box_2; // 두 번째 배치 위치
+    public GameObject Box_3; // 세 번째 배치 위치
+    public CharacterData CurrentData; // 슬롯에 있는 캐릭터 종류
+    public GameObject RangeCircle; // 선택 시 표시할 공격 범위 원
+    private List<SummonedCharacter> characters = new List<SummonedCharacter>(); // 이 슬롯에 있는 캐릭터 목록
 
+    // 공격 범위 표시 끄기
     private void Awake()
     {
         HideAttackRange();
     }
 
+    // 슬롯이 꺼지면 범위 표시도 끄기
     private void OnDisable()
     {
         HideAttackRange();
     }
 
+    // 선택된 공격 범위 원 숨기기
     public void HideAttackRange()
     {
         if (RangeCircle != null)
             RangeCircle.SetActive(false);
     }
 
+    // 슬롯 캐릭터의 공격 반지름에 맞춰 원 표시
     public void ShowAttackRange()
     {
         HideAttackRange();
@@ -57,8 +61,7 @@ public class SlotController : MonoBehaviour
         if (circleSprite == null || circleSprite.sprite == null)
             return;
 
-        // 기존 표시 반지름에 실제 월드 배율을 곱한다.
-        // lossyScale은 부모들의 배율까지 포함한 최종 월드 배율이다.
+        // lossyScale은 부모 배율까지 포함한 월드 배율
         Vector3 rangeScale = range.transform.lossyScale;
         float radius = displayRadius * Mathf.Max(Mathf.Abs(rangeScale.x), Mathf.Abs(rangeScale.y));
         Vector3 spriteSize = circleSprite.sprite.bounds.size;
@@ -69,40 +72,40 @@ public class SlotController : MonoBehaviour
             || Mathf.Abs(parentScale.x) < 0.0001f || Mathf.Abs(parentScale.y) < 0.0001f)
             return;
 
-        // 지름 = 반지름 * 2. 슬롯 배율을 나눠 원이 타원으로 늘어나지 않게 한다.
+        // 지름으로 크기를 맞추고 슬롯 배율 보정
         RangeCircle.transform.localScale = new Vector3(
             radius * 2 / spriteSize.x / Mathf.Abs(parentScale.x),
             radius * 2 / spriteSize.y / Mathf.Abs(parentScale.y), 1);
         RangeCircle.transform.position = transform.position;
-        // 그림의 중심이 원점과 다른 경우, 그 차이만큼 빼서 원의 중심을 슬롯에 맞춘다.
         RangeCircle.transform.position -= RangeCircle.transform.TransformVector(circleSprite.sprite.bounds.center);
         RangeCircle.SetActive(true);
     }
 
-    // 캐릭터가 한 명도 없으면 빈 슬롯이다.
-    public bool IsEmpty() // 비었는지 확인하는 함수
+    // 슬롯이 비었는지 확인
+    public bool IsEmpty()
     {
         if (characters.Count == 0)
             return true;
         return false;
     }
 
-    // 일반 캐릭터는 3명, 신화는 한 슬롯에 1명만 배치한다.
-    public bool IsFull() // 꽉 찼는지 확인하는 함수
+    // 일반 3명, 신화 1명이면 가득 찬 상태
+    public bool IsFull()
     {
         if (CurrentData != null && CurrentData.Grade == CharacterGrade.Mythic) // 신화 등급이면 1명만 배치 가능
-            return characters.Count >= 1; // 현재 슬롯이 신화 등급이면 1명 이상에서 꽉찬 상태
+            return characters.Count >= 1; // 신화는 1명으로 가득 참
         if (characters.Count >= 3)
-            return true; // 3 이상이라면 트루
+            return true; // 3명이면 가득 참
         return false;
     }
 
+    // 현재 인원 반환
     public int GetCharacterCount()
     {
         return characters.Count;
     }
 
-    // 세 배치 위치가 모두 연결되어 있는지 확인한다.
+    // 세 배치 위치가 연결됐는지 확인
     public bool HasPositions()
     {
         if (Box_1 == null || Box_2 == null || Box_3 == null)
@@ -110,7 +113,7 @@ public class SlotController : MonoBehaviour
         return true;
     }
 
-    // 캐릭터를 넣을 수 있는지 확인
+    // 같은 종류를 추가할 수 있는지 확인
     public bool CanAdd(CharacterData data)
     {
         if (data == null)
@@ -122,33 +125,32 @@ public class SlotController : MonoBehaviour
         if (IsEmpty()) // 비어있으면 어떤 캐릭터든 넣을 수 있다.
             return true;
 
-        // 같은 데이터인지 비교한다.
         if (CurrentData == data)
             return true;
         return false;
     }
 
-    // 캐릭터를 등록하고 소속 슬롯과 위치를 설정한다.
+    // 캐릭터를 등록하고 소속 슬롯과 위치 설정
     public bool TryAddCharacter(SummonedCharacter character)
     {
         if (character == null)
             return false;
         if (character.CurrentSlot != null)
             return false;
-        if (!CanAdd(character.Data)) // 넣을 수 없다면 
+        if (!CanAdd(character.Data)) // 넣을 수 없다면
             return false;
 
-        CurrentData = character.Data; // 이 슬롯의 데이터를 생성되는 캐릭터 데이터로 설정한다.
-        characters.Add(character); // 캐릭터를 리스트에 추가한다.
-        character.SetSlot(this); // 생성되는 캐릭터의 슬롯을 현재 슬롯으로 설정한다.
-        character.transform.SetParent(transform, true); // 생성되는 캐릭터의 부모를 현재 슬롯으로 설정한다.
-                                                        // true: 부모를 바꿀 때 기존 월드 크기와 위치를 유지한다.
+        CurrentData = character.Data; // 슬롯의 종류 설정
+        characters.Add(character); // 캐릭터 등록
+        character.SetSlot(this); // 소속 슬롯 연결
+        // true: 부모가 바뀌어도 월드 위치와 크기 유지
+        character.transform.SetParent(transform, true); // 슬롯을 부모로 설정
 
         RefreshPositions(); 
         return true;
     }
 
-    // 마지막에 추가한 캐릭터를 슬롯 목록에서 빼서 판매 처리에 전달한다.
+    // 마지막 캐릭터를 목록에서 빼서 반환
     public SummonedCharacter RemoveLastCharacter()
     {
         if (IsEmpty())
@@ -156,26 +158,26 @@ public class SlotController : MonoBehaviour
 
         int lastIndex = characters.Count - 1; 
         SummonedCharacter character = characters[lastIndex];
-        characters.RemoveAt(lastIndex); // 리스트의 마지막 캐릭터를 제거한다.
+        characters.RemoveAt(lastIndex); // 목록에서 제거
         if (character != null)
-            character.SetSlot(null); // 캐릭터의 슬롯을 null로 설정한다.
+            character.SetSlot(null); // 소속 슬롯 해제
 
-        if (IsEmpty()) // 제거후 슬롯이 비어있다면 CurrentData를 null로 설정하고 공격 범위를 숨긴다.
+        if (IsEmpty()) // 마지막 캐릭터를 뺀 경우
         {
             CurrentData = null;
             HideAttackRange();
         }
-        else // 제거후 슬롯이 비어있지 않다면 배치 위치를 새로 갱신한다.
+        else // 남은 캐릭터 위치 갱신
         {
             RefreshPositions();
         }
-        return character; // 제거된 캐릭터를 반환한다.
+        return character; // 꺼낸 캐릭터 반환
     }
 
-    // 빈 슬롯과 교환하면 이동, 캐릭터가 있는 슬롯과 교환하면 자리 바꾸기가 된다.
+    // 두 슬롯의 캐릭터 목록과 종류 교환
     public void SwapCharacters(SlotController other)
     {
-        // 목록 자체를 서로 교환한다. temp에 먼저 보관해야 한쪽 목록을 덮어쓰지 않는다.
+        // 한쪽 목록을 덮어쓰지 않게 임시 보관
         List<SummonedCharacter> temp = characters;
         characters = other.characters;
         other.characters = temp;
@@ -190,20 +192,20 @@ public class SlotController : MonoBehaviour
         other.PlaceMovedCharacters();
     }
 
+    // 이동한 캐릭터의 소속과 감지 목록 갱신
     private void PlaceMovedCharacters()
     {
         for (int i = 0; i < characters.Count; i++)
         {
             characters[i].SetSlot(this);
             characters[i].transform.SetParent(transform, true);
-            // 이전 슬롯에서 감지했던 적은 비우고, 이동한 위치에서 다시 감지한다.
             characters[i].GetComponent<CharacterAttack>().ClearTargets();
         }
         RefreshPositions();
     }
 
-    // 목록 순서대로 첫째, 둘째, 셋째 위치에 세운다.
-    private void RefreshPositions() // characters리스트에 있는 순서대로 배치 위치를 새로 갱신한다.
+    // 목록 순서대로 세 배치 위치에 정렬
+    private void RefreshPositions()
     {
         for (int i = 0; i < characters.Count; i++)
         {

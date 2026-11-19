@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// 신화 스킬 종류
 public enum MythicSkillType
 {
     None,
@@ -9,33 +10,33 @@ public enum MythicSkillType
     Angel
 }
 
+// 소환된 캐릭터의 데이터, 소속, 마나 관리
 public class SummonedCharacter : MonoBehaviour
 {
-    public CharacterData Data; // 소환된 캐릭터가 가지는 데이터
-    public SlotController CurrentSlot; // 캐릭터 현재 슬롯
-    public int SellCoin = 0; // 판매시 얻는 코인 개수
+    public CharacterData Data; // 이 캐릭터의 공통 데이터
+    public SlotController CurrentSlot; // 현재 소속 슬롯
+    public int SellCoin = 0; // 일반 캐릭터 판매 코인
 
-    // 신화 마나와 스킬
-    public float Mana;
-    public float MaxMana = 100f;
-    public MythicSkillType SkillType;
-    public CharacterAttack Attack;
-    public StunArea SkillStunArea; // 프리팹의 비활성 스턴 영역 자식을 연결한다.
-    public GameObject SkillEffectPrefab; // 엔젤·악마가 자기 위치에 생성할 연출
-    [Min(0.1f)] public float SkillEffectSeconds = 2f;
-    private const float ManaPerSecond = 15f;
+    public float Mana; // 현재 마나
+    public float MaxMana = 100f; // 최대 마나
+    public MythicSkillType SkillType; // 신화 스킬 종류
+    public CharacterAttack Attack; // 스킬 대상 목록을 가져올 공격 컴포넌트
+    public StunArea SkillStunArea; // 웨어울프 스킬의 기절 영역
+    public GameObject SkillEffectPrefab; // 신화 스킬 이펙트 프리팹
+    [Min(0.1f)] public float SkillEffectSeconds = 2f; // 이펙트 표시 시간
+    private const float ManaPerSecond = 15f; // 초당 마나 회복량
 
+    // 슬롯에 있는 신화라면 관리 목록에 등록
     private void OnEnable()
     {
-        // 슬롯에 배치된 신화를 다시 켜면 목록에도 다시 등록한다.
         if (CurrentSlot != null)
             SetSlot(CurrentSlot);
     }
 
+    // 꺼진 신화를 목록에서 제거하고 천사 감속 갱신
     private void OnDisable()
     {
-        // 씬이 닫힐 때는 전투 매니저가 먼저 사라질 수 있다.
-        // Remove는 목록에서 실제로 제거했으면 true. 제거 성공 시에만 엔젤 수를 줄인다.
+        // Remove는 실제로 목록에서 제거했을 때만 true
         if (BattleManager.instance != null
             && BattleManager.instance.MythicCharacters.Remove(this)
             && SkillType == MythicSkillType.Angel)
@@ -45,6 +46,7 @@ public class SummonedCharacter : MonoBehaviour
         }
     }
 
+    // 시간에 따라 마나 회복, 가득 차면 스킬 시도
     private void Update()
     {
         if (CurrentSlot == null || Data.Grade != CharacterGrade.Mythic
@@ -52,19 +54,19 @@ public class SummonedCharacter : MonoBehaviour
             return;
 
         AddMana(ManaPerSecond * Time.deltaTime);
-        // &&는 앞 조건이 true일 때만 뒤를 실행한다. 마나가 가득 찼을 때만 스킬을 시도한다.
+        // &&는 앞 조건이 참일 때만 뒤 함수 실행
         if (Mana >= MaxMana && UseSkill())
-            Mana = 0f; // 스킬을 사용하면 마나를 비운다. 대상이 없으면 최대치로 유지한다.
+            Mana = 0f; // 스킬 성공 시 마나 소모
     }
 
-    // SlotManager가 소환 직후 호출한다. 캐릭터가 가질 데이터를 저장한다.
+    // 소환된 캐릭터에 데이터 연결
     public void Initialize(CharacterData data) 
     {
-        Data = data;
+        Data = data; // 복사하지 않고 같은 CharacterData를 참조
         Mana = 0f;
     }
 
-    // SlotController가 등록할 때 호출해 소속 슬롯을 알려준다.
+    // 소속 슬롯과 신화 관리 목록 갱신
     public void SetSlot(SlotController slot)
     {
         CurrentSlot = slot;
@@ -80,7 +82,6 @@ public class SummonedCharacter : MonoBehaviour
                 BattleManager.instance.RefreshSpeedLoss();
             }
         }
-        // 슬롯 간 이동 때도 SetSlot이 호출되므로, 이미 등록된 신화는 중복으로 넣지 않는다.
         else if (isActiveAndEnabled && !mythics.Contains(this))
         {
             mythics.Add(this);
@@ -92,13 +93,13 @@ public class SummonedCharacter : MonoBehaviour
         }
     }
 
+    // 최대 마나를 넘지 않게 회복
     public void AddMana(float amount)
     {
-        // 자연 회복과 엔젤의 마나 지급 모두 최대치를 넘지 못한다.
         Mana = Mathf.Clamp(Mana + amount, 0f, MaxMana);
     }
 
-    // 실제로 스킬을 사용했을 때만 true를 반환한다.
+    // 천사, 악마, 웨어울프에 맞는 스킬 실행
     private bool UseSkill()
     {
         if (SkillType == MythicSkillType.Angel) // 천사 스킬
@@ -107,7 +108,7 @@ public class SummonedCharacter : MonoBehaviour
             List<SummonedCharacter> mythics = BattleManager.instance.MythicCharacters;
             for (int i = 0; i < mythics.Count; i++)
             {
-                // 천사끼리 마나를 주고받으며 스킬이 반복되는 것을 막는다.
+                // 천사끼리 마나를 주고받는 반복 방지
                 if (mythics[i].SkillType == MythicSkillType.Angel) // 천사는 포함 하지 않음
                     continue;
 
@@ -116,7 +117,6 @@ public class SummonedCharacter : MonoBehaviour
             }
             if (restored)
                 ShowSkillEffect();
-            // 다른 신화가 한 명도 없으면 false라서 마나를 소비하지 않는다.
             return restored;
         }
 
@@ -132,9 +132,9 @@ public class SummonedCharacter : MonoBehaviour
         }
         else if (SkillType == MythicSkillType.Werewolf)
         {
-            Vector3 hitPosition = targets[0].transform.position; // 타겟의 위치 가져오기 
-            targets[0].TakeDamage(300f); // 가장 앞의 적에게만 피해주기 
-            SkillStunArea.Activate(hitPosition); // 타겟 위치에 스턴 범위 주기
+            Vector3 hitPosition = targets[0].transform.position; // 피격 위치 보관
+            targets[0].TakeDamage(300f); // 먼저 감지한 적 1명에게 피해
+            SkillStunArea.Activate(hitPosition); // 피격 위치에 기절 영역 생성
         }
         else
         {
@@ -143,13 +143,13 @@ public class SummonedCharacter : MonoBehaviour
         return true;
     }
 
+    // 현재 위치에 스킬 이펙트 생성
     private void ShowSkillEffect()
     {
         if (SkillEffectPrefab == null)
             return;
 
-        // 생성 순간의 자기 위치에 두고, 프리팹의 회전과 크기를 사용한다.
-        // 부모를 지정하지 않아 캐릭터가 이동해도 연출은 생성한 자리에 남는다.
+        // 부모 없이 생성해서 캐릭터가 이동해도 연출 위치 유지
         GameObject effect = Instantiate(SkillEffectPrefab, transform.position,
             SkillEffectPrefab.transform.rotation);
         Destroy(effect, Mathf.Max(0.1f, SkillEffectSeconds));

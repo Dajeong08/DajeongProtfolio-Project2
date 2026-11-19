@@ -15,5 +15,5 @@ MonoBehaviour:
   CharacterName: Bear
   Grade: 3
   Prefab: {fileID: 3211836744727103011, guid: ee72742e481b4c7eb8209d7c6ddf8a2a, type: 3}
-  AttackDamage: 1000
+  AttackDamage: 1200
   AttackSpeed: 0.7

@@ -15,5 +15,5 @@ MonoBehaviour:
   CharacterName: Demon
   Grade: 4
   Prefab: {fileID: 3211836744727103011, guid: 49d0cf6dd907454791d87dbd21defe13, type: 3}
-  AttackDamage: 1520
+  AttackDamage: 1824
   AttackSpeed: 1

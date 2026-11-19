@@ -15,5 +15,5 @@ MonoBehaviour:
   CharacterName: Angel
   Grade: 4
   Prefab: {fileID: 3211836744727103011, guid: f5e6ddc191544236bddcba4e249f1b59, type: 3}
-  AttackDamage: 620
+  AttackDamage: 744
   AttackSpeed: 1.2

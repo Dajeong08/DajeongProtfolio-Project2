@@ -15,5 +15,5 @@ MonoBehaviour:
   CharacterName: Cat
   Grade: 2
   Prefab: {fileID: 3211836744727103011, guid: a0d64cce375c4168abb4aa033782e62c, type: 3}
-  AttackDamage: 400
+  AttackDamage: 480
   AttackSpeed: 0.8

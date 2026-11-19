@@ -15,5 +15,5 @@ MonoBehaviour:
   CharacterName: Sniper
   Grade: 2
   Prefab: {fileID: 3211836744727103011, guid: 8f2503930ff52a94eb17c14ae719326b, type: 3}
-  AttackDamage: 220
+  AttackDamage: 264
   AttackSpeed: 1.8

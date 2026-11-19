@@ -3,27 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-// StageCollection처럼 Inspector에서 신화 한 종류의 UI를 묶어 연결한다.
 [Serializable]
+// 신화 한 종류의 레시피와 UI
 public class MythicUIEntry
 {
-    public MythicRecipe Recipe;
-    public Button QuickButton;
-    public Button SummonButton;
-    public Image[] MaterialIcons;
+    public MythicRecipe Recipe; // 이 버튼의 조합 레시피
+    public Button QuickButton; // 빠른 소환 버튼
+    public Button SummonButton; // 조합 창의 소환 버튼
+    public Image[] MaterialIcons; // 재료 보유 여부를 표시할 이미지
 }
 
+// 신화 재료와 소환 버튼 표시
 public class MythicSummonUI : MonoBehaviour
 {
-    public MythicSummonManager summonManager;
-    public GameObject QuickSummonRoot;
-    public List<MythicUIEntry> MythicList = new List<MythicUIEntry>();
+    public MythicSummonManager summonManager; // 신화 조합 요청
+    public GameObject QuickSummonRoot; // 빠른 소환 버튼 묶음
+    public List<MythicUIEntry> MythicList = new List<MythicUIEntry>(); // 신화별 레시피와 UI 연결
 
+    // 신화 소환 UI 초기 표시
     private void Start()
     {
         RefreshUI();
     }
 
+    // 재료 보유 상태와 소환 버튼 갱신
     public void RefreshUI()
     {
         int visibleCount = 0;
@@ -51,9 +54,7 @@ public class MythicSummonUI : MonoBehaviour
                 entry.QuickButton.gameObject.SetActive(canSummon);
                 if (canSummon)
                 {
-                    // 숨겨진 버튼의 빈 공간 없이 위에서부터 배치한다.
                     RectTransform rect = entry.QuickButton.GetComponent<RectTransform>();
-                    // visibleCount는 표시된 버튼만 센다. 목록 중간 버튼이 숨겨져도 빈 줄이 생기지 않는다.
                     rect.anchoredPosition = new Vector2(0f, 88f - visibleCount * 88f);
                     visibleCount++;
                 }
@@ -73,7 +74,6 @@ public class MythicSummonUI : MonoBehaviour
                 if (hasMaterial)
                     icon.color = Color.white;
                 else
-                    // 마지막 값은 투명도. 없는 재료도 이미지는 남기고 흐리게 보여 준다.
                     icon.color = new Color(1f, 1f, 1f, 0.25f);
             }
         }
@@ -81,7 +81,7 @@ public class MythicSummonUI : MonoBehaviour
             QuickSummonRoot.SetActive(visibleCount > 0);
     }
 
-    // 빠른 소환과 도감 소환 버튼 모두 같은 목록 번호를 전달한다.
+    // 선택한 레시피로 신화 소환 요청
     public void OnSummonClick(int index)
     {
         if (summonManager == null || index < 0 || index >= MythicList.Count

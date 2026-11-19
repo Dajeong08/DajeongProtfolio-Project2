@@ -15,5 +15,5 @@ MonoBehaviour:
   CharacterName: Goblin
   Grade: 0
   Prefab: {fileID: 3211836744727103011, guid: 3c2a4ffd08bb4035a30188e82d7fb12c, type: 3}
-  AttackDamage: 70
+  AttackDamage: 84
   AttackSpeed: 1.3

@@ -1,27 +1,27 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-// 몬스터 하나의 이동, 체력, 사망과 풀 반환 요청을 담당한다.
+// 몬스터 이동, 피격, 사망 관리
 public class MonsterManager : MonoBehaviour
 {
-    public float MAX_HP;
-    public float HP;
-    public float Speed;
-    public Slider HP_slider;
-    public WaveType poolType = WaveType.BasicMonster;
-    public Collider2D hitCollider;
-    public bool isAlive;
-    public int CurrentMovePoint; // 지금 향하는 이동 지점 번호다.
-    public bool IsStunned;
-    private float stunTimer;
+    public float MAX_HP; // 이번 웨이브 최대 체력
+    public float HP; // 현재 체력
+    public float Speed; // 이동 속도
+    public Slider HP_slider; // 개별 몬스터 체력바
+    public WaveType poolType = WaveType.BasicMonster; // 반환할 일반 또는 보스 풀
+    public Collider2D hitCollider; // 공격에 맞는 콜라이더
+    public bool isAlive; // 생존 여부
+    public int CurrentMovePoint; // 현재 향하는 경로 번호
+    public bool IsStunned; // 기절 여부
+    private float stunTimer; // 남은 기절 시간
 
-    private Transform MovePoint;
-    private int NextMovePoint;
-    private bool returnedToPool;
-    private Animator ani;
-    private Rigidbody2D body;
+    private Transform MovePoint; // 현재 목적지
+    private int NextMovePoint; // 다음 목적지 번호
+    private bool returnedToPool; // 중복 풀 반환 방지
+    private Animator ani; // 몬스터 애니메이터
+    private Rigidbody2D body; // 이동에 사용하는 Rigidbody2D
 
-    // 자주 사용할 컴포넌트는 초기화할 때 가져와 보관한다.
+    // 애니메이터, 물리, 피격 컴포넌트 연결
     private void Awake()
     {
         ani = GetComponent<Animator>();
@@ -30,10 +30,9 @@ public class MonsterManager : MonoBehaviour
             hitCollider = GetComponent<Collider2D>();
     }
 
-    // 풀에서 SetActive(true)로 꺼낼 때도 호출된다. 체력과 경로를 매번 초기화한다.
+    // 풀에서 나올 때 체력, 사망 상태, 이동 경로 초기화
     private void OnEnable()
     {
-        // 채력 채우기, 살아있는 상태, 풀에 반환되지 않는 상태
         HP = MAX_HP;
         isAlive = true;
         returnedToPool = false;
@@ -44,17 +43,16 @@ public class MonsterManager : MonoBehaviour
 
         if (ani != null)
         {
+            // 이전 애니메이션 상태 초기화
             ani.Rebind();
             ani.SetBool("Death", false);
             ani.SetInteger("Ani_Index", 0);
         }
 
-        // 이동 지점 초기화
         MovePoint = null; 
         CurrentMovePoint = 0;
         NextMovePoint = 1;
 
-        // 출발 위치로 이동하고, 이동 지점이 있으면 첫 번째 지점을 향하도록 설정한다.
         BattleManager battle = BattleManager.instance;
         if (battle != null)
         {
@@ -68,7 +66,7 @@ public class MonsterManager : MonoBehaviour
         HP_UI_Update();
     }
 
-    // Rigidbody2D 이동은 물리 갱신 주기에 맞춰 처리한다.
+    // 기절 시간을 계산하고 이동
     private void FixedUpdate()
     {
         if (IsStunned)
@@ -82,7 +80,7 @@ public class MonsterManager : MonoBehaviour
             MonsterMove();
     }
 
-    // 남은 시간에 더하지 않고, 마지막으로 맞은 순간부터 다시 계산한다.
+    // 기절 상태와 남은 시간 설정
     public void ApplyStun(float seconds)
     {
         if (!isAlive || !isActiveAndEnabled)
@@ -91,13 +89,13 @@ public class MonsterManager : MonoBehaviour
         stunTimer = seconds;
     }
 
-    // 풀에서 꺼내 활성화하기 전에 새 웨이브의 최대 체력을 전달한다.
+    // 이번 웨이브 최대 체력 설정
     public void SetWaveHP(float maxHP)
     {
         MAX_HP = Mathf.Max(1, maxHP);
     }
 
-    // 목표에 도착하면 다음 지점을 골라 경로를 순환한다. (Todo)
+    // 이동 지점을 순서대로 순환
     public void MonsterMove()
     {
         if (!isAlive || IsStunned || MovePoint == null)
@@ -111,16 +109,16 @@ public class MonsterManager : MonoBehaviour
 
         Vector2 currentPosition;
         if (body != null)
-            currentPosition = body.position; // Rigidbody2D가 있으면 물리 위치를 사용한다.
+            currentPosition = body.position; // 물리 위치 사용
         else
             currentPosition = transform.position; 
 
         Vector2 targetPosition = MovePoint.position;
         float slowPercent = 0f;
-        // 현재 엔젤 감속은 보스에게만 적용한다. 20% 감속이면 원래 속도의 0.8배로 이동한다.
+        // 천사 감속은 보스에게만 적용
         if (poolType == WaveType.BossMonster)
             slowPercent = Mathf.Clamp(battle.AngleSteck * 10f, 0f, 100f);
-        // 속도에 물리 시간 간격을 곱해 이번 이동량을 구한다.
+        // 속도 × 남은 비율 × 물리 프레임 시간
         Vector2 nextPosition = Vector2.MoveTowards(
             currentPosition, targetPosition, Speed * (1f - slowPercent / 100f) * Time.fixedDeltaTime);
 
@@ -148,7 +146,7 @@ public class MonsterManager : MonoBehaviour
         }
     }
 
-    // CharacterAttack이 공격력을 전달한다. 죽은 적은 추가 피해를 받지 않는다.
+    // 피해 적용과 데미지 텍스트 표시
     public void TakeDamage(float damage)
     {
         if (!isAlive || !isActiveAndEnabled)
@@ -156,7 +154,6 @@ public class MonsterManager : MonoBehaviour
         if (damage <= 0)
             return;
 
-        // 남은 체력보다 큰 공격도 텍스트에는 실제로 깎인 체력만 표시한다.
         float actualDamage = Mathf.Min(HP, damage);
         HP -= damage;
         if (HP < 0)
@@ -166,7 +163,7 @@ public class MonsterManager : MonoBehaviour
         HP_UI_Update(); // 체력바 갱신
     }
 
-    // 체력바를 갱신하고 0이면 사망 처리로 연결한다.
+    // 체력바 갱신, 체력이 0이면 사망 처리
     public void HP_UI_Update()
     {
         if (HP_slider != null)
@@ -182,15 +179,15 @@ public class MonsterManager : MonoBehaviour
             Death();
     }
 
-    // 이동과 피격을 멈춘 뒤 사망 애니메이션을 재생한다.
+    // 이동과 피격을 멈추고 사망 연출 재생
     public void Death()
     {
         if (!isAlive || !isActiveAndEnabled)
             return;
 
         HP = 0;
+        // 사망 상태를 먼저 바꿔 처치 보상 중복 방지
         isAlive = false;
-        // isAlive를 먼저 false로 바꾸므로 처치 보상은 한 번만 요청한다.
         if (BattleManager.instance != null)
             BattleManager.instance.MonsterDefeated(poolType, transform.position);
         if (hitCollider != null)
@@ -202,13 +199,12 @@ public class MonsterManager : MonoBehaviour
             DeathAnimation_Complete();
     }
 
-    // Death.anim의 애니메이션 이벤트가 마지막 프레임에 호출한다.
+    // 사망 애니메이션이 끝나면 풀 반환 요청
     public void DeathAnimation_Complete()
     {
         if (isAlive || returnedToPool)
             return;
 
-        // 이벤트가 중복 호출되어도 반환은 한 번만 한다.
         returnedToPool = true;
         if (BattleManager.instance != null)
             BattleManager.instance.RemoveMonster(gameObject);

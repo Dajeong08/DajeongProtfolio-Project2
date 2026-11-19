@@ -2,28 +2,27 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Serializable을 붙이면 Inspector에서 구조체 안의 값을 편집할 수 있다.
 [Serializable]
+// 선택할 스테이지 데이터
 public struct StageCollection
 {
-    public StageSetting stage_SO; // 스테이지 데이터 에셋
+    public StageSetting stage_SO; // 스테이지 데이터
 }
 
-// 로비의 스테이지 선택과 전투 시작을 담당한다.
+// 스테이지 선택과 전투 시작
 public class StageManager : MonoBehaviour
 {
-    // 재시작 버튼이 다음 씬에 한 번만 전달할 스테이지다.
-    public static StageSetting RetryStage; 
-    public List<StageCollection> StageList; // 스테이지 데이터 에셋 목록
-    public GameObject StageCollection_OBJ;
-    public GameObject NextButton; // 다음 버튼
-    public GameObject PrevButton; // 이전 버튼
-    public BattleManager battleManager; 
-    public GameObject LobbyScreen; // 로비 화면 
+    public static StageSetting RetryStage; // 씬을 다시 열 때 전달할 재도전 스테이지
+    public List<StageCollection> StageList; // 선택 가능한 스테이지 목록
+    public GameObject StageCollection_OBJ; // 좌우로 이동할 스테이지 UI 묶음
+    public GameObject NextButton; // 다음 스테이지 버튼
+    public GameObject PrevButton; // 이전 스테이지 버튼
+    public BattleManager battleManager; // 전투 시작 요청
+    public GameObject LobbyScreen; // 로비 전체 화면
 
-    private int SelectedStageIndex = 0; // 목록 번호는 0부터 시작한다.
+    private int SelectedStageIndex = 0; // 선택한 스테이지 번호, 0부터 시작
 
-    // Unity가 시작할 때 한 번 호출한다. 로비와 처음 버튼 상태를 준비한다.
+    // 로비 UI 준비, 재도전이면 해당 스테이지 시작
     void Start()
     {
         LobbyScreen.SetActive(true); // 로비 화면을 켠다.
@@ -36,14 +35,23 @@ public class StageManager : MonoBehaviour
         if (RetryStage != null)
         {
             StageSetting stage = RetryStage;
-            // 먼저 비워서 이 스테이지를 이번 씬 시작에 한 번만 전달한다.
+            // 이번 씬에서 한 번만 재도전하도록 static 값 비우기
             RetryStage = null;
-            if (battleManager.GetBattleData(stage))
+            int stageIndex = 0;
+            for (int i = 0; i < StageList.Count; i++)
+            {
+                if (StageList[i].stage_SO == stage)
+                {
+                    stageIndex = i;
+                    break;
+                }
+            }
+            if (battleManager.GetBattleData(stage, stageIndex))
                 LobbyScreen.SetActive(false);
         }
     }
 
-    // 다음 버튼에서 호출한다. 선택 번호를 올리고 UI 묶음을 왼쪽으로 옮긴다.
+    // 다음 스테이지 선택
     public void Next()
     {
         if (SelectedStageIndex < StageList.Count - 1)
@@ -62,7 +70,7 @@ public class StageManager : MonoBehaviour
         }
     }
 
-    // 이전 버튼에서 호출한다. 선택 번호를 내리고 UI 묶음을 오른쪽으로 옮긴다.
+    // 이전 스테이지 선택
     public void prev()
     {
         if (SelectedStageIndex > 0)
@@ -81,10 +89,10 @@ public class StageManager : MonoBehaviour
         }
     }
 
-    // 전투 버튼에서 선택한 데이터 에셋을 BattleManager에 넘기고 로비를 숨긴다.
+    // 선택한 데이터와 배경 번호로 전투 시작
     public void OnBattleClick()
     {
-        if (battleManager.GetBattleData(StageList[SelectedStageIndex].stage_SO)) // BattleManager에 선택한 스테이지 데이터를 전달
+        if (battleManager.GetBattleData(StageList[SelectedStageIndex].stage_SO, SelectedStageIndex)) // 선택한 데이터와 배경 번호 전달
             LobbyScreen.SetActive(false); // 전투 시작
     }
 }

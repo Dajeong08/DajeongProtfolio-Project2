@@ -15,5 +15,5 @@ MonoBehaviour:
   CharacterName: Lizard
   Grade: 0
   Prefab: {fileID: 3211836744727103011, guid: 37fad6d051754ff79aa01e85d98a939e, type: 3}
-  AttackDamage: 70
+  AttackDamage: 84
   AttackSpeed: 1

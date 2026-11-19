@@ -15,5 +15,5 @@ MonoBehaviour:
   CharacterName: Frog
   Grade: 3
   Prefab: {fileID: 3211836744727103011, guid: c3c9d416dcfa4a988f539a1d07dcdb28, type: 3}
-  AttackDamage: 800
+  AttackDamage: 960
   AttackSpeed: 0.8
