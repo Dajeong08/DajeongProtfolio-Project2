@@ -203,6 +203,7 @@ public class SlotManager : MonoBehaviour
             Destroy(materials[i].gameObject); // 삭제
         }
 
+        PlaySummonEffect(resultCharacter.transform.position);
         AchievementManager.instance.AddProgress(AchievementType.Merge, 1);
         NotifyCharactersChanged(); // UI 갱신
     }
@@ -433,7 +434,7 @@ public class SlotManager : MonoBehaviour
     }
 
     // 실제 배치 위치에서 이펙트를 한 번 재생
-    private void PlaySummonEffect(Vector3 characterPosition)
+    public void PlaySummonEffect(Vector3 characterPosition)
     {
         if (SummonEffectPrefab == null)
             return;

@@ -166,6 +166,7 @@ public class MythicSummonManager : MonoBehaviour
         }
         resultObject.SetActive(true);
         slotManager.FinishMythicSummon(recipe);
+        slotManager.PlaySummonEffect(resultObject.transform.position);
         AchievementManager.instance.AddProgress(AchievementType.SummonMythic, 1);
         return true;
     }

@@ -147,6 +147,9 @@ public class RouletteManager : MonoBehaviour
         draw.AddLog($"[룰렛 {gradeName} {chance}%] {message}");
 
         slotManager.NotifyCharactersChanged();
+        // 성공하면 룰렛 창을 닫아 소환 위치와 이펙트를 보여준다.
+        if (succeeded)
+            ClosePanel();
     }
 
     // 토큰 수와 룰렛 버튼 상태 갱신
