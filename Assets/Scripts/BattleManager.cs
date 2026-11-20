@@ -20,6 +20,7 @@ public class BattleManager : MonoBehaviour
     public TMP_Text StageName_OBJ; // 스테이지와 웨이브 표시
     public TMP_Text WaveTime_OBJ; // 남은 시간 표시
     public GameObject ResultImage; // 결과 창
+    public GameObject BattleMenu; // 전투 중 열 수 있는 메뉴
     public TMP_Text ResultCoin; // 정산한 로비 코인 표시
 
     private const int TotalWaves = 25; // 전체 웨이브 수
@@ -37,6 +38,8 @@ public class BattleManager : MonoBehaviour
     public GameObject current_BasicMonster; // 일반 몬스터 프리팹
     public GameObject current_BossMonster; // 보스 프리팹
     [Min(1)] public int MonsterLimit = 100; // 패배 기준인 생존 몬스터 수
+    public Slider MonsterLimitSlider; // 현재 몬스터 수 표시
+    public TMP_Text MonsterLimitText; // 현재 몬스터 수와 한도 표시
     private int aliveMonsterCount; // 현재 살아 있는 몬스터 수
     private int waveCoin; // 이번 전투의 웨이브 보상
     private float currentMonsterHP; // 이번 웨이브의 몬스터 체력
@@ -178,6 +181,7 @@ public class BattleManager : MonoBehaviour
         AngleSteck = 0;
         RefreshSpeedLoss();
         MonsterLimit = LobbyManager.MonsterLimit;
+        RefreshMonsterLimit();
         waveCoin = LobbyManager.WaveCoin;
         UpGreadManager.instance.ResetUpgrades();
         AchievementManager.instance.ResetAchievements();
@@ -235,6 +239,7 @@ public class BattleManager : MonoBehaviour
         if (!IsPlay_Wave)
             return;
         aliveMonsterCount--;
+        RefreshMonsterLimit();
         if (monsterType == WaveType.BasicMonster)
             slotManager.AddCoin(1, position);
         else
@@ -280,6 +285,8 @@ public class BattleManager : MonoBehaviour
             return;
 
         IsGameEnded = true;
+        if (BattleMenu != null)
+            BattleMenu.SetActive(false);
         AchievementManager.instance.EndBattle();
         IsPlay_Wave = false;
         IsClear = won;
@@ -309,6 +316,32 @@ public class BattleManager : MonoBehaviour
         ResultImage.SetActive(true);
     }
 
+    // 로비와 전투에서 공통 설정 메뉴 열기와 닫기
+    public void ToggleBattleMenu()
+    {
+        if (!IsGameEnded && !isLeavingResult && BattleMenu != null)
+            BattleMenu.SetActive(!BattleMenu.activeSelf);
+    }
+
+    // 로비에서는 게임 종료, 전투 중에는 정산 없이 로비로 복귀
+    public void LeaveBattleFromMenu()
+    {
+        if (IsGameEnded || isLeavingResult)
+            return;
+
+        if (currentStage == null)
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+            return;
+        }
+
+        ReloadBattleScene(false);
+    }
+
     // 같은 스테이지 재시작
     public void RestartBattle()
     {
@@ -327,6 +360,11 @@ public class BattleManager : MonoBehaviour
         if (!IsGameEnded || isLeavingResult)
             return;
 
+        ReloadBattleScene(retry);
+    }
+
+    private void ReloadBattleScene(bool retry)
+    {
         isLeavingResult = true;
         // static에 재도전 스테이지를 남겨 씬 재시작 후 전달
         if (retry)
@@ -384,8 +422,25 @@ public class BattleManager : MonoBehaviour
             ShowBossUI(monster);
 
         aliveMonsterCount++;
+        RefreshMonsterLimit();
         if (aliveMonsterCount >= Mathf.Max(1, MonsterLimit))
             EndGame(false);
+    }
+
+    // 생성과 처치 후 생존 몬스터 수 표시
+    private void RefreshMonsterLimit()
+    {
+        int limit = Mathf.Max(1, MonsterLimit);
+        if (MonsterLimitSlider != null)
+        {
+            if (MonsterLimitSlider.maxValue != limit)
+                MonsterLimitSlider.maxValue = limit;
+            MonsterLimitSlider.SetValueWithoutNotify(aliveMonsterCount);
+            if (MonsterLimitText == null)
+                MonsterLimitText = MonsterLimitSlider.GetComponentInChildren<TMP_Text>(true);
+        }
+        if (MonsterLimitText != null)
+            MonsterLimitText.text = $"{aliveMonsterCount} / {limit}";
     }
 
     // 보스 등장 연출과 체력바 표시

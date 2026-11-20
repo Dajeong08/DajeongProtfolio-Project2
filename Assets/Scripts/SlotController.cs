@@ -100,6 +100,15 @@ public class SlotController : MonoBehaviour
     }
 
     // 현재 인원 반환
+    public Sprite GetDragSprite()
+    {
+        if (IsEmpty())
+            return null;
+
+        CharacterAttack attack = characters[0].GetComponent<CharacterAttack>();
+        return attack.characterSprite.sprite;
+    }
+
     public int GetCharacterCount()
     {
         return characters.Count;

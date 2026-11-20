@@ -65,6 +65,7 @@ MonoBehaviour:
   AmountText: {fileID: 2483162581305169858}
   MoveSpeed: 60
   ShowSeconds: 0.8
+  PopScale: 1.4
 --- !u!1 &7123768383093667951
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,7 +134,7 @@ MonoBehaviour:
   m_text: 1000
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2fc7c8d504acd434e970b287c864e4b2, type: 2}
-  m_sharedMaterial: {fileID: 5776260631423846147, guid: 2fc7c8d504acd434e970b287c864e4b2, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 8737d68be1214b86b54603aea54de123, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -157,8 +158,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
-  m_fontSizeBase: 25
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -181,7 +182,7 @@ MonoBehaviour:
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
   m_ActiveFontFeatures: 6e72656b
-  m_enableExtraPadding: 0
+  m_enableExtraPadding: 1
   checkPaddingRequired: 0
   m_isRichText: 1
   m_EmojiFallbackSupport: 1

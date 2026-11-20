@@ -1,7 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 // 전체 슬롯의 소환, 판매, 합성 관리
 public class SlotManager : MonoBehaviour
@@ -12,10 +14,16 @@ public class SlotManager : MonoBehaviour
     public int SummonCost = 20; // 다음 소환 비용
     private const int MaxSummonCost = 60; // 소환 비용 상한
     public Canvas SlotCanvas; // 선택한 슬롯의 버튼 UI
+    public Image DragPreview; // 드래그 중 커서를 따라가는 이미지
     public GameObject MergeButton; // 합성 버튼
     public GameObject SellButton; // 판매 버튼
     public Vector3 SlotCanvasOffset; // 슬롯 기준 UI 표시 위치
     public MythicSummonUI mythicUI; // 신화 소환 UI 갱신
+
+    [Header("소환 이펙트")]
+    public GameObject SummonEffectPrefab; // 캐릭터 발밑에서 재생할 이펙트
+    [Min(0.1f)] public float SummonEffectSeconds = 1f; // 이펙트를 표시할 시간
+    public Vector3 SummonEffectOffset; // 캐릭터 위치에서 발밑까지의 보정값
 
     private Draw draw; // 확률 추첨과 소환 UI
     private SlotController selectedSlot; // 현재 선택한 슬롯
@@ -24,6 +32,7 @@ public class SlotManager : MonoBehaviour
     private void Awake()
     {
         draw = FindFirstObjectByType<Draw>(FindObjectsInactive.Include);
+        HideDragPreview();
         for (int i = 0; i < SlotList.Count; i++)
         {
             SlotDragHandler handler = SlotList[i].GetComponent<SlotDragHandler>();
@@ -42,6 +51,31 @@ public class SlotManager : MonoBehaviour
     private void OnDisable()
     {
         HideSelectedRange();
+        HideDragPreview();
+    }
+
+    // 인스펙터에서 연결한 이미지에 캐릭터 스프라이트 표시
+    public void ShowDragPreview(Sprite sprite, Vector2 screenPosition)
+    {
+        if (DragPreview == null || sprite == null)
+            return;
+
+        DragPreview.sprite = sprite;
+        DragPreview.gameObject.SetActive(true);
+        MoveDragPreview(screenPosition);
+    }
+
+    public void MoveDragPreview(Vector2 screenPosition)
+    {
+        // 메인 Canvas는 Screen Space - Overlay라 화면 좌표를 바로 사용
+        if (DragPreview != null && DragPreview.gameObject.activeSelf)
+            DragPreview.rectTransform.position = screenPosition + Vector2.up * 40f;
+    }
+
+    public void HideDragPreview()
+    {
+        if (DragPreview != null)
+            DragPreview.gameObject.SetActive(false);
     }
 
     // 빈 배경을 누르면 슬롯 선택 해제
@@ -277,6 +311,7 @@ public class SlotManager : MonoBehaviour
     // 전투 종료 후 선택 UI 정리
     public void CloseBattleControls()
     {
+        HideDragPreview();
         UpGreadManager.instance.CloseUpGreadPanel();
         HideSelectedRange();
         if (draw != null)
@@ -392,6 +427,67 @@ public class SlotManager : MonoBehaviour
             Destroy(newCharacter);
             return false;
         }
+
+        PlaySummonEffect(character.transform.position);
         return true;
+    }
+
+    // 실제 배치 위치에서 이펙트를 한 번 재생
+    private void PlaySummonEffect(Vector3 characterPosition)
+    {
+        if (SummonEffectPrefab == null)
+            return;
+
+        GameObject effect = Instantiate(SummonEffectPrefab,
+            characterPosition + SummonEffectOffset, SummonEffectPrefab.transform.rotation);
+        // 발밑 이펙트를 타일맵 위, 캐릭터 아래에 표시
+        ParticleSystemRenderer[] renderers = effect.GetComponentsInChildren<ParticleSystemRenderer>(true);
+        for (int i = 0; i < renderers.Length; i++)
+            renderers[i].sortingOrder = 10;
+
+        effect.SetActive(true);
+        StartCoroutine(FadeSummonEffect(effect));
+    }
+
+    // 마지막 구간에는 새 파티클을 멈추고 남은 파티클을 페이드
+    private IEnumerator FadeSummonEffect(GameObject effect)
+    {
+        float fadeSeconds = Mathf.Min(0.35f, SummonEffectSeconds);
+        yield return new WaitForSeconds(SummonEffectSeconds - fadeSeconds);
+        if (effect == null)
+            yield break;
+
+        ParticleSystem[] systems = effect.GetComponentsInChildren<ParticleSystem>();
+        ParticleSystem.Particle[][] particles = new ParticleSystem.Particle[systems.Length][];
+        for (int i = 0; i < systems.Length; i++)
+        {
+            systems[i].Stop(false, ParticleSystemStopBehavior.StopEmitting);
+            particles[i] = new ParticleSystem.Particle[systems[i].particleCount];
+        }
+
+        float remaining = fadeSeconds;
+        while (remaining > 0f && effect != null)
+        {
+            yield return null;
+            if (effect == null)
+                yield break;
+
+            float nextRemaining = Mathf.Max(0f, remaining - Time.deltaTime);
+            float alphaMultiplier = nextRemaining / remaining;
+            for (int i = 0; i < systems.Length; i++)
+            {
+                int count = systems[i].GetParticles(particles[i]);
+                for (int j = 0; j < count; j++)
+                {
+                    Color32 color = particles[i][j].startColor;
+                    color.a = (byte)Mathf.RoundToInt(color.a * alphaMultiplier);
+                    particles[i][j].startColor = color;
+                }
+                systems[i].SetParticles(particles[i], count);
+            }
+            remaining = nextRemaining;
+        }
+
+        Destroy(effect);
     }
 }

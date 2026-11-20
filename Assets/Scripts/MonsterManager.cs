@@ -20,14 +20,32 @@ public class MonsterManager : MonoBehaviour
     private bool returnedToPool; // 중복 풀 반환 방지
     private Animator ani; // 몬스터 애니메이터
     private Rigidbody2D body; // 이동에 사용하는 Rigidbody2D
+    private SpriteRenderer monsterSprite;
+    private Color originalColor;
+    private float hitFlashTimer;
+    private const float HitFlashSeconds = 0.1f;
+    private Vector3 originalScale;
+    private CircleCollider2D hitCircle;
+    private float originalHitRadius;
+    private Vector2 originalHitOffset;
 
     // 애니메이터, 물리, 피격 컴포넌트 연결
     private void Awake()
     {
         ani = GetComponent<Animator>();
         body = GetComponent<Rigidbody2D>();
+        monsterSprite = GetComponentInChildren<SpriteRenderer>();
+        if (monsterSprite != null)
+            originalColor = monsterSprite.color;
         if (hitCollider == null)
             hitCollider = GetComponent<Collider2D>();
+        originalScale = transform.localScale;
+        hitCircle = hitCollider as CircleCollider2D;
+        if (hitCircle != null)
+        {
+            originalHitRadius = hitCircle.radius;
+            originalHitOffset = hitCircle.offset;
+        }
     }
 
     // 풀에서 나올 때 체력, 사망 상태, 이동 경로 초기화
@@ -49,6 +67,11 @@ public class MonsterManager : MonoBehaviour
             ani.SetInteger("Ani_Index", 0);
         }
 
+        hitFlashTimer = 0f;
+        SetHitScale(1f);
+        if (monsterSprite != null)
+            monsterSprite.color = originalColor;
+
         MovePoint = null; 
         CurrentMovePoint = 0;
         NextMovePoint = 1;
@@ -64,6 +87,29 @@ public class MonsterManager : MonoBehaviour
         if (body != null)
             body.position = transform.position;
         HP_UI_Update();
+    }
+
+    // 배속에 관계없이 같은 시간 동안 피격 색상 표시
+    private void Update()
+    {
+        if (hitFlashTimer <= 0f)
+            return;
+
+        hitFlashTimer = Mathf.Max(0f, hitFlashTimer - Time.unscaledDeltaTime);
+        SetHitScale(Mathf.Lerp(1f, 0.9f, hitFlashTimer / HitFlashSeconds));
+        if (hitFlashTimer <= 0f)
+            monsterSprite.color = originalColor;
+    }
+
+    // 그림과 콜라이더가 같은 오브젝트에 있어 판정 범위를 보정
+    private void SetHitScale(float scale)
+    {
+        if (hitCircle == null)
+            return;
+
+        transform.localScale = originalScale * scale;
+        hitCircle.radius = originalHitRadius / scale;
+        hitCircle.offset = originalHitOffset / scale;
     }
 
     // 기절 시간을 계산하고 이동
@@ -158,6 +204,13 @@ public class MonsterManager : MonoBehaviour
         HP -= damage;
         if (HP < 0)
             HP = 0;
+        if (monsterSprite != null)
+        {
+            monsterSprite.color = new Color(originalColor.r, originalColor.g * 0.35f,
+                originalColor.b * 0.35f, originalColor.a);
+            hitFlashTimer = HitFlashSeconds;
+            SetHitScale(0.9f);
+        }
         if (FloatingTextManager.instance != null)
             FloatingTextManager.instance.ShowDamageText(actualDamage, transform.position);
         HP_UI_Update(); // 체력바 갱신

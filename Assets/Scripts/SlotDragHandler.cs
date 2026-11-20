@@ -9,6 +9,15 @@ public class SlotDragHandler : MonoBehaviour, IPointerClickHandler,
     private SlotController slot; // 이 입력이 붙은 슬롯
     private bool dragging; // 드래그 중인지 확인
 
+    private void OnDisable()
+    {
+        if (!dragging)
+            return;
+
+        dragging = false;
+        slotManager.HideDragPreview();
+    }
+
     // 현재 슬롯 컴포넌트 연결
     private void Awake()
     {
@@ -25,18 +34,22 @@ public class SlotDragHandler : MonoBehaviour, IPointerClickHandler,
     // 드래그 시작 기록
     public void OnBeginDrag(PointerEventData eventData)
     {
-        dragging = eventData.button == PointerEventData.InputButton.Left && !slot.IsEmpty();
+        dragging = eventData.button == PointerEventData.InputButton.Left && !slot.IsEmpty()
+            && (BattleManager.instance == null || !BattleManager.instance.IsGameEnded);
         if (dragging)
         {
             // 드래그 종료가 클릭으로 다시 처리되지 않게 함
             eventData.eligibleForClick = false;
             slotManager.SelectSlot(null);
+            slotManager.ShowDragPreview(slot.GetDragSprite(), eventData.position);
         }
     }
 
-    // 마우스를 놓을 때 이동하므로 여기서는 대기
+    // 드래그 중에는 미리보기만 커서를 따라 이동
     public void OnDrag(PointerEventData eventData)
     {
+        if (dragging)
+            slotManager.MoveDragPreview(eventData.position);
     }
 
     // 마우스를 놓은 슬롯으로 이동 요청
@@ -45,6 +58,7 @@ public class SlotDragHandler : MonoBehaviour, IPointerClickHandler,
         if (!dragging)
             return;
         dragging = false;
+        slotManager.HideDragPreview();
 
         GameObject hit = eventData.pointerCurrentRaycast.gameObject; // 마우스를 놓은 위치의 오브젝트
         if (hit != null)
