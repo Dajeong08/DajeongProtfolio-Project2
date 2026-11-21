@@ -10,7 +10,8 @@ public enum CharacterGrade
     [InspectorName("신화")] Mythic = 4
 }
 
-[CreateAssetMenu(fileName = "Character", menuName = "Scriptable Objects/Character")]
+[CreateAssetMenu(fileName = "Character", 
+    menuName = "Scriptable Objects/Character")]
 // 캐릭터 종류별 공통 데이터
 public class CharacterData : ScriptableObject
 {

@@ -16,6 +16,7 @@ public class LobbyManager : MonoBehaviour
     public TMP_Text StartToken_Cost; // 시작 토큰 강화 비용
 
     public GameObject SkillPanel; // 로비 강화 창
+    public GameObject StartPanel;
 
     [Header("강화 비용")]
     [Min(1)] public int MonsterLimitInitialCost = 1000; // 몬스터 제한 첫 강화 비용
@@ -63,11 +64,16 @@ public class LobbyManager : MonoBehaviour
     private void Awake()
     {
         if (costsInitialized)
+        {
+            // 로비 복귀나 재시작으로 씬을 다시 열면 시작화면은 생략한다.
+            StartPanel.SetActive(false);
             return;
+        }
         MonsterLimitCost = Mathf.Max(1, MonsterLimitInitialCost);
         WaveCoinCost = Mathf.Max(1, WaveCoinInitialCost);
         StartTokenCost = Mathf.Max(1, StartTokenInitialCost);
         costsInitialized = true;
+        StartPanel.SetActive(true);
     }
 
     // 로비 창과 강화 UI 초기화
@@ -146,5 +152,9 @@ public class LobbyManager : MonoBehaviour
         StartToKen_Level.text = $"Lv.{currentStartToKenLevel}";
         StartToKen_Text.text = $"현재 : {currentStartToKen}";
         StartToken_Cost.text = StartTokenCost.ToString();
+    }
+    public void StartGame()
+    {
+        StartPanel.SetActive(false);
     }
 }

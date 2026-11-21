@@ -13,6 +13,21 @@ MonoBehaviour:
   m_Name: Cat
   m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibraryAsset
   m_Labels:
+  - m_Name: Attack
+    m_Hash: 7088141
+    m_CategoryList:
+    - m_Name: 0
+      m_Hash: 886824737
+      m_Sprite: {fileID: -1205582834, guid: 858262befda63944a8a6b742a6728432, type: 3}
+    - m_Name: 1
+      m_Hash: 64810935
+      m_Sprite: {fileID: -246747826, guid: 858262befda63944a8a6b742a6728432, type: 3}
+    - m_Name: 2
+      m_Hash: 450215437
+      m_Sprite: {fileID: 2093670988, guid: 858262befda63944a8a6b742a6728432, type: 3}
+    - m_Name: 3
+      m_Hash: 768773787
+      m_Sprite: {fileID: 2093670988, guid: 858262befda63944a8a6b742a6728432, type: 3}
   - m_Name: Block
     m_Hash: 47888422
     m_CategoryList:

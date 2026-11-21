@@ -13,6 +13,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrarySourceAsset
   m_Library:
+  - m_Name: Attack
+    m_Hash: 7088141
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: 0
+      m_Hash: 886824737
+      m_Sprite: {fileID: 1997597381, guid: 327a28d2f5af8e94aa0afaca4eaa6f80, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1997597381, guid: 327a28d2f5af8e94aa0afaca4eaa6f80, type: 3}
+    - m_Name: 1
+      m_Hash: 64810935
+      m_Sprite: {fileID: 1638183657, guid: 327a28d2f5af8e94aa0afaca4eaa6f80, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1638183657, guid: 327a28d2f5af8e94aa0afaca4eaa6f80, type: 3}
+    - m_Name: 2
+      m_Hash: 450215437
+      m_Sprite: {fileID: 481475535, guid: 327a28d2f5af8e94aa0afaca4eaa6f80, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 481475535, guid: 327a28d2f5af8e94aa0afaca4eaa6f80, type: 3}
+    - m_Name: 3
+      m_Hash: 768773787
+      m_Sprite: {fileID: -1341327527, guid: 327a28d2f5af8e94aa0afaca4eaa6f80, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1341327527, guid: 327a28d2f5af8e94aa0afaca4eaa6f80, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 4
   - m_Name: Block
     m_Hash: 47888422
     m_CategoryList: []

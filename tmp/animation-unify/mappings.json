@@ -1,0 +1,192 @@
+{
+  "36fd3cb8668cb4b40b619dc497e353bd": {
+    "source": "Jab",
+    "sprites": [
+      "{fileID: -1205582834, guid: 57ad82fedd8217141b969c9ec017170d, type: 3}",
+      "{fileID: -246747826, guid: 57ad82fedd8217141b969c9ec017170d, type: 3}",
+      "{fileID: 2093670988, guid: 57ad82fedd8217141b969c9ec017170d, type: 3}",
+      "{fileID: 2093670988, guid: 57ad82fedd8217141b969c9ec017170d, type: 3}"
+    ],
+    "library": "Assets\\SpriteLibrary\\Characters\\Angle.asset"
+  },
+  "89cceb7be87408a40806c346f2fa44f4": {
+    "source": "Shot",
+    "sprites": [
+      "{fileID: 1997597381, guid: 8be6eb0af977c404fb85d7f4118fdf71, type: 3}",
+      "{fileID: 1638183657, guid: 8be6eb0af977c404fb85d7f4118fdf71, type: 3}",
+      "{fileID: 481475535, guid: 8be6eb0af977c404fb85d7f4118fdf71, type: 3}",
+      "{fileID: -1341327527, guid: 8be6eb0af977c404fb85d7f4118fdf71, type: 3}"
+    ],
+    "library": "Assets\\SpriteLibrary\\Characters\\Archer.spriteLib"
+  },
+  "9a0e90b6e7e880443888624f23af27bd": {
+    "source": "Jab",
+    "sprites": [
+      "{fileID: -1205582834, guid: 8401191dcea50a9418422e48b0325f03, type: 3}",
+      "{fileID: -246747826, guid: 8401191dcea50a9418422e48b0325f03, type: 3}",
+      "{fileID: 2093670988, guid: 8401191dcea50a9418422e48b0325f03, type: 3}",
+      "{fileID: 2093670988, guid: 8401191dcea50a9418422e48b0325f03, type: 3}"
+    ],
+    "library": "Assets\\SpriteLibrary\\Characters\\Bear.asset"
+  },
+  "9f78d689e5a8c83438a1cdcf9348555f": {
+    "source": "Jab",
+    "sprites": [
+      "{fileID: -1205582834, guid: 858262befda63944a8a6b742a6728432, type: 3}",
+      "{fileID: -246747826, guid: 858262befda63944a8a6b742a6728432, type: 3}",
+      "{fileID: 2093670988, guid: 858262befda63944a8a6b742a6728432, type: 3}",
+      "{fileID: 2093670988, guid: 858262befda63944a8a6b742a6728432, type: 3}"
+    ],
+    "library": "Assets\\SpriteLibrary\\Characters\\Cat.asset"
+  },
+  "09b7d0754fcfc764da39366f1e52a82c": {
+    "source": "Slash",
+    "sprites": [
+      "{fileID: 1990615279, guid: ff413f55af844ed4b92cf0efeb5c9ff4, type: 3}",
+      "{fileID: 813611261, guid: ff413f55af844ed4b92cf0efeb5c9ff4, type: 3}",
+      "{fileID: -1627304593, guid: ff413f55af844ed4b92cf0efeb5c9ff4, type: 3}",
+      "{fileID: -716084094, guid: ff413f55af844ed4b92cf0efeb5c9ff4, type: 3}"
+    ],
+    "library": "Assets\\SpriteLibrary\\Characters\\Demon.asset"
+  },
+  "ebc5cf5a667d954428e07ad7c24d3195": {
+    "source": "Jab",
+    "sprites": [
+      "{fileID: -1205582834, guid: 278d779224406884ba27f20b0a01580b, type: 3}",
+      "{fileID: -246747826, guid: 278d779224406884ba27f20b0a01580b, type: 3}",
+      "{fileID: 2093670988, guid: 278d779224406884ba27f20b0a01580b, type: 3}",
+      "{fileID: 2093670988, guid: 278d779224406884ba27f20b0a01580b, type: 3}"
+    ],
+    "library": "Assets\\SpriteLibrary\\Characters\\Dinosaur.asset"
+  },
+  "26f5850c8ad939b489f7139220e3f547": {
+    "source": "Jab",
+    "sprites": [
+      "{fileID: -1205582834, guid: 947b98b9765814a4d847e092f34d9cef, type: 3}",
+      "{fileID: -246747826, guid: 947b98b9765814a4d847e092f34d9cef, type: 3}",
+      "{fileID: 2093670988, guid: 947b98b9765814a4d847e092f34d9cef, type: 3}",
+      "{fileID: 2093670988, guid: 947b98b9765814a4d847e092f34d9cef, type: 3}"
+    ],
+    "library": "Assets\\SpriteLibrary\\Characters\\Dragon.asset"
+  },
+  "28816b5601779f9468dd369f8670bb3d": {
+    "source": "Jab",
+    "sprites": [
+      "{fileID: -1205582834, guid: 4e9949676be57db4b99c480217e9ec73, type: 3}",
+      "{fileID: -246747826, guid: 4e9949676be57db4b99c480217e9ec73, type: 3}",
+      "{fileID: 2093670988, guid: 4e9949676be57db4b99c480217e9ec73, type: 3}",
+      "{fileID: 2093670988, guid: 4e9949676be57db4b99c480217e9ec73, type: 3}"
+    ],
+    "library": "Assets\\SpriteLibrary\\Characters\\Esper.asset"
+  },
+  "eb1f0ee579a55f543bb5c036f7574eb4": {
+    "source": "Jab",
+    "sprites": [
+      "{fileID: -1205582834, guid: c846e7982e4baeb4eb4e043cf20e0e8c, type: 3}",
+      "{fileID: -246747826, guid: c846e7982e4baeb4eb4e043cf20e0e8c, type: 3}",
+      "{fileID: 2093670988, guid: c846e7982e4baeb4eb4e043cf20e0e8c, type: 3}",
+      "{fileID: 2093670988, guid: c846e7982e4baeb4eb4e043cf20e0e8c, type: 3}"
+    ],
+    "library": "Assets\\SpriteLibrary\\Characters\\Frog.asset"
+  },
+  "7185ae9b5f8d8fd4c95db9b1d5c08e95": {
+    "source": "Slash",
+    "sprites": [
+      "{fileID: 1990615279, guid: 0c21e987cd897e24b8f02c47a20531db, type: 3}",
+      "{fileID: 813611261, guid: 0c21e987cd897e24b8f02c47a20531db, type: 3}",
+      "{fileID: -1627304593, guid: 0c21e987cd897e24b8f02c47a20531db, type: 3}",
+      "{fileID: -716084094, guid: 0c21e987cd897e24b8f02c47a20531db, type: 3}"
+    ],
+    "library": "Assets\\SpriteLibrary\\Characters\\Goblin.asset"
+  },
+  "4dfa11cec677d564f86aca73e1d478e6": {
+    "source": "Slash",
+    "sprites": [
+      "{fileID: 1990615279, guid: 563f471f6c3b64344980103540f9fb52, type: 3}",
+      "{fileID: 813611261, guid: 563f471f6c3b64344980103540f9fb52, type: 3}",
+      "{fileID: -1627304593, guid: 563f471f6c3b64344980103540f9fb52, type: 3}",
+      "{fileID: -716084094, guid: 563f471f6c3b64344980103540f9fb52, type: 3}"
+    ],
+    "library": "Assets\\SpriteLibrary\\Characters\\Knight.spriteLib"
+  },
+  "9a787c76ebb12e44d93d0f1ce8e1b9e8": {
+    "source": "Jab",
+    "sprites": [
+      "{fileID: -1205582834, guid: a7ae023e89bc30844b6acda3eb000e8c, type: 3}",
+      "{fileID: -246747826, guid: a7ae023e89bc30844b6acda3eb000e8c, type: 3}",
+      "{fileID: 2093670988, guid: a7ae023e89bc30844b6acda3eb000e8c, type: 3}",
+      "{fileID: 2093670988, guid: a7ae023e89bc30844b6acda3eb000e8c, type: 3}"
+    ],
+    "library": "Assets\\SpriteLibrary\\Characters\\Lizard.asset"
+  },
+  "f532a09ac42a27643a7790be4f0ab86e": {
+    "source": "Slash",
+    "sprites": [
+      "{fileID: 1990615279, guid: 1c3d0ab5445cde645aa2f448b179d608, type: 3}",
+      "{fileID: 813611261, guid: 1c3d0ab5445cde645aa2f448b179d608, type: 3}",
+      "{fileID: -1627304593, guid: 1c3d0ab5445cde645aa2f448b179d608, type: 3}",
+      "{fileID: -716084094, guid: 1c3d0ab5445cde645aa2f448b179d608, type: 3}"
+    ],
+    "library": "Assets\\SpriteLibrary\\Characters\\Ogre.asset"
+  },
+  "eacff569fefb9a2499be09ea9bafe6b5": {
+    "source": "Slash",
+    "sprites": [
+      "{fileID: 1990615279, guid: 008a442dd9be1de4a8aab58c9edc913c, type: 3}",
+      "{fileID: 813611261, guid: 008a442dd9be1de4a8aab58c9edc913c, type: 3}",
+      "{fileID: -1627304593, guid: 008a442dd9be1de4a8aab58c9edc913c, type: 3}",
+      "{fileID: -716084094, guid: 008a442dd9be1de4a8aab58c9edc913c, type: 3}"
+    ],
+    "library": "Assets\\SpriteLibrary\\Characters\\Orc.asset"
+  },
+  "0483b5021648ee444a9d09065b2743f5": {
+    "source": "Shot",
+    "sprites": [
+      "{fileID: 1997597381, guid: 327a28d2f5af8e94aa0afaca4eaa6f80, type: 3}",
+      "{fileID: 1638183657, guid: 327a28d2f5af8e94aa0afaca4eaa6f80, type: 3}",
+      "{fileID: 481475535, guid: 327a28d2f5af8e94aa0afaca4eaa6f80, type: 3}",
+      "{fileID: -1341327527, guid: 327a28d2f5af8e94aa0afaca4eaa6f80, type: 3}"
+    ],
+    "library": "Assets\\SpriteLibrary\\Characters\\Ranger.spriteLib"
+  },
+  "b5fac01a64ef26e46859cf1192599749": {
+    "source": "Shot",
+    "sprites": [
+      "{fileID: 1997597381, guid: 2b7da40346fe2574bbc444d781e16897, type: 3}",
+      "{fileID: 1638183657, guid: 2b7da40346fe2574bbc444d781e16897, type: 3}",
+      "{fileID: 481475535, guid: 2b7da40346fe2574bbc444d781e16897, type: 3}",
+      "{fileID: -1341327527, guid: 2b7da40346fe2574bbc444d781e16897, type: 3}"
+    ],
+    "library": "Assets\\SpriteLibrary\\Characters\\Sniper.spriteLib"
+  },
+  "e4a3b6790fcbacf4bb4b1cdb96247bcd": {
+    "source": "Slash",
+    "sprites": [
+      "{fileID: 1990615279, guid: f5c60fdcbf0363843b46fe2942987593, type: 3}",
+      "{fileID: 813611261, guid: f5c60fdcbf0363843b46fe2942987593, type: 3}",
+      "{fileID: -1627304593, guid: f5c60fdcbf0363843b46fe2942987593, type: 3}",
+      "{fileID: -716084094, guid: f5c60fdcbf0363843b46fe2942987593, type: 3}"
+    ],
+    "library": "Assets\\SpriteLibrary\\Characters\\Swordmaster.spriteLib"
+  },
+  "aac9aea846cf04141937e10d64a74d81": {
+    "source": "Slash",
+    "sprites": [
+      "{fileID: 1990615279, guid: 31ebb915f1238f84a834547ce6060f38, type: 3}",
+      "{fileID: 813611261, guid: 31ebb915f1238f84a834547ce6060f38, type: 3}",
+      "{fileID: -1627304593, guid: 31ebb915f1238f84a834547ce6060f38, type: 3}",
+      "{fileID: -716084094, guid: 31ebb915f1238f84a834547ce6060f38, type: 3}"
+    ],
+    "library": "Assets\\SpriteLibrary\\Characters\\Swordsman.spriteLib"
+  },
+  "ccab8b244668d1a409aa00efe44e0979": {
+    "source": "Jab",
+    "sprites": [
+      "{fileID: -1205582834, guid: 3c22d148a87d24947b28fb04f564a0e8, type: 3}",
+      "{fileID: -246747826, guid: 3c22d148a87d24947b28fb04f564a0e8, type: 3}",
+      "{fileID: 2093670988, guid: 3c22d148a87d24947b28fb04f564a0e8, type: 3}",
+      "{fileID: 2093670988, guid: 3c22d148a87d24947b28fb04f564a0e8, type: 3}"
+    ],
+    "library": "Assets\\SpriteLibrary\\Characters\\Werewolf.asset"
+  }
+}
