@@ -13,6 +13,14 @@ MonoBehaviour:
   m_Name: Stage 2
   m_EditorClassIdentifier: Assembly-CSharp::StageSetting
   StageName: "\uC2A4\uD14C\uC774\uC9C02"
+  BasicMonsterHP: 600
+  BasicHPIncrease: 50
+  BossHPList:
+  - 10000
+  - 26000
+  - 36000
+  - 52000
+  - 90000
   WaveList:
   - MonsterSpriteLibrary: {fileID: 7108339969198208228, guid: 792d6c6fb4fc253458a18ef233af18b6, type: 3}
   - MonsterSpriteLibrary: {fileID: 7108339969198208228, guid: 94fe0326442602243847e4c9aa13fc61, type: 3}

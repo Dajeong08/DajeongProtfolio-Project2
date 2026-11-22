@@ -14,7 +14,7 @@ public class UpGreadManager : MonoBehaviour
     public TMP_Text NormalRareText, EpicText, LegendaryMythicText, SummonText; // 강화 레벨과 효과 표시
     public TMP_Text NormalRareCostText, EpicCostText, LegendaryMythicCostText, SummonCostText; // 다음 강화 비용 표시
     public int FirstCost = 20; // 첫 강화 비용
-    public int CostIncrease = 10; // 레벨당 비용 증가량
+    public int CostIncrease = 50; // 레벨당 비용 증가량
 
     // get은 읽기, private set은 이 클래스 안에서만 값 변경
     public int NormalRareLevel { get; private set; } // 일반, 희귀 공격력 강화 레벨
