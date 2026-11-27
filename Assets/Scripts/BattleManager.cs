@@ -312,6 +312,9 @@ public class BattleManager : MonoBehaviour
 
         slotManager.CloseBattleControls();
 
+        if (FloatingTextManager.instance != null)
+            FloatingTextManager.instance.ClearTexts();
+
         Time.timeScale = 0f;
         ResultImage.SetActive(true);
     }
@@ -461,7 +464,6 @@ public class BattleManager : MonoBehaviour
             intro.blocksRaycasts = false;
 
             bossIntroEndTime = Time.time + BossIntroSeconds;
-            BossInfo_OBJ.transform.SetAsLastSibling();
             BossInfo_OBJ.SetActive(true);
         }
     }

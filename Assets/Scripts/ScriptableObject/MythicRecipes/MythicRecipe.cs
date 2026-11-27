@@ -10,7 +10,8 @@ public class MythicMaterial
     [Min(1)] public int Count = 1; // 필요한 수량
 }
 
-[CreateAssetMenu(fileName = "MythicRecipe", menuName = "Scriptable Objects/Mythic Recipe")]
+[CreateAssetMenu(fileName = "MythicRecipe", 
+    menuName = "Scriptable Objects/Mythic Recipe")]
 // 신화 조합 레시피
 public class MythicRecipe : ScriptableObject
 {

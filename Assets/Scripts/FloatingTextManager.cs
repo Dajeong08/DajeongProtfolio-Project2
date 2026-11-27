@@ -71,9 +71,22 @@ public class FloatingTextManager : MonoBehaviour
             CreateText(prefab, message, (Vector2)screen + new Vector2(offsetX, 20f), moveUp);
     }
 
+    // 결과 화면에 남지 않도록 떠오르는 텍스트 정리
+    public void ClearTexts()
+    {
+        for (int i = TextRoot.childCount - 1; i >= 0; i--)
+        {
+            GameObject text = TextRoot.GetChild(i).gameObject;
+            text.SetActive(false);
+            Destroy(text);
+        }
+    }
+
     // 프리팹을 생성하고 표시 정보 전달
     private void CreateText(FloatingText prefab, string message, Vector2 screenPosition, bool moveUp)
     {
+        if (BattleManager.instance != null && BattleManager.instance.IsGameEnded)
+            return;
         if (prefab == null || TextRoot == null)
             return;
         FloatingText text = Instantiate(prefab, TextRoot);

@@ -137,7 +137,9 @@ public class LobbyManager : MonoBehaviour
     // 다음 강화 비용 계산
     private int NextUpgradeCost(int cost)
     {
-        double next = System.Math.Ceiling(cost * (double)Mathf.Max(1.01f, UpgradeCostMultiplier)); // 소수점 올림
+        double next = 
+            System.Math.Ceiling(cost * 
+            (double)Mathf.Max(1.01f, UpgradeCostMultiplier)); // 소수점 올림
         return (int)System.Math.Min(next, int.MaxValue);
     }
     // 강화 레벨, 효과, 비용 표시
